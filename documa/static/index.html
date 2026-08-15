@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documa — Autonomous Multimodal Audit & Procurement Fleet</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Glassmorphism CSS -->
+  <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body class="p-4 md:p-8">
+
+  <div class="max-w-7xl mx-auto space-y-6">
+
+    <!-- 1. Header Banner -->
+    <header class="glass-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-indigo-500/20">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/20">
+          <i data-lucide="eye" class="w-8 h-8"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-3">
+            <h1 class="text-3xl font-extrabold tracking-tight text-white">DOCUMA</h1>
+            <span class="badge badge-active"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Gemini 3.5 Flash</span>
+            <span class="badge badge-approved"><i data-lucide="cloud" class="w-3.5 h-3.5"></i> Cloud Run</span>
+          </div>
+          <p class="text-slate-400 text-sm mt-1">Autonomous Multimodal Audit & Procurement Fleet • Antigravity SDK Engine</p>
+        </div>
+      </div>
+
+      <!-- Header Metrics -->
+      <div class="flex items-center gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[120px]">
+          <p class="text-xs text-slate-400 font-medium">Active POs</p>
+          <p class="text-xl font-bold text-white mt-0.5" id="metric-pos">2</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[120px]">
+          <p class="text-xs text-slate-400 font-medium">Audit Volume</p>
+          <p class="text-xl font-bold text-indigo-400 mt-0.5" id="metric-audits">3</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[140px]">
+          <p class="text-xs text-slate-400 font-medium">Total Variance</p>
+          <p class="text-xl font-bold text-amber-400 mt-0.5" id="metric-variance">$1,600.00</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Main Workspace Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Left Column: Document Intake & Agent Execution (5 Cols) -->
+      <div class="lg:col-span-5 space-y-6">
+
+        <!-- Intake & Preset Selector Card -->
+        <div class="glass-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i data-lucide="file-up" class="w-5 h-5 text-indigo-400"></i> Document Intake
+            </h2>
+            <span class="text-xs text-slate-400">Supported: PDF, PNG, JPG</span>
+          </div>
+
+          <!-- Drag and Drop Dropzone -->
+          <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500/60 rounded-xl p-6 text-center cursor-pointer transition-all bg-slate-900/40 hover:bg-slate-900/80">
+            <i data-lucide="upload-cloud" class="w-10 h-10 mx-auto text-indigo-400 mb-2"></i>
+            <p class="text-sm font-semibold text-slate-200">Drop scanned receipts or invoices here</p>
+            <p class="text-xs text-slate-500 mt-1">or click to browse files from local machine</p>
+            <input type="file" id="file-input" class="hidden" accept="image/*,.pdf">
+          </div>
+
+          <!-- Quick Test Presets -->
+          <div class="mt-5 space-y-2">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Run Presets (Live Simulation):</p>
+            <div class="grid grid-cols-1 gap-2">
+              <button onclick="runScenario('compliant')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-emerald-950/30 border border-slate-800 hover:border-emerald-500/40 text-left transition-all group">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-200 group-hover:text-emerald-300">Compliant Invoice</p>
+                    <p class="text-[11px] text-slate-400">Matches PO-9921 baseline • Auto-Approved</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-emerald-400">$3,250.00</span>
+              </button>
+
+              <button onclick="runScenario('overcharge')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-amber-950/30 border border-slate-800 hover:border-amber-500/40 text-left transition-all group">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <i data-lucide="trending-up" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-200 group-hover:text-amber-300">Unit Price Overcharge</p>
+                    <p class="text-[11px] text-slate-400">Monitors & Chairs inflated +$1,150.00</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-amber-400">$4,400.00</span>
+              </button>
+
+              <button onclick="runScenario('unauthorized')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-rose-950/30 border border-slate-800 hover:border-rose-500/40 text-left transition-all group">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-200 group-hover:text-rose-300">Unauthorized Line Item</p>
+                    <p class="text-[11px] text-slate-400">Unapproved Expedited Freight +$450.00</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-rose-400">$3,700.00</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent Fleet Status Monitor -->
+        <div class="glass-card p-6">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2 mb-4">
+            <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i> Antigravity Fleet Engine
+          </h2>
+
+          <div class="space-y-4" id="agent-pipeline">
+            <!-- Agent 1 -->
+            <div id="agent-vision-card" class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="eye" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Multimodal Vision Agent</p>
+                  <p class="text-[11px] text-slate-400">Gemini 3.5 Flash • Multimodal OCR</p>
+                </div>
+              </div>
+              <span id="agent-vision-status" class="badge badge-active">READY</span>
+            </div>
+
+            <!-- Agent 2 -->
+            <div id="agent-auditor-card" class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="scale" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Contract Auditor Agent</p>
+                  <p class="text-[11px] text-slate-400">Firestore PO Cross-Reconciliation</p>
+                </div>
+              </div>
+              <span id="agent-auditor-status" class="badge badge-active">READY</span>
+            </div>
+
+            <!-- Agent 3 -->
+            <div id="agent-discrepancy-card" class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Discrepancy Dispatcher Agent</p>
+                  <p class="text-[11px] text-slate-400">Auto Payout / Dispute Notice Generation</p>
+                </div>
+              </div>
+              <span id="agent-discrepancy-status" class="badge badge-active">READY</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Audit Results & PO Reconciliation Table (7 Cols) -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- Active Audit Reconciliation Card -->
+        <div class="glass-card p-6">
+          <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-lg font-bold text-white" id="audit-doc-id">DOC-COMPLIANT-101</h2>
+                <span id="audit-status-badge" class="badge badge-approved">APPROVED</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1" id="audit-vendor">Acme Industrial Tech • PO Reference: PO-9921</p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-slate-400">Grand Total Billed</p>
+              <p class="text-2xl font-black text-white" id="audit-total-billed">$3,250.00</p>
+            </div>
+          </div>
+
+          <!-- PO Line Item Variance Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="text-slate-400 border-b border-slate-800 uppercase tracking-wider font-semibold">
+                  <th class="pb-3">Item Description</th>
+                  <th class="pb-3 text-center">Billed / PO Qty</th>
+                  <th class="pb-3 text-right">Billed Unit Price</th>
+                  <th class="pb-3 text-right">Approved Rate</th>
+                  <th class="pb-3 text-right">Variance</th>
+                </tr>
+              </thead>
+              <tbody id="line-items-body" class="divide-y divide-slate-800/60 text-slate-200">
+                <tr>
+                  <td class="py-3 font-medium">Dell UltraSharp 27-inch Monitor</td>
+                  <td class="py-3 text-center font-mono">10 / 10</td>
+                  <td class="py-3 text-right font-mono">$180.00</td>
+                  <td class="py-3 text-right font-mono text-emerald-400">$180.00</td>
+                  <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
+                </tr>
+                <tr>
+                  <td class="py-3 font-medium">Ergonomic Executive Office Chair</td>
+                  <td class="py-3 text-center font-mono">5 / 5</td>
+                  <td class="py-3 text-right font-mono">$250.00</td>
+                  <td class="py-3 text-right font-mono text-emerald-400">$250.00</td>
+                  <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Generated Markdown Discrepancy & Finance Action Card -->
+        <div class="glass-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i data-lucide="file-text" class="w-5 h-5 text-indigo-400"></i> Dispatched Action Output
+            </h2>
+            <span class="text-xs text-slate-400" id="action-type">AUTO_APPROVED_PAYOUT</span>
+          </div>
+
+          <div id="dispute-markdown-box" class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-300 whitespace-pre-wrap max-h-56 overflow-y-auto">
+# ✅ PAYOUT AUTHORIZATION NOTICE
+**Document ID:** DOC-COMPLIANT-101  
+**Purchase Order:** PO-9921  
+**Vendor:** Acme Industrial Tech  
+
+**Status:** APPROVED FOR IMMEDIATE PAYOUT  
+**Authorized Amount:** $3250.00 USD  
+**Reconciliation Result:** Billed totals strictly comply with contracted Purchase Order rates.
+          </div>
+
+          <!-- Human Finance Decision Controls -->
+          <div id="human-action-controls" class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2 text-xs text-amber-400">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i>
+              <span>Human Finance Manager Sign-off</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="overrideAction('REJECT_OVERCHARGE')" class="px-4 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition-all flex items-center gap-1.5">
+                <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Reject Overcharge
+              </button>
+              <button onclick="overrideAction('APPROVE_EXCEPTION')" class="px-4 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition-all flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Pass Exception
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- JavaScript Interactivity -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Live Audit Simulation Engine
+    async function runScenario(type) {
+      setAgentStatus("RUNNING");
+      
+      let docId = "DOC-COMPLIANT-101";
+      let filePath = "receipts/compliant.png";
+      if (type === "overcharge") {
+        docId = "DOC-OVERCHARGE-202";
+        filePath = "receipts/doc-overcharge.png";
+      } else if (type === "unauthorized") {
+        docId = "DOC-UNAUTHORIZED-303";
+        filePath = "receipts/doc-unauthorized.png";
+      }
+
+      try {
+        const response = await fetch("/api/audit/process", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            document_id: docId,
+            file_path_or_url: filePath,
+            po_number_override: "PO-9921"
+          })
+        });
+
+        const data = await response.json();
+        renderAuditData(data);
+        setAgentStatus("COMPLETED");
+      } catch (err) {
+        console.error("API error:", err);
+        setAgentStatus("ERROR");
+      }
+    }
+
+    function renderAuditData(data) {
+      const doc = data.extracted_document;
+      const audit = data.audit_result;
+      const dispute = data.discrepancy_report;
+
+      document.getElementById("audit-doc-id").innerText = doc.document_id;
+      document.getElementById("audit-vendor").innerText = `${doc.vendor_name} • PO Reference: ${audit.po_number}`;
+      document.getElementById("audit-total-billed").innerText = `$${doc.grand_total.toFixed(2)}`;
+
+      const badgeEl = document.getElementById("audit-status-badge");
+      badgeEl.innerText = audit.status;
+      badgeEl.className = "badge " + (audit.status === "APPROVED" ? "badge-approved" : audit.status === "REQUIRES_HUMAN_APPROVAL" ? "badge-escalated" : "badge-discrepancy");
+
+      // Render Line Items Table
+      const tbody = document.getElementById("line-items-body");
+      tbody.innerHTML = "";
+
+      doc.line_items.forEach(item => {
+        let varianceText = "$0.00";
+        let approvedPrice = item.unit_price;
+        let varianceClass = "text-emerald-400";
+
+        // Find matching discrepancy
+        const disc = audit.discrepancies.find(d => d.item_description.toLowerCase() === item.description.toLowerCase());
+        if (disc) {
+          varianceText = `+$${disc.variance_amount.toFixed(2)}`;
+          approvedPrice = disc.approved_unit_price;
+          varianceClass = "text-rose-400 font-bold";
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="py-3 font-medium">${item.description}</td>
+          <td class="py-3 text-center font-mono">${item.quantity}</td>
+          <td class="py-3 text-right font-mono">$${item.unit_price.toFixed(2)}</td>
+          <td class="py-3 text-right font-mono text-slate-400">$${approvedPrice.toFixed(2)}</td>
+          <td class="py-3 text-right font-mono ${varianceClass}">${varianceText}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Render Discrepancy Markdown
+      if (dispute) {
+        document.getElementById("action-type").innerText = dispute.action_taken;
+        document.getElementById("dispute-markdown-box").innerText = dispute.formal_dispute_markdown;
+      }
+    }
+
+    function setAgentStatus(state) {
+      const v = document.getElementById("agent-vision-status");
+      const a = document.getElementById("agent-auditor-status");
+      const d = document.getElementById("agent-discrepancy-status");
+
+      if (state === "RUNNING") {
+        v.innerText = "RUNNING";
+        a.innerText = "RUNNING";
+        d.innerText = "RUNNING";
+      } else {
+        v.innerText = "COMPLETED";
+        a.innerText = "COMPLETED";
+        d.innerText = "COMPLETED";
+      }
+    }
+
+    function overrideAction(action) {
+      alert(`Finance Action Dispatched: ${action}. Audit status updated in Firestore.`);
+    }
+  </script>
+</body>
+</html>
