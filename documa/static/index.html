@@ -9,14 +9,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Custom Glassmorphism CSS -->
+  <!-- Custom Cyberpunk Glassmorphism CSS -->
   <link rel="stylesheet" href="/static/dashboard.css">
 </head>
 <body class="p-4 md:p-8">
 
   <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- 1. Header Banner -->
+    <!-- 1. Header Navigation Bar -->
     <header class="glass-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-indigo-500/20">
       <a href="/" class="flex items-center gap-4 group cursor-pointer" title="Return to Landing Page">
         <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 group-hover:border-indigo-400 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/20 transition-all">
@@ -24,55 +24,80 @@
         </div>
         <div>
           <div class="flex items-center gap-3">
-            <h1 class="text-3xl font-extrabold tracking-tight text-white group-hover:text-indigo-300 transition-colors">DOCUMA</h1>
+            <h1 class="text-3xl font-black tracking-tight text-white group-hover:text-indigo-300 transition-colors brand-font">DOCUMA</h1>
             <span class="badge badge-active"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Gemini 3.5 Flash</span>
             <span class="badge badge-approved"><i data-lucide="cloud" class="w-3.5 h-3.5"></i> Cloud Run</span>
           </div>
-          <p class="text-slate-400 text-sm mt-1 flex items-center gap-1 group-hover:text-slate-200 transition-colors">
-            <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-indigo-400"></i> Autonomous Multimodal Audit Fleet (Click to Return Home)
+          <p class="text-slate-400 text-xs mt-1 flex items-center gap-1 group-hover:text-slate-200 transition-colors">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-indigo-400"></i> Return to Landing Page
           </p>
         </div>
       </a>
 
-      <!-- Header Action Controls & Metrics -->
+      <!-- Header Action Controls & System Status -->
       <div class="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-        <button onclick="toggleArchModal()" class="px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-indigo-500 text-xs font-bold text-slate-300 flex items-center gap-1.5 transition-all">
-          <i data-lucide="cloud-cog" class="w-4 h-4 text-indigo-400"></i> Cloud Architecture
+        <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+          <span class="font-semibold text-slate-200">System Live</span>
+        </div>
+        <button onclick="toggleArchModal()" class="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-indigo-500 text-xs font-bold text-slate-200 flex items-center gap-1.5 transition-all">
+          <i data-lucide="cloud-cog" class="w-4 h-4 text-indigo-400"></i> Cloud Specs
         </button>
-        <a href="/api/audit/export/csv" download class="px-3.5 py-2 rounded-xl bg-indigo-600/20 border border-indigo-500/40 hover:bg-indigo-600/30 text-xs font-bold text-indigo-300 flex items-center gap-1.5 transition-all">
+        <a href="/api/audit/export/csv" download class="btn-neon px-4 py-2.5 rounded-xl text-white text-xs font-extrabold flex items-center gap-1.5 transition-all">
           <i data-lucide="download" class="w-4 h-4"></i> Export ERP CSV
         </a>
       </div>
     </header>
 
-    <!-- 2. Main Workspace Layout -->
+    <!-- 2. Executive Summary Hero Cards Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="glass-card p-6 border-indigo-500/20">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Grand Total Billed</p>
+        <p class="text-3xl font-black text-white mt-1 brand-font" id="hero-billed">$3,250.00</p>
+        <p class="text-[11px] text-slate-500 mt-1" id="hero-vendor">Acme Industrial Tech • PO-9921</p>
+      </div>
+
+      <div class="glass-card p-6 border-cyan-500/20">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">PO Contract Approved Basis</p>
+        <p class="text-3xl font-black text-cyan-400 mt-1 brand-font" id="hero-approved">$3,250.00</p>
+        <p class="text-[11px] text-slate-500 mt-1">Firestore Active PO Record</p>
+      </div>
+
+      <div class="glass-card p-6 border-emerald-500/30 bg-gradient-to-br from-slate-900/80 to-emerald-950/20" id="hero-variance-card">
+        <p class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Net Financial Impact</p>
+        <p class="text-3xl font-black text-emerald-400 mt-1 brand-font" id="hero-variance">$0.00 USD</p>
+        <p class="text-[11px] text-slate-400 mt-1" id="hero-status-text">Fully Compliant Baseline</p>
+      </div>
+    </div>
+
+    <!-- 3. Main Workspace Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-      <!-- Left Column: Document Intake & Agent Execution (5 Cols) -->
+      <!-- Left Column: Document Intake & Media Inspector (5 Cols) -->
       <div class="lg:col-span-5 space-y-6">
 
-        <!-- Document Intake Card -->
+        <!-- Multimodal Intake & Presets Card -->
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-              <i data-lucide="file-up" class="w-5 h-5 text-indigo-400"></i> Multimodal Document Intake
+            <h2 class="text-base font-bold text-white flex items-center gap-2 brand-font">
+              <i data-lucide="file-up" class="w-5 h-5 text-indigo-400"></i> Multimodal Media Intake
             </h2>
-            <span class="text-xs text-slate-400">PDF, PNG, JPG</span>
+            <span class="text-xs text-slate-400 font-mono">PDF, PNG, JPG</span>
           </div>
 
           <!-- Drag and Drop Dropzone -->
           <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500/60 rounded-xl p-5 text-center cursor-pointer transition-all bg-slate-900/40 hover:bg-slate-900/80">
-            <i data-lucide="upload-cloud" class="w-8 h-8 mx-auto text-indigo-400 mb-1.5"></i>
-            <p class="text-xs font-semibold text-slate-200">Drop scanned receipts or invoices here</p>
-            <p class="text-[11px] text-slate-500 mt-0.5">or click to browse files from local machine</p>
+            <i data-lucide="upload-cloud" class="w-9 h-9 mx-auto text-indigo-400 mb-2"></i>
+            <p class="text-xs font-bold text-slate-200">Drop scanned receipts or invoices here</p>
+            <p class="text-[11px] text-slate-500 mt-1">or click to browse files from local machine</p>
             <input type="file" id="file-input" class="hidden" accept="image/*,.pdf">
           </div>
 
-          <!-- Quick Test Presets -->
-          <div class="mt-4 space-y-2">
-            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Run Presets (Live Simulation):</p>
+          <!-- Scenario Tabs -->
+          <div class="mt-5 space-y-2">
+            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Live Audit Presets:</p>
             <div class="grid grid-cols-1 gap-2">
-              <button onclick="runScenario('compliant')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-emerald-950/30 border border-slate-800 hover:border-emerald-500/40 text-left transition-all group">
+              <button onclick="runScenario('compliant')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 hover:bg-emerald-950/40 border border-slate-800 hover:border-emerald-500/50 transition-all text-left group">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                     <i data-lucide="check-circle" class="w-4 h-4"></i>
@@ -82,10 +107,10 @@
                     <p class="text-[11px] text-slate-400">Matches PO-9921 baseline • Auto-Approved</p>
                   </div>
                 </div>
-                <span class="text-xs font-bold text-emerald-400">$3,250.00</span>
+                <span class="text-xs font-bold text-emerald-400 font-mono">$3,250.00</span>
               </button>
 
-              <button onclick="runScenario('overcharge')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-amber-950/30 border border-slate-800 hover:border-amber-500/40 text-left transition-all group">
+              <button onclick="runScenario('overcharge')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/50 transition-all text-left group">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
                     <i data-lucide="trending-up" class="w-4 h-4"></i>
@@ -95,10 +120,10 @@
                     <p class="text-[11px] text-slate-400">Monitors & Chairs inflated +$1,150.00</p>
                   </div>
                 </div>
-                <span class="text-xs font-bold text-amber-400">$4,400.00</span>
+                <span class="text-xs font-bold text-amber-400 font-mono">$4,400.00</span>
               </button>
 
-              <button onclick="runScenario('unauthorized')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-rose-950/30 border border-slate-800 hover:border-rose-500/40 text-left transition-all group">
+              <button onclick="runScenario('unauthorized')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 hover:bg-rose-950/40 border border-slate-800 hover:border-rose-500/50 transition-all text-left group">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
                     <i data-lucide="alert-triangle" class="w-4 h-4"></i>
@@ -108,33 +133,35 @@
                     <p class="text-[11px] text-slate-400">Unapproved Expedited Freight +$450.00</p>
                   </div>
                 </div>
-                <span class="text-xs font-bold text-rose-400">$3,700.00</span>
+                <span class="text-xs font-bold text-rose-400 font-mono">$3,700.00</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Scanned Media Preview Box -->
-        <div class="glass-card p-6">
+        <!-- Scanned Media Scanner Inspector -->
+        <div class="glass-card p-6 border-indigo-500/30">
           <div class="flex items-center justify-between mb-3">
-            <h2 class="text-sm font-bold text-white flex items-center gap-2">
-              <i data-lucide="image" class="w-4 h-4 text-indigo-400"></i> Scanned Document Media
+            <h2 class="text-xs font-bold text-white flex items-center gap-2">
+              <i data-lucide="scan" class="w-4 h-4 text-indigo-400"></i> Media Vision Inspector
             </h2>
             <span class="text-[11px] text-indigo-400 font-mono" id="doc-media-ref">receipts/compliant_invoice.png</span>
           </div>
-          <div class="doc-preview-box p-2">
+
+          <div class="doc-preview-box p-2 relative">
+            <div class="scanner-laser"></div>
             <img id="doc-preview-img" src="/static/dashboard.css" alt="Scanned Document Preview" class="rounded-lg shadow-inner bg-slate-950">
           </div>
         </div>
 
-        <!-- Agent Fleet Status Monitor -->
+        <!-- Fleet Multi-Agent Engine Status -->
         <div class="glass-card p-6">
-          <h2 class="text-sm font-bold text-white flex items-center gap-2 mb-3">
-            <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i> Antigravity Fleet Execution Engine
+          <h2 class="text-xs font-bold text-white flex items-center gap-2 mb-3">
+            <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i> Antigravity Agent Fleet Engine
           </h2>
 
           <div class="space-y-3" id="agent-pipeline">
-            <div id="agent-vision-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+            <div id="agent-vision-card" class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
                   <i data-lucide="eye" class="w-3.5 h-3.5"></i>
@@ -147,7 +174,7 @@
               <span id="agent-vision-status" class="badge badge-active">READY</span>
             </div>
 
-            <div id="agent-auditor-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+            <div id="agent-auditor-card" class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
                   <i data-lucide="scale" class="w-3.5 h-3.5"></i>
@@ -160,14 +187,14 @@
               <span id="agent-auditor-status" class="badge badge-active">READY</span>
             </div>
 
-            <div id="agent-discrepancy-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+            <div id="agent-discrepancy-card" class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
                   <i data-lucide="send" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Discrepancy Dispatcher Agent</p>
-                  <p class="text-[11px] text-slate-400">Auto Payout / Dispute Notice Generation</p>
+                  <p class="text-[11px] text-slate-400">Auto Payout / Dispute Generation</p>
                 </div>
               </div>
               <span id="agent-discrepancy-status" class="badge badge-active">READY</span>
@@ -180,23 +207,23 @@
       <!-- Right Column: Audit Results & PO Reconciliation Table (7 Cols) -->
       <div class="lg:col-span-7 space-y-6">
 
-        <!-- Active Audit Reconciliation Card -->
+        <!-- Active PO Reconciliation Table Card -->
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
             <div>
               <div class="flex items-center gap-2">
-                <h2 class="text-lg font-bold text-white" id="audit-doc-id">DOC-COMPLIANT-101</h2>
+                <h2 class="text-lg font-bold text-white brand-font" id="audit-doc-id">DOC-COMPLIANT-101</h2>
                 <span id="audit-status-badge" class="badge badge-approved">APPROVED</span>
               </div>
               <p class="text-xs text-slate-400 mt-1" id="audit-vendor">Acme Industrial Tech • PO Reference: PO-9921</p>
             </div>
             <div class="text-right">
               <p class="text-xs text-slate-400">Grand Total Billed</p>
-              <p class="text-2xl font-black text-white" id="audit-total-billed">$3,250.00</p>
+              <p class="text-2xl font-black text-white font-mono" id="audit-total-billed">$3,250.00</p>
             </div>
           </div>
 
-          <!-- PO Line Item Variance Table -->
+          <!-- Line Item Variance Table -->
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead>
@@ -228,12 +255,15 @@
           </div>
         </div>
 
-        <!-- Generated Markdown Discrepancy & Finance Action Card -->
+        <!-- Generated Markdown Discrepancy & Controls -->
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-              <i data-lucide="file-text" class="w-5 h-5 text-indigo-400"></i> Dispatched Action Output
-            </h2>
+            <div class="flex items-center gap-3">
+              <h2 class="text-base font-bold text-white flex items-center gap-2 brand-font">
+                <i data-lucide="file-text" class="w-5 h-5 text-indigo-400"></i> Dispatched Action Output
+              </h2>
+              <span id="action-type" class="badge badge-active">AUTO_APPROVED_PAYOUT</span>
+            </div>
             <div class="flex items-center gap-2">
               <button onclick="playVoiceBriefing()" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 text-xs font-bold transition-all flex items-center gap-1.5">
                 <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Play AI Voice Briefing
@@ -244,7 +274,7 @@
             </div>
           </div>
 
-          <div id="dispute-markdown-box" class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-300 whitespace-pre-wrap max-h-56 overflow-y-auto">
+          <div id="dispute-markdown-box" class="bg-slate-950/90 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-300 whitespace-pre-wrap max-h-56 overflow-y-auto">
 # ✅ PAYOUT AUTHORIZATION NOTICE
 **Document ID:** DOC-COMPLIANT-101  
 **Purchase Order:** PO-9921  
@@ -255,7 +285,7 @@
 **Reconciliation Result:** Billed totals strictly comply with contracted Purchase Order rates.
           </div>
 
-          <!-- Human Finance Decision Controls -->
+          <!-- Human Finance Controls -->
           <div id="human-action-controls" class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
             <div class="flex items-center gap-2 text-xs text-amber-400">
               <i data-lucide="shield-alert" class="w-4 h-4"></i>
@@ -272,7 +302,7 @@
           </div>
         </div>
 
-        <!-- Eventarc GCS Event Feed Card -->
+        <!-- Eventarc Notification Feed -->
         <div class="glass-card p-5">
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-xs font-bold text-white flex items-center gap-2">
@@ -292,11 +322,11 @@
 
   </div>
 
-  <!-- Cloud Architecture Modal -->
+  <!-- Cloud Architecture Inspector Modal -->
   <div id="arch-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-2xl w-full p-6 space-y-6 relative border-indigo-500/40">
       <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2 brand-font">
           <i data-lucide="cloud-cog" class="w-5 h-5 text-indigo-400"></i> Google Cloud Architecture Inspector
         </h3>
         <button onclick="toggleArchModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -396,7 +426,27 @@
       document.getElementById("audit-doc-id").innerText = doc.document_id;
       document.getElementById("audit-vendor").innerText = `${doc.vendor_name} • PO Reference: ${audit.po_number}`;
       document.getElementById("audit-total-billed").innerText = `$${doc.grand_total.toFixed(2)}`;
-      currentAuditSummary = audit.summary_notes;
+      
+      // Update Hero Cards Bar
+      document.getElementById("hero-billed").innerText = `$${doc.grand_total.toFixed(2)}`;
+      document.getElementById("hero-approved").innerText = `$${audit.total_approved.toFixed(2)}`;
+      document.getElementById("hero-vendor").innerText = `${doc.vendor_name} • ${audit.po_number}`;
+
+      const heroVar = document.getElementById("hero-variance");
+      const heroText = document.getElementById("hero-status-text");
+      const heroCard = document.getElementById("hero-variance-card");
+
+      if (audit.net_variance > 0) {
+        heroVar.innerText = `+$${audit.net_variance.toFixed(2)} Overcharge`;
+        heroVar.className = "text-3xl font-black text-rose-400 mt-1 brand-font";
+        heroText.innerText = "Discrepancy Blocked • Escalated";
+        heroCard.className = "glass-card p-6 border-rose-500/40 bg-gradient-to-br from-slate-900/80 to-rose-950/30";
+      } else {
+        heroVar.innerText = "$0.00 USD";
+        heroVar.className = "text-3xl font-black text-emerald-400 mt-1 brand-font";
+        heroText.innerText = "Fully Compliant Baseline";
+        heroCard.className = "glass-card p-6 border-emerald-500/30 bg-gradient-to-br from-slate-900/80 to-emerald-950/20";
+      }
 
       const badgeEl = document.getElementById("audit-status-badge");
       badgeEl.innerText = audit.status;
@@ -408,7 +458,7 @@
       doc.line_items.forEach(item => {
         let varianceText = "$0.00";
         let approvedPrice = item.unit_price;
-        let varianceClass = "text-emerald-400";
+        let varianceClass = "text-emerald-400 font-bold";
 
         const disc = audit.discrepancies.find(d => d.item_description.toLowerCase() === item.description.toLowerCase());
         if (disc) {
@@ -419,11 +469,11 @@
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td class="py-3 font-medium">${item.description}</td>
-          <td class="py-3 text-center font-mono">${item.quantity}</td>
-          <td class="py-3 text-right font-mono">$${item.unit_price.toFixed(2)}</td>
-          <td class="py-3 text-right font-mono text-slate-400">$${approvedPrice.toFixed(2)}</td>
-          <td class="py-3 text-right font-mono ${varianceClass}">${varianceText}</td>
+          <td class="py-3.5 font-medium">${item.description}</td>
+          <td class="py-3.5 text-center font-mono">${item.quantity}</td>
+          <td class="py-3.5 text-right font-mono">$${item.unit_price.toFixed(2)}</td>
+          <td class="py-3.5 text-right font-mono text-slate-400">$${approvedPrice.toFixed(2)}</td>
+          <td class="py-3.5 text-right font-mono ${varianceClass}">${varianceText}</td>
         `;
         tbody.appendChild(tr);
       });
