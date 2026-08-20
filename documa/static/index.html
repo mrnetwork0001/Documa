@@ -298,6 +298,62 @@
   <script>
     lucide.createIcons();
 
+    // Wire Real File Upload Dropzone
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("file-input");
+
+    dropzone.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", (e) => {
+      if (e.target.files.length > 0) {
+        uploadRealFile(e.target.files[0]);
+      }
+    });
+
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("border-indigo-500");
+    });
+
+    dropzone.addEventListener("dragleave", () => {
+      dropzone.classList.remove("border-indigo-500");
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("border-indigo-500");
+      if (e.dataTransfer.files.length > 0) {
+        uploadRealFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    async function uploadRealFile(file) {
+      setAgentStatus("RUNNING");
+      document.getElementById("doc-media-ref").innerText = file.name;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch("/api/audit/upload", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+        renderAuditData(data, file.name);
+        setAgentStatus("COMPLETED");
+
+        const feed = document.getElementById("eventarc-feed-box");
+        const logLine = document.createElement("p");
+        logLine.innerText = `[Real Upload] Uploaded ${file.name} -> Audited against PO-9921`;
+        feed.appendChild(logLine);
+      } catch (err) {
+        console.error("Upload error:", err);
+        setAgentStatus("ERROR");
+      }
+    }
+
     async function runScenario(type) {
       setAgentStatus("RUNNING");
       
@@ -329,7 +385,6 @@
         renderAuditData(data, filePath);
         setAgentStatus("COMPLETED");
 
-        // Add Eventarc Log
         const feed = document.getElementById("eventarc-feed-box");
         const logLine = document.createElement("p");
         logLine.innerText = `[Eventarc] Cloud Storage Upload: gs://documa-receipts-bucket/${filePath} -> Processed by Fleet`;

@@ -4,11 +4,12 @@ Exposes RESTful endpoints for autonomous document auditing, PO management, and d
 """
 
 import os
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException, Body, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from typing import List, Optional
+import shutil
 
 from documa.models import DocumentAuditRequest, DocumentAuditResponse, PurchaseOrder, AuditResult, DiscrepancyReport
 from documa.services.firestore_service import FirestoreService
@@ -83,6 +84,26 @@ def process_audit_document(request: DocumentAuditRequest):
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Audit processing error: {str(e)}")
+
+
+@app.post("/api/audit/upload", response_model=DocumentAuditResponse)
+async def upload_and_process_document(file: UploadFile = File(...), po_number: Optional[str] = None):
+    """Uploads a real scanned receipt/invoice file and runs the real multi-agent audit fleet."""
+    try:
+        os.makedirs("receipts", exist_ok=True)
+        file_path = f"receipts/{file.filename}"
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        document_id = f"UPL-{file.filename.split('.')[0].upper()}"
+        req = DocumentAuditRequest(
+            document_id=document_id,
+            file_path_or_url=file_path,
+            po_number_override=po_number or "PO-9921"
+        )
+        return fleet.process_document(req)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"File upload & audit error: {str(e)}")
 
 
 @app.post("/api/events/gcs", response_model=DocumentAuditResponse)
