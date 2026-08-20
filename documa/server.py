@@ -13,6 +13,7 @@ from typing import List, Optional
 from documa.models import DocumentAuditRequest, DocumentAuditResponse, PurchaseOrder, AuditResult, DiscrepancyReport
 from documa.services.firestore_service import FirestoreService
 from documa.services.storage_service import StorageService
+from documa.services.eventarc_simulator import EventarcTriggerHandler
 from documa.agents.orchestrator import DocumaFleet
 from documa.sample_data.seed_data import seed_sample_purchase_orders
 
@@ -34,6 +35,7 @@ app.add_middleware(
 firestore_service = FirestoreService()
 storage_service = StorageService()
 fleet = DocumaFleet(firestore_service=firestore_service, storage_service=storage_service)
+eventarc_handler = EventarcTriggerHandler(fleet=fleet)
 
 # Seed initial PO database on startup
 seed_sample_purchase_orders(firestore_service)
@@ -72,6 +74,16 @@ def process_audit_document(request: DocumentAuditRequest):
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Audit processing error: {str(e)}")
+
+
+@app.post("/api/events/gcs", response_model=DocumentAuditResponse)
+def process_gcs_eventarc_trigger(event_payload: dict = Body(...)):
+    """Asynchronous Cloud Storage Eventarc notification trigger handler for Cloud Run."""
+    try:
+        response = eventarc_handler.handle_gcs_event(event_payload)
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Eventarc trigger processing error: {str(e)}")
 
 
 @app.get("/api/po", response_model=List[PurchaseOrder])
