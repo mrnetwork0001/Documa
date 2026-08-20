@@ -47,7 +47,16 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 
 @app.get("/")
-def read_root():
+def read_landing_page():
+    """Serves the Documa Landing Page with Launch App CTA."""
+    landing_path = os.path.join(static_dir, "landing.html")
+    if os.path.exists(landing_path):
+        return FileResponse(landing_path)
+    return FileResponse(os.path.join(static_dir, "index.html"))
+
+
+@app.get("/app")
+def read_dashboard_app():
     """Serves the interactive Documa Web Dashboard UI."""
     index_path = os.path.join(static_dir, "index.html")
     if os.path.exists(index_path):

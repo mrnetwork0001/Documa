@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documa — Autonomous Multimodal Audit & Procurement Fleet</title>
+  <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet built with Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Landing Page CSS -->
+  <link rel="stylesheet" href="/static/landing.css">
+</head>
+<body class="selection:bg-indigo-500 selection:text-white">
+
+  <!-- 1. Header Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-slate-950/70 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+          <i data-lucide="eye" class="w-6 h-6"></i>
+        </div>
+        <span class="text-2xl font-black text-white tracking-tight brand-font">DOCUMA</span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#features" class="hover:text-indigo-400 transition-colors">Features</a>
+        <a href="#architecture" class="hover:text-indigo-400 transition-colors">Architecture</a>
+        <a href="#roi-calculator" class="hover:text-indigo-400 transition-colors">ROI Calculator</a>
+        <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="hover:text-indigo-400 transition-colors flex items-center gap-1">
+          GitHub <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </a>
+      </nav>
+
+      <a href="/app" class="btn-glow px-6 py-2.5 rounded-xl text-white font-bold text-sm flex items-center gap-2">
+        <span>Launch App</span>
+        <i data-lucide="rocket" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- 2. Hero Section -->
+  <section class="pt-36 pb-20 px-6 max-w-7xl mx-auto">
+    <div class="text-center space-y-6 max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-wider">
+        <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i> Google All Things Agentic Hackathon
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-black text-white leading-tight brand-font">
+        Autonomous Multimodal <br>
+        <span class="gradient-text">Audit & Procurement Fleet</span>
+      </h1>
+
+      <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        Turn thousands of messy scanned receipts, multi-page PDF contracts, and invoice bills into zero-touch background audits with <strong>Gemini 3.5 Flash</strong> and <strong>Google Cloud Run</strong>.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <a href="/app" class="btn-glow w-full sm:w-auto px-8 py-4 rounded-2xl text-white font-extrabold text-base flex items-center justify-center gap-3">
+          <span>Launch Live App</span>
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </a>
+
+        <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold text-base flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="github" class="w-5 h-5"></i>
+          <span>View Source Code</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero Card Mockup Preview -->
+    <div class="mt-16 max-w-5xl mx-auto glass-card p-6 md:p-8 animate-float">
+      <div class="flex items-center justify-between pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+          <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+          <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+          <span class="text-xs font-mono text-slate-400 ml-2">Documa Antigravity Fleet Engine v1.0 • Gemini 3.5 Flash</span>
+        </div>
+        <a href="/app" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+          Open Full Interactive App <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 text-left">
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+            <i data-lucide="eye" class="w-4 h-4"></i> 1. Vision Intake
+          </div>
+          <p class="text-xs text-slate-300">Extracts itemized SKU lines, dates, and taxes using Gemini 3.5 Flash Vision.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+            <i data-lucide="scale" class="w-4 h-4"></i> 2. Contract Auditor
+          </div>
+          <p class="text-xs text-slate-300">Cross-checks rates against Firestore POs. Detected +$1,150.00 price overcharge.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+            <i data-lucide="send" class="w-4 h-4"></i> 3. Discrepancy Dispatcher
+          </div>
+          <p class="text-xs text-slate-300">Generates formal vendor dispute reports & human finance escalation alerts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Key Feature Cards Grid -->
+  <section id="features" class="py-20 px-6 max-w-7xl mx-auto border-t border-slate-800/80">
+    <div class="text-center space-y-3 mb-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white brand-font">Enterprise Features & Technical Moat</h2>
+      <p class="text-slate-400 text-sm max-w-xl mx-auto">Built from the ground up for automated enterprise procurement reconciliation.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="glass-card p-6 space-y-3 text-left">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-2">
+          <i data-lucide="scan" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white brand-font">Multimodal Vision Intake</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Extracts structured JSON line items, taxes, dates, and handwritten notes from unstructured receipt media using Gemini 3.5 Flash.</p>
+      </div>
+
+      <div class="glass-card p-6 space-y-3 text-left">
+        <div class="w-12 h-12 rounded-2xl bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2">
+          <i data-lucide="database" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white brand-font">Firestore PO Cross-Audit</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Cross-references extracted line items against approved Purchase Orders in Firestore, detecting inflated prices and unauthorized fees.</p>
+      </div>
+
+      <div class="glass-card p-6 space-y-3 text-left">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2">
+          <i data-lucide="file-check-2" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white brand-font">Discrepancy Dispatcher</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Auto-authorizes compliant payouts while generating formal Markdown vendor price-discrepancy reports for disputed items.</p>
+      </div>
+
+      <div class="glass-card p-6 space-y-3 text-left">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-600/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-2">
+          <i data-lucide="cloud-cog" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white brand-font">Google Cloud Run Worker</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Containerized daemon deployed on Google Cloud Run with GCS object finalized Eventarc triggers for zero-touch execution.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Interactive ROI Savings Calculator -->
+  <section id="roi-calculator" class="py-20 px-6 max-w-5xl mx-auto border-t border-slate-800/80">
+    <div class="glass-card p-8 md:p-10 text-center space-y-8">
+      <div class="space-y-2">
+        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Interactive Savings Estimator</span>
+        <h2 class="text-3xl font-extrabold text-white brand-font">Calculate Your Enterprise Capital Savings</h2>
+        <p class="text-slate-400 text-sm">See how much finance team labor and overcharge capital Documa saves.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+        <div class="space-y-6 bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-2">
+              <span>Monthly Invoices Audited</span>
+              <span id="slider-vol-val" class="text-indigo-400 font-bold">500 invoices</span>
+            </div>
+            <input type="range" id="slider-vol" min="100" max="5000" step="100" value="500" class="w-full accent-indigo-500 cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-2">
+              <span>Avg Invoice Spend ($)</span>
+              <span id="slider-spend-val" class="text-indigo-400 font-bold">$10,000</span>
+            </div>
+            <input type="range" id="slider-spend" min="1000" max="50000" step="1000" value="10000" class="w-full accent-indigo-500 cursor-pointer">
+          </div>
+        </div>
+
+        <div class="bg-indigo-950/30 border border-indigo-500/30 p-6 rounded-2xl flex flex-col justify-between">
+          <div class="space-y-4">
+            <div>
+              <p class="text-xs text-slate-400">Estimated Monthly Hours Saved</p>
+              <p class="text-3xl font-black text-white brand-font" id="calc-hours">125 Hours</p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400">Estimated Overcharges Saved</p>
+              <p class="text-3xl font-black text-emerald-400 brand-font" id="calc-savings">$15,000 USD</p>
+            </div>
+          </div>
+
+          <a href="/app" class="mt-6 btn-glow w-full py-3 rounded-xl text-white font-bold text-sm text-center block">
+            Start Auditing Now 🚀
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Footer & CTA -->
+  <footer class="py-12 px-6 border-t border-slate-800 text-center text-xs text-slate-500 space-y-4">
+    <div class="flex items-center justify-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+        <i data-lucide="eye" class="w-5 h-5"></i>
+      </div>
+      <span class="text-lg font-bold text-white brand-font">DOCUMA</span>
+    </div>
+    <p>Built for the <strong>Google All Things Agentic Hackathon</strong> ($180,000 Cash Pool Target).</p>
+    <p>© 2026 Documa Fleet • Open Source under Apache 2.0 License.</p>
+  </footer>
+
+  <!-- Script logic -->
+  <script>
+    lucide.createIcons();
+
+    const volSlider = document.getElementById("slider-vol");
+    const spendSlider = document.getElementById("slider-spend");
+
+    function updateCalc() {
+      const vol = parseInt(volSlider.value);
+      const spend = parseInt(spendSlider.value);
+
+      document.getElementById("slider-vol-val").innerText = `${vol} invoices`;
+      document.getElementById("slider-spend-val").innerText = `$${spend.toLocaleString()}`;
+
+      const hours = Math.round(vol * 0.25);
+      const savings = Math.round(vol * spend * 0.003);
+
+      document.getElementById("calc-hours").innerText = `${hours} Hours`;
+      document.getElementById("calc-savings").innerText = `$${savings.toLocaleString()} USD`;
+    }
+
+    volSlider.addEventListener("input", updateCalc);
+    spendSlider.addEventListener("input", updateCalc);
+    updateCalc();
+  </script>
+</body>
+</html>
