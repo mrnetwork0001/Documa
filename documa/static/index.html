@@ -43,8 +43,8 @@
           <p class="text-xl font-bold text-indigo-400 mt-0.5" id="metric-audits">3</p>
         </div>
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[140px]">
-          <p class="text-xs text-slate-400 font-medium">Total Variance</p>
-          <p class="text-xl font-bold text-amber-400 mt-0.5" id="metric-variance">$1,600.00</p>
+          <p class="text-xs text-slate-400 font-medium">Capital Saved</p>
+          <p class="text-xl font-bold text-emerald-400 mt-0.5" id="metric-variance">$1,600.00</p>
         </div>
       </div>
     </header>
@@ -55,25 +55,25 @@
       <!-- Left Column: Document Intake & Agent Execution (5 Cols) -->
       <div class="lg:col-span-5 space-y-6">
 
-        <!-- Intake & Preset Selector Card -->
+        <!-- Document Intake & Preset Selector Card -->
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
-              <i data-lucide="file-up" class="w-5 h-5 text-indigo-400"></i> Document Intake
+              <i data-lucide="file-up" class="w-5 h-5 text-indigo-400"></i> Multimodal Document Intake
             </h2>
-            <span class="text-xs text-slate-400">Supported: PDF, PNG, JPG</span>
+            <span class="text-xs text-slate-400">PDF, PNG, JPG</span>
           </div>
 
           <!-- Drag and Drop Dropzone -->
-          <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500/60 rounded-xl p-6 text-center cursor-pointer transition-all bg-slate-900/40 hover:bg-slate-900/80">
-            <i data-lucide="upload-cloud" class="w-10 h-10 mx-auto text-indigo-400 mb-2"></i>
-            <p class="text-sm font-semibold text-slate-200">Drop scanned receipts or invoices here</p>
-            <p class="text-xs text-slate-500 mt-1">or click to browse files from local machine</p>
+          <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500/60 rounded-xl p-5 text-center cursor-pointer transition-all bg-slate-900/40 hover:bg-slate-900/80">
+            <i data-lucide="upload-cloud" class="w-8 h-8 mx-auto text-indigo-400 mb-1.5"></i>
+            <p class="text-xs font-semibold text-slate-200">Drop scanned receipts or invoices here</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">or click to browse files from local machine</p>
             <input type="file" id="file-input" class="hidden" accept="image/*,.pdf">
           </div>
 
           <!-- Quick Test Presets -->
-          <div class="mt-5 space-y-2">
+          <div class="mt-4 space-y-2">
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Run Presets (Live Simulation):</p>
             <div class="grid grid-cols-1 gap-2">
               <button onclick="runScenario('compliant')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-emerald-950/30 border border-slate-800 hover:border-emerald-500/40 text-left transition-all group">
@@ -118,32 +118,45 @@
           </div>
         </div>
 
+        <!-- Scanned Image Preview Card -->
+        <div class="glass-card p-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="image" class="w-4 h-4 text-indigo-400"></i> Scanned Document Media
+            </h2>
+            <span class="text-[11px] text-indigo-400 font-mono" id="doc-media-ref">receipts/compliant_invoice.png</span>
+          </div>
+          <div class="doc-preview-box p-2">
+            <img id="doc-preview-img" src="/static/dashboard.css" alt="Scanned Document Preview" class="rounded-lg shadow-inner bg-slate-950">
+          </div>
+        </div>
+
         <!-- Agent Fleet Status Monitor -->
         <div class="glass-card p-6">
-          <h2 class="text-lg font-bold text-white flex items-center gap-2 mb-4">
-            <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i> Antigravity Fleet Engine
+          <h2 class="text-sm font-bold text-white flex items-center gap-2 mb-3">
+            <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i> Antigravity Fleet Execution Engine
           </h2>
 
-          <div class="space-y-4" id="agent-pipeline">
+          <div class="space-y-3" id="agent-pipeline">
             <!-- Agent 1 -->
-            <div id="agent-vision-card" class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+            <div id="agent-vision-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                  <i data-lucide="eye" class="w-4 h-4"></i>
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Multimodal Vision Agent</p>
-                  <p class="text-[11px] text-slate-400">Gemini 3.5 Flash • Multimodal OCR</p>
+                  <p class="text-[11px] text-slate-400">Gemini 3.5 Flash Multimodal OCR</p>
                 </div>
               </div>
               <span id="agent-vision-status" class="badge badge-active">READY</span>
             </div>
 
             <!-- Agent 2 -->
-            <div id="agent-auditor-card" class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+            <div id="agent-auditor-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                  <i data-lucide="scale" class="w-4 h-4"></i>
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="scale" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Contract Auditor Agent</p>
@@ -154,10 +167,10 @@
             </div>
 
             <!-- Agent 3 -->
-            <div id="agent-discrepancy-card" class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
+            <div id="agent-discrepancy-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                  <i data-lucide="send" class="w-4 h-4"></i>
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="send" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Discrepancy Dispatcher Agent</p>
@@ -196,7 +209,7 @@
               <thead>
                 <tr class="text-slate-400 border-b border-slate-800 uppercase tracking-wider font-semibold">
                   <th class="pb-3">Item Description</th>
-                  <th class="pb-3 text-center">Billed / PO Qty</th>
+                  <th class="pb-3 text-center">Billed Qty</th>
                   <th class="pb-3 text-right">Billed Unit Price</th>
                   <th class="pb-3 text-right">Approved Rate</th>
                   <th class="pb-3 text-right">Variance</th>
@@ -205,14 +218,14 @@
               <tbody id="line-items-body" class="divide-y divide-slate-800/60 text-slate-200">
                 <tr>
                   <td class="py-3 font-medium">Dell UltraSharp 27-inch Monitor</td>
-                  <td class="py-3 text-center font-mono">10 / 10</td>
+                  <td class="py-3 text-center font-mono">10</td>
                   <td class="py-3 text-right font-mono">$180.00</td>
                   <td class="py-3 text-right font-mono text-emerald-400">$180.00</td>
                   <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
                 </tr>
                 <tr>
                   <td class="py-3 font-medium">Ergonomic Executive Office Chair</td>
-                  <td class="py-3 text-center font-mono">5 / 5</td>
+                  <td class="py-3 text-center font-mono">5</td>
                   <td class="py-3 text-right font-mono">$250.00</td>
                   <td class="py-3 text-right font-mono text-emerald-400">$250.00</td>
                   <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
@@ -259,6 +272,20 @@
           </div>
         </div>
 
+        <!-- Eventarc GCS Event Monitor Feed -->
+        <div class="glass-card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-xs font-bold text-white flex items-center gap-2">
+              <i data-lucide="radio" class="w-4 h-4 text-emerald-400"></i> Eventarc Cloud Storage Notification Feed
+            </h2>
+            <span class="badge badge-approved">LIVE MONITOR</span>
+          </div>
+          <div id="eventarc-feed-box" class="bg-slate-950/90 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-emerald-400/90 space-y-1">
+            <p>[Eventarc] Subscribed to gs://documa-receipts-bucket/finalized</p>
+            <p>[Eventarc] Event ID: evt_9981a -> Triggered Cloud Run Daemon Task</p>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -267,22 +294,23 @@
 
   <!-- JavaScript Interactivity -->
   <script>
-    // Initialize Lucide icons
     lucide.createIcons();
 
-    // Live Audit Simulation Engine
     async function runScenario(type) {
       setAgentStatus("RUNNING");
       
       let docId = "DOC-COMPLIANT-101";
-      let filePath = "receipts/compliant.png";
+      let filePath = "receipts/compliant_invoice.png";
+
       if (type === "overcharge") {
         docId = "DOC-OVERCHARGE-202";
-        filePath = "receipts/doc-overcharge.png";
+        filePath = "receipts/overcharged_invoice.png";
       } else if (type === "unauthorized") {
         docId = "DOC-UNAUTHORIZED-303";
-        filePath = "receipts/doc-unauthorized.png";
+        filePath = "receipts/unauthorized_fees_invoice.png";
       }
+
+      document.getElementById("doc-media-ref").innerText = filePath;
 
       try {
         const response = await fetch("/api/audit/process", {
@@ -296,15 +324,22 @@
         });
 
         const data = await response.json();
-        renderAuditData(data);
+        renderAuditData(data, filePath);
         setAgentStatus("COMPLETED");
+
+        // Add Eventarc Log
+        const feed = document.getElementById("eventarc-feed-box");
+        const logLine = document.createElement("p");
+        logLine.innerText = `[Eventarc] Cloud Storage Upload: gs://documa-receipts-bucket/${filePath} -> Processed by Fleet`;
+        feed.appendChild(logLine);
+
       } catch (err) {
         console.error("API error:", err);
         setAgentStatus("ERROR");
       }
     }
 
-    function renderAuditData(data) {
+    function renderAuditData(data, filePath) {
       const doc = data.extracted_document;
       const audit = data.audit_result;
       const dispute = data.discrepancy_report;
@@ -317,7 +352,6 @@
       badgeEl.innerText = audit.status;
       badgeEl.className = "badge " + (audit.status === "APPROVED" ? "badge-approved" : audit.status === "REQUIRES_HUMAN_APPROVAL" ? "badge-escalated" : "badge-discrepancy");
 
-      // Render Line Items Table
       const tbody = document.getElementById("line-items-body");
       tbody.innerHTML = "";
 
@@ -326,7 +360,6 @@
         let approvedPrice = item.unit_price;
         let varianceClass = "text-emerald-400";
 
-        // Find matching discrepancy
         const disc = audit.discrepancies.find(d => d.item_description.toLowerCase() === item.description.toLowerCase());
         if (disc) {
           varianceText = `+$${disc.variance_amount.toFixed(2)}`;
@@ -345,7 +378,6 @@
         tbody.appendChild(tr);
       });
 
-      // Render Discrepancy Markdown
       if (dispute) {
         document.getElementById("action-type").innerText = dispute.action_taken;
         document.getElementById("dispute-markdown-box").innerText = dispute.formal_dispute_markdown;
