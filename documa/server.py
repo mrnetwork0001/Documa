@@ -7,9 +7,11 @@ import os
 from fastapi import FastAPI, HTTPException, Body, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse, Response
 from typing import List, Optional
 import shutil
+import csv
+import io
 
 from documa.models import DocumentAuditRequest, DocumentAuditResponse, PurchaseOrder, AuditResult, DiscrepancyReport
 from documa.services.firestore_service import FirestoreService
@@ -139,6 +141,81 @@ def list_audit_logs():
 def list_discrepancy_reports():
     """Retrieve generated vendor discrepancy reports and human approval alerts."""
     return firestore_service.list_discrepancy_reports()
+
+
+@app.get("/api/disputes/{report_id}/export/pdf")
+def export_dispute_pdf(report_id: str):
+    """Generates an official printable PDF Vendor Dispute Notice document."""
+    reports = firestore_service.list_discrepancy_reports()
+    matching = [r for r in reports if r.report_id == report_id]
+    if not matching:
+        raise HTTPException(status_code=404, detail=f"Discrepancy report {report_id} not found.")
+
+    report = matching[0]
+    html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OFFICIAL VENDOR DISPUTE NOTICE - {report.report_id}</title>
+    <style>
+        body {{ font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px; color: #1e293b; }}
+        .header {{ border-bottom: 3px solid #6366f1; padding-bottom: 20px; margin-bottom: 30px; }}
+        .title {{ font-size: 24px; font-weight: bold; color: #0f172a; }}
+        .meta {{ font-size: 13px; color: #64748b; margin-top: 5px; }}
+        .box {{ background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 20px; }}
+        .discrepancy-title {{ color: #dc2626; font-weight: bold; }}
+        .footer {{ margin-top: 40px; border-top: 1px solid #cbd5e1; padding-top: 15px; font-size: 11px; color: #94a3b8; }}
+        pre {{ white-space: pre-wrap; font-family: monospace; font-size: 12px; background: #0f172a; color: #f8fafc; padding: 15px; border-radius: 6px; }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">DOCUMA FLEET — OFFICIAL VENDOR DISPUTE NOTICE</div>
+        <div class="meta">Report ID: {report.report_id} | Created: {report.created_at} | Action: {report.action_taken.value}</div>
+    </div>
+    <div class="box">
+        <p><strong>Vendor Name:</strong> {report.vendor_name}</p>
+        <p><strong>Document Reference:</strong> {report.document_id}</p>
+        <p><strong>PO Reference:</strong> {report.po_number}</p>
+        <p class="discrepancy-title"><strong>Total Disputed Amount:</strong> ${report.total_overcharge:.2f} USD</p>
+    </div>
+    <h3>Formally Dispatched Audit Markdown Notice:</h3>
+    <pre>{report.formal_dispute_markdown}</pre>
+    <div class="footer">
+        Generated automatically by Documa Multimodal Procurement Fleet (Gemini 3.5 Flash & Antigravity SDK).
+    </div>
+</body>
+</html>"""
+    return HTMLResponse(content=html_content)
+
+
+@app.get("/api/audit/export/csv")
+def export_audit_logs_csv():
+    """Generates an ERP-compatible CSV file (SAP / QuickBooks format) of all audit results."""
+    audits = firestore_service.list_audit_results()
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Write CSV Header
+    writer.writerow([
+        "Audit ID", "Document ID", "PO Number", "Vendor Name", 
+        "Timestamp", "Status", "Total Billed ($)", "Total Approved ($)", 
+        "Net Variance ($)", "Has Unauthorized Items", "Summary Notes"
+    ])
+
+    for a in audits:
+        writer.writerow([
+            a.audit_id, a.document_id, a.po_number, a.vendor_name,
+            a.audit_timestamp, a.status.value, a.total_billed, a.total_approved,
+            a.net_variance, a.has_unauthorized_items, a.summary_notes
+        ])
+
+    csv_content = output.getvalue()
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=documa_erp_audit_logs.csv"}
+    )
 
 
 @app.post("/api/disputes/{report_id}/approve")

@@ -21,13 +21,13 @@ def services():
     return firestore, storage
 
 
-def test_vision_agent_mock_extraction(services):
+def test_vision_agent_image_extraction(services):
     firestore, storage = services
     agent = VisionAgent(storage_service=storage)
     
     # Test compliant document extraction
-    doc = agent._extract_mock_fallback("receipts/compliant.png", "DOC-001")
-    assert doc.vendor_name == "Acme Industrial Tech"
+    doc = agent._extract_from_image_bytes(b"MOCK_BYTES", "receipts/compliant_invoice.png", "DOC-001")
+    assert doc.vendor_name == "Acme Industrial Tech Inc."
     assert len(doc.line_items) == 2
     assert doc.grand_total == 3250.0
 
@@ -37,7 +37,7 @@ def test_auditor_agent_compliant(services):
     vision_agent = VisionAgent(storage_service=storage)
     auditor_agent = AuditorAgent(firestore_service=firestore)
 
-    doc = vision_agent._extract_mock_fallback("receipts/compliant.png", "DOC-001")
+    doc = vision_agent._extract_from_image_bytes(b"MOCK_BYTES", "receipts/compliant_invoice.png", "DOC-001")
     from documa.sdk.antigravity_sdk import AgentState
     state = AgentState(session_id="TEST-01")
 
@@ -53,7 +53,7 @@ def test_auditor_agent_overcharge(services):
     vision_agent = VisionAgent(storage_service=storage)
     auditor_agent = AuditorAgent(firestore_service=firestore)
 
-    doc = vision_agent._extract_mock_fallback("receipts/doc-overcharge.png", "DOC-002")
+    doc = vision_agent._extract_from_image_bytes(b"MOCK_BYTES", "receipts/overcharged_invoice.png", "DOC-002")
     from documa.sdk.antigravity_sdk import AgentState
     state = AgentState(session_id="TEST-02")
 
@@ -71,7 +71,7 @@ def test_discrepancy_dispatcher_actions(services):
     discrepancy_agent = DiscrepancyAgent(firestore_service=firestore)
 
     # Run compliant pipeline
-    doc = vision_agent._extract_mock_fallback("receipts/compliant.png", "DOC-001")
+    doc = vision_agent._extract_from_image_bytes(b"MOCK_BYTES", "receipts/compliant_invoice.png", "DOC-001")
     from documa.sdk.antigravity_sdk import AgentState
     state = AgentState(session_id="TEST-03")
 
@@ -88,7 +88,7 @@ def test_fleet_orchestration_end_to_end(services):
 
     req = DocumentAuditRequest(
         document_id="DOC-TEST-END2END",
-        file_path_or_url="receipts/doc-unauthorized.png",
+        file_path_or_url="receipts/unauthorized_fees_invoice.png",
         po_number_override="PO-9921"
     )
 

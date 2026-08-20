@@ -34,20 +34,14 @@
         </div>
       </a>
 
-      <!-- Header Metrics -->
-      <div class="flex items-center gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-        <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[120px]">
-          <p class="text-xs text-slate-400 font-medium">Active POs</p>
-          <p class="text-xl font-bold text-white mt-0.5" id="metric-pos">2</p>
-        </div>
-        <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[120px]">
-          <p class="text-xs text-slate-400 font-medium">Audit Volume</p>
-          <p class="text-xl font-bold text-indigo-400 mt-0.5" id="metric-audits">3</p>
-        </div>
-        <div class="bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-2.5 min-w-[140px]">
-          <p class="text-xs text-slate-400 font-medium">Capital Saved</p>
-          <p class="text-xl font-bold text-emerald-400 mt-0.5" id="metric-variance">$1,600.00</p>
-        </div>
+      <!-- Header Action Controls & Metrics -->
+      <div class="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+        <button onclick="toggleArchModal()" class="px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-indigo-500 text-xs font-bold text-slate-300 flex items-center gap-1.5 transition-all">
+          <i data-lucide="cloud-cog" class="w-4 h-4 text-indigo-400"></i> Cloud Architecture
+        </button>
+        <a href="/api/audit/export/csv" download class="px-3.5 py-2 rounded-xl bg-indigo-600/20 border border-indigo-500/40 hover:bg-indigo-600/30 text-xs font-bold text-indigo-300 flex items-center gap-1.5 transition-all">
+          <i data-lucide="download" class="w-4 h-4"></i> Export ERP CSV
+        </a>
       </div>
     </header>
 
@@ -57,7 +51,7 @@
       <!-- Left Column: Document Intake & Agent Execution (5 Cols) -->
       <div class="lg:col-span-5 space-y-6">
 
-        <!-- Document Intake & Preset Selector Card -->
+        <!-- Document Intake Card -->
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
@@ -120,7 +114,7 @@
           </div>
         </div>
 
-        <!-- Scanned Image Preview Card -->
+        <!-- Scanned Media Preview Box -->
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-sm font-bold text-white flex items-center gap-2">
@@ -140,7 +134,6 @@
           </h2>
 
           <div class="space-y-3" id="agent-pipeline">
-            <!-- Agent 1 -->
             <div id="agent-vision-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
@@ -148,13 +141,12 @@
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Multimodal Vision Agent</p>
-                  <p class="text-[11px] text-slate-400">Gemini 3.5 Flash Multimodal OCR</p>
+                  <p class="text-[11px] text-slate-400">Gemini 3.5 Flash OCR</p>
                 </div>
               </div>
               <span id="agent-vision-status" class="badge badge-active">READY</span>
             </div>
 
-            <!-- Agent 2 -->
             <div id="agent-auditor-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
@@ -168,7 +160,6 @@
               <span id="agent-auditor-status" class="badge badge-active">READY</span>
             </div>
 
-            <!-- Agent 3 -->
             <div id="agent-discrepancy-card" class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
@@ -222,14 +213,14 @@
                   <td class="py-3 font-medium">Dell UltraSharp 27-inch Monitor</td>
                   <td class="py-3 text-center font-mono">10</td>
                   <td class="py-3 text-right font-mono">$180.00</td>
-                  <td class="py-3 text-right font-mono text-emerald-400">$180.00</td>
+                  <td class="py-3 text-right font-mono text-slate-400">$180.00</td>
                   <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
                 </tr>
                 <tr>
                   <td class="py-3 font-medium">Ergonomic Executive Office Chair</td>
                   <td class="py-3 text-center font-mono">5</td>
                   <td class="py-3 text-right font-mono">$250.00</td>
-                  <td class="py-3 text-right font-mono text-emerald-400">$250.00</td>
+                  <td class="py-3 text-right font-mono text-slate-400">$250.00</td>
                   <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
                 </tr>
               </tbody>
@@ -243,7 +234,14 @@
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <i data-lucide="file-text" class="w-5 h-5 text-indigo-400"></i> Dispatched Action Output
             </h2>
-            <span class="text-xs text-slate-400" id="action-type">AUTO_APPROVED_PAYOUT</span>
+            <div class="flex items-center gap-2">
+              <button onclick="playVoiceBriefing()" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 text-xs font-bold transition-all flex items-center gap-1.5">
+                <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Play AI Voice Briefing
+              </button>
+              <button onclick="exportDisputePdf()" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-300 text-xs font-bold transition-all flex items-center gap-1.5">
+                <i data-lucide="file-down" class="w-3.5 h-3.5 text-indigo-400"></i> PDF Dispute Notice
+              </button>
+            </div>
           </div>
 
           <div id="dispute-markdown-box" class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-300 whitespace-pre-wrap max-h-56 overflow-y-auto">
@@ -274,7 +272,7 @@
           </div>
         </div>
 
-        <!-- Eventarc GCS Event Monitor Feed -->
+        <!-- Eventarc GCS Event Feed Card -->
         <div class="glass-card p-5">
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-xs font-bold text-white flex items-center gap-2">
@@ -294,37 +292,50 @@
 
   </div>
 
+  <!-- Cloud Architecture Modal -->
+  <div id="arch-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-2xl w-full p-6 space-y-6 relative border-indigo-500/40">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-lucide="cloud-cog" class="w-5 h-5 text-indigo-400"></i> Google Cloud Architecture Inspector
+        </h3>
+        <button onclick="toggleArchModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 text-xs">
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+          <p class="font-bold text-indigo-400">1. Multimodal Document Upload</p>
+          <p class="text-slate-400 mt-1">Receipts and PDFs arrive in <code>gs://documa-receipts-bucket</code>.</p>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+          <p class="font-bold text-cyan-400">2. Eventarc Cloud Storage Event</p>
+          <p class="text-slate-400 mt-1">Eventarc sends <code>object.finalized</code> trigger to Cloud Run daemon.</p>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+          <p class="font-bold text-emerald-400">3. Gemini 3.5 & Antigravity Fleet Worker</p>
+          <p class="text-slate-400 mt-1">VisionAgent parses media -> AuditorAgent audits Firestore PO -> DiscrepancyAgent resolves payout or dispute.</p>
+        </div>
+      </div>
+
+      <div class="text-right pt-2">
+        <button onclick="toggleArchModal()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs">Close Inspector</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript Interactivity -->
   <script>
     lucide.createIcons();
 
-    // Wire Real File Upload Dropzone
+    let currentReportId = "RPT-DEMO";
+    let currentAuditSummary = "Audit approved. Billed totals match contracted Purchase Order PO-9921.";
+
     const dropzone = document.getElementById("dropzone");
     const fileInput = document.getElementById("file-input");
 
     dropzone.addEventListener("click", () => fileInput.click());
-
     fileInput.addEventListener("change", (e) => {
-      if (e.target.files.length > 0) {
-        uploadRealFile(e.target.files[0]);
-      }
-    });
-
-    dropzone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropzone.classList.add("border-indigo-500");
-    });
-
-    dropzone.addEventListener("dragleave", () => {
-      dropzone.classList.remove("border-indigo-500");
-    });
-
-    dropzone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dropzone.classList.remove("border-indigo-500");
-      if (e.dataTransfer.files.length > 0) {
-        uploadRealFile(e.dataTransfer.files[0]);
-      }
+      if (e.target.files.length > 0) uploadRealFile(e.target.files[0]);
     });
 
     async function uploadRealFile(file) {
@@ -335,19 +346,10 @@
       formData.append("file", file);
 
       try {
-        const response = await fetch("/api/audit/upload", {
-          method: "POST",
-          body: formData
-        });
-
+        const response = await fetch("/api/audit/upload", { method: "POST", body: formData });
         const data = await response.json();
         renderAuditData(data, file.name);
         setAgentStatus("COMPLETED");
-
-        const feed = document.getElementById("eventarc-feed-box");
-        const logLine = document.createElement("p");
-        logLine.innerText = `[Real Upload] Uploaded ${file.name} -> Audited against PO-9921`;
-        feed.appendChild(logLine);
       } catch (err) {
         console.error("Upload error:", err);
         setAgentStatus("ERROR");
@@ -374,22 +376,12 @@
         const response = await fetch("/api/audit/process", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            document_id: docId,
-            file_path_or_url: filePath,
-            po_number_override: "PO-9921"
-          })
+          body: JSON.stringify({ document_id: docId, file_path_or_url: filePath, po_number_override: "PO-9921" })
         });
 
         const data = await response.json();
         renderAuditData(data, filePath);
         setAgentStatus("COMPLETED");
-
-        const feed = document.getElementById("eventarc-feed-box");
-        const logLine = document.createElement("p");
-        logLine.innerText = `[Eventarc] Cloud Storage Upload: gs://documa-receipts-bucket/${filePath} -> Processed by Fleet`;
-        feed.appendChild(logLine);
-
       } catch (err) {
         console.error("API error:", err);
         setAgentStatus("ERROR");
@@ -404,6 +396,7 @@
       document.getElementById("audit-doc-id").innerText = doc.document_id;
       document.getElementById("audit-vendor").innerText = `${doc.vendor_name} • PO Reference: ${audit.po_number}`;
       document.getElementById("audit-total-billed").innerText = `$${doc.grand_total.toFixed(2)}`;
+      currentAuditSummary = audit.summary_notes;
 
       const badgeEl = document.getElementById("audit-status-badge");
       badgeEl.innerText = audit.status;
@@ -436,6 +429,7 @@
       });
 
       if (dispute) {
+        currentReportId = dispute.report_id;
         document.getElementById("action-type").innerText = dispute.action_taken;
         document.getElementById("dispute-markdown-box").innerText = dispute.formal_dispute_markdown;
       }
@@ -447,14 +441,32 @@
       const d = document.getElementById("agent-discrepancy-status");
 
       if (state === "RUNNING") {
-        v.innerText = "RUNNING";
-        a.innerText = "RUNNING";
-        d.innerText = "RUNNING";
+        v.innerText = "RUNNING"; a.innerText = "RUNNING"; d.innerText = "RUNNING";
       } else {
-        v.innerText = "COMPLETED";
-        a.innerText = "COMPLETED";
-        d.innerText = "COMPLETED";
+        v.innerText = "COMPLETED"; a.innerText = "COMPLETED"; d.innerText = "COMPLETED";
       }
+    }
+
+    function playVoiceBriefing() {
+      if ('speechSynthesis' in window) {
+        const text = `Documa Audit Executive Briefing: ${currentAuditSummary}`;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("AI Executive Voice Briefing: " + currentAuditSummary);
+      }
+    }
+
+    function exportDisputePdf() {
+      if (currentReportId) {
+        window.open(`/api/disputes/${currentReportId}/export/pdf`, "_blank");
+      }
+    }
+
+    function toggleArchModal() {
+      const m = document.getElementById("arch-modal");
+      m.classList.toggle("hidden");
     }
 
     function overrideAction(action) {
