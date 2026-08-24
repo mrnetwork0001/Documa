@@ -150,7 +150,7 @@
 
           <div class="doc-preview-box p-2 relative">
             <div class="scanner-laser"></div>
-            <img id="doc-preview-img" src="/static/dashboard.css" alt="Scanned Document Preview" class="rounded-lg shadow-inner bg-slate-950">
+            <img id="doc-preview-img" src="/receipts/compliant_invoice.png" alt="Scanned Document Preview" class="rounded-lg shadow-inner bg-slate-950">
           </div>
         </div>
 
@@ -372,6 +372,15 @@
       setAgentStatus("RUNNING");
       document.getElementById("doc-media-ref").innerText = file.name;
 
+      // Update Preview Image dynamically if image
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById("doc-preview-img").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
       const formData = new FormData();
       formData.append("file", file);
 
@@ -401,6 +410,7 @@
       }
 
       document.getElementById("doc-media-ref").innerText = filePath;
+      document.getElementById("doc-preview-img").src = "/" + filePath;
 
       try {
         const response = await fetch("/api/audit/process", {

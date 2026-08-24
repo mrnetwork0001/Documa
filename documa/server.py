@@ -48,6 +48,11 @@ static_dir = os.path.join(os.path.dirname(__file__), "static")
 os.makedirs(static_dir, exist_ok=True)
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+# Mount receipts directory for live document previews
+receipts_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "receipts")
+os.makedirs(receipts_dir, exist_ok=True)
+app.mount("/receipts", StaticFiles(directory=receipts_dir), name="receipts")
+
 
 @app.get("/")
 def read_landing_page():
