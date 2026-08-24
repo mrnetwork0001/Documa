@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documa — Autonomous Multimodal Audit & Procurement Fleet</title>
+  <title>Documa — AI RWA Invoice Audit & Yield Streaming Fleet</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Custom Cyberpunk Glassmorphism CSS -->
+  <!-- Syntura-Inspired CSS -->
   <link rel="stylesheet" href="/static/dashboard.css">
 </head>
 <body class="p-4 md:p-8">
 
   <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- 1. Header Navigation Bar -->
+    <!-- 1. Top Navigation Bar (Syntura Style) -->
     <header class="glass-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-indigo-500/20">
       <a href="/" class="flex items-center gap-4 group cursor-pointer" title="Return to Landing Page">
         <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 group-hover:border-indigo-400 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/20 transition-all">
@@ -25,32 +25,32 @@
         <div>
           <div class="flex items-center gap-3">
             <h1 class="text-3xl font-black tracking-tight text-white group-hover:text-indigo-300 transition-colors brand-font">DOCUMA</h1>
-            <span class="badge badge-active"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Gemini 3.5 Flash</span>
-            <span class="badge badge-approved"><i data-lucide="cloud" class="w-3.5 h-3.5"></i> Cloud Run</span>
+            <span class="badge badge-active font-mono"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Gemini 3.5 Flash</span>
+            <span class="badge badge-approved font-mono"><i data-lucide="cloud" class="w-3.5 h-3.5"></i> Cloud Run</span>
           </div>
-          <p class="text-slate-400 text-xs mt-1 flex items-center gap-1 group-hover:text-slate-200 transition-colors">
-            <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-indigo-400"></i> Return to Landing Page
+          <p class="text-slate-400 text-xs mt-1 flex items-center gap-1 group-hover:text-slate-200 transition-colors font-mono">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-indigo-400"></i> Return to Syntura Protocol Home
           </p>
         </div>
       </a>
 
       <!-- Header Action Controls & System Status -->
       <div class="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-        <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+        <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-mono">
           <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
-          <span class="font-semibold text-slate-200">System Live</span>
+          <span class="font-semibold text-slate-200">Syntura Sentry Active</span>
         </div>
         <button onclick="toggleArchModal()" class="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-indigo-500 text-xs font-bold text-slate-200 flex items-center gap-1.5 transition-all">
           <i data-lucide="cloud-cog" class="w-4 h-4 text-indigo-400"></i> Cloud Specs
         </button>
-        <a href="/api/audit/export/csv" download class="btn-neon px-4 py-2.5 rounded-xl text-white text-xs font-extrabold flex items-center gap-1.5 transition-all">
+        <a href="/api/audit/export/csv" download class="btn-glow px-4 py-2.5 rounded-xl text-white text-xs font-extrabold flex items-center gap-1.5 transition-all">
           <i data-lucide="download" class="w-4 h-4"></i> Export ERP CSV
         </a>
       </div>
     </header>
 
     <!-- 2. Executive Summary Hero Cards Bar -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono">
       <div class="glass-card p-6 border-indigo-500/20">
         <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Grand Total Billed</p>
         <p class="text-3xl font-black text-white mt-1 brand-font" id="hero-billed">$3,250.00</p>
@@ -58,7 +58,7 @@
       </div>
 
       <div class="glass-card p-6 border-cyan-500/20">
-        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">PO Contract Approved Basis</p>
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">PO Approved Basis</p>
         <p class="text-3xl font-black text-cyan-400 mt-1 brand-font" id="hero-approved">$3,250.00</p>
         <p class="text-[11px] text-slate-500 mt-1">Firestore Active PO Record</p>
       </div>
@@ -95,7 +95,7 @@
 
           <!-- Scenario Tabs -->
           <div class="mt-5 space-y-2">
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Live Audit Presets:</p>
+            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-mono">Live Audit Presets:</p>
             <div class="grid grid-cols-1 gap-2">
               <button onclick="runScenario('compliant')" class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 hover:bg-emerald-950/40 border border-slate-800 hover:border-emerald-500/50 transition-all text-left group">
                 <div class="flex items-center gap-3">
@@ -142,7 +142,7 @@
         <!-- Scanned Media Scanner Inspector -->
         <div class="glass-card p-6 border-indigo-500/30">
           <div class="flex items-center justify-between mb-3">
-            <h2 class="text-xs font-bold text-white flex items-center gap-2">
+            <h2 class="text-xs font-bold text-white flex items-center gap-2 font-mono">
               <i data-lucide="scan" class="w-4 h-4 text-indigo-400"></i> Media Vision Inspector
             </h2>
             <span class="text-[11px] text-indigo-400 font-mono" id="doc-media-ref">receipts/compliant_invoice.png</span>
@@ -156,7 +156,7 @@
 
         <!-- Fleet Multi-Agent Engine Status -->
         <div class="glass-card p-6">
-          <h2 class="text-xs font-bold text-white flex items-center gap-2 mb-3">
+          <h2 class="text-xs font-bold text-white flex items-center gap-2 mb-3 font-mono">
             <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i> Antigravity Agent Fleet Engine
           </h2>
 
@@ -168,10 +168,10 @@
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Multimodal Vision Agent</p>
-                  <p class="text-[11px] text-slate-400">Gemini 3.5 Flash OCR</p>
+                  <p class="text-[11px] text-slate-400 font-mono">Gemini 3.5 Flash OCR</p>
                 </div>
               </div>
-              <span id="agent-vision-status" class="badge badge-active">READY</span>
+              <span id="agent-vision-status" class="badge badge-active font-mono">READY</span>
             </div>
 
             <div id="agent-auditor-card" class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
@@ -181,10 +181,10 @@
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Contract Auditor Agent</p>
-                  <p class="text-[11px] text-slate-400">Firestore PO Cross-Reconciliation</p>
+                  <p class="text-[11px] text-slate-400 font-mono">Firestore PO Cross-Reconciliation</p>
                 </div>
               </div>
-              <span id="agent-auditor-status" class="badge badge-active">READY</span>
+              <span id="agent-auditor-status" class="badge badge-active font-mono">READY</span>
             </div>
 
             <div id="agent-discrepancy-card" class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
@@ -194,10 +194,10 @@
                 </div>
                 <div>
                   <p class="text-xs font-bold text-white">Discrepancy Dispatcher Agent</p>
-                  <p class="text-[11px] text-slate-400">Auto Payout / Dispute Generation</p>
+                  <p class="text-[11px] text-slate-400 font-mono">Auto Payout / Dispute Generation</p>
                 </div>
               </div>
-              <span id="agent-discrepancy-status" class="badge badge-active">READY</span>
+              <span id="agent-discrepancy-status" class="badge badge-active font-mono">READY</span>
             </div>
           </div>
         </div>
@@ -213,9 +213,9 @@
             <div>
               <div class="flex items-center gap-2">
                 <h2 class="text-lg font-bold text-white brand-font" id="audit-doc-id">DOC-COMPLIANT-101</h2>
-                <span id="audit-status-badge" class="badge badge-approved">APPROVED</span>
+                <span id="audit-status-badge" class="badge badge-approved font-mono">APPROVED</span>
               </div>
-              <p class="text-xs text-slate-400 mt-1" id="audit-vendor">Acme Industrial Tech • PO Reference: PO-9921</p>
+              <p class="text-xs text-slate-400 mt-1 font-mono" id="audit-vendor">Acme Industrial Tech • PO Reference: PO-9921</p>
             </div>
             <div class="text-right">
               <p class="text-xs text-slate-400">Grand Total Billed</p>
@@ -227,7 +227,7 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead>
-                <tr class="text-slate-400 border-b border-slate-800 uppercase tracking-wider font-semibold">
+                <tr class="text-slate-400 border-b border-slate-800 uppercase tracking-wider font-semibold font-mono">
                   <th class="pb-3">Item Description</th>
                   <th class="pb-3 text-center">Billed Qty</th>
                   <th class="pb-3 text-right">Billed Unit Price</th>
@@ -235,20 +235,20 @@
                   <th class="pb-3 text-right">Variance</th>
                 </tr>
               </thead>
-              <tbody id="line-items-body" class="divide-y divide-slate-800/60 text-slate-200">
+              <tbody id="line-items-body" class="divide-y divide-slate-800/60 text-slate-200 font-mono">
                 <tr>
-                  <td class="py-3 font-medium">Dell UltraSharp 27-inch Monitor</td>
-                  <td class="py-3 text-center font-mono">10</td>
-                  <td class="py-3 text-right font-mono">$180.00</td>
-                  <td class="py-3 text-right font-mono text-slate-400">$180.00</td>
-                  <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
+                  <td class="py-3.5 font-medium">Dell UltraSharp 27-inch Monitor</td>
+                  <td class="py-3.5 text-center">10</td>
+                  <td class="py-3.5 text-right">$180.00</td>
+                  <td class="py-3.5 text-right text-slate-400">$180.00</td>
+                  <td class="py-3.5 text-right font-bold text-emerald-400">$0.00</td>
                 </tr>
                 <tr>
-                  <td class="py-3 font-medium">Ergonomic Executive Office Chair</td>
-                  <td class="py-3 text-center font-mono">5</td>
-                  <td class="py-3 text-right font-mono">$250.00</td>
-                  <td class="py-3 text-right font-mono text-slate-400">$250.00</td>
-                  <td class="py-3 text-right font-mono font-bold text-emerald-400">$0.00</td>
+                  <td class="py-3.5 font-medium">Ergonomic Executive Office Chair</td>
+                  <td class="py-3.5 text-center">5</td>
+                  <td class="py-3.5 text-right">$250.00</td>
+                  <td class="py-3.5 text-right text-slate-400">$250.00</td>
+                  <td class="py-3.5 text-right font-bold text-emerald-400">$0.00</td>
                 </tr>
               </tbody>
             </table>
@@ -262,13 +262,13 @@
               <h2 class="text-base font-bold text-white flex items-center gap-2 brand-font">
                 <i data-lucide="file-text" class="w-5 h-5 text-indigo-400"></i> Dispatched Action Output
               </h2>
-              <span id="action-type" class="badge badge-active">AUTO_APPROVED_PAYOUT</span>
+              <span id="action-type" class="badge badge-active font-mono">AUTO_APPROVED_PAYOUT</span>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="playVoiceBriefing()" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 text-xs font-bold transition-all flex items-center gap-1.5">
+              <button onclick="playVoiceBriefing()" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 text-xs font-bold transition-all flex items-center gap-1.5 font-mono">
                 <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Play AI Voice Briefing
               </button>
-              <button onclick="exportDisputePdf()" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-300 text-xs font-bold transition-all flex items-center gap-1.5">
+              <button onclick="exportDisputePdf()" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-300 text-xs font-bold transition-all flex items-center gap-1.5 font-mono">
                 <i data-lucide="file-down" class="w-3.5 h-3.5 text-indigo-400"></i> PDF Dispute Notice
               </button>
             </div>
@@ -286,7 +286,7 @@
           </div>
 
           <!-- Human Finance Controls -->
-          <div id="human-action-controls" class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+          <div id="human-action-controls" class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between gap-3 font-mono">
             <div class="flex items-center gap-2 text-xs text-amber-400">
               <i data-lucide="shield-alert" class="w-4 h-4"></i>
               <span>Human Finance Manager Sign-off</span>
@@ -305,10 +305,10 @@
         <!-- Eventarc Notification Feed -->
         <div class="glass-card p-5">
           <div class="flex items-center justify-between mb-3">
-            <h2 class="text-xs font-bold text-white flex items-center gap-2">
+            <h2 class="text-xs font-bold text-white flex items-center gap-2 font-mono">
               <i data-lucide="radio" class="w-4 h-4 text-emerald-400"></i> Eventarc Cloud Storage Notification Feed
             </h2>
-            <span class="badge badge-approved">LIVE MONITOR</span>
+            <span class="badge badge-approved font-mono">LIVE MONITOR</span>
           </div>
           <div id="eventarc-feed-box" class="bg-slate-950/90 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-emerald-400/90 space-y-1">
             <p>[Eventarc] Subscribed to gs://documa-receipts-bucket/finalized</p>
@@ -332,7 +332,7 @@
         <button onclick="toggleArchModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <div class="grid grid-cols-1 gap-4 text-xs">
+      <div class="grid grid-cols-1 gap-4 text-xs font-mono">
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
           <p class="font-bold text-indigo-400">1. Multimodal Document Upload</p>
           <p class="text-slate-400 mt-1">Receipts and PDFs arrive in <code>gs://documa-receipts-bucket</code>.</p>
@@ -470,10 +470,10 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td class="py-3.5 font-medium">${item.description}</td>
-          <td class="py-3.5 text-center font-mono">${item.quantity}</td>
-          <td class="py-3.5 text-right font-mono">$${item.unit_price.toFixed(2)}</td>
-          <td class="py-3.5 text-right font-mono text-slate-400">$${approvedPrice.toFixed(2)}</td>
-          <td class="py-3.5 text-right font-mono ${varianceClass}">${varianceText}</td>
+          <td class="py-3.5 text-center">${item.quantity}</td>
+          <td class="py-3.5 text-right">$${item.unit_price.toFixed(2)}</td>
+          <td class="py-3.5 text-right text-slate-400">$${approvedPrice.toFixed(2)}</td>
+          <td class="py-3.5 text-right ${varianceClass}">${varianceText}</td>
         `;
         tbody.appendChild(tr);
       });
