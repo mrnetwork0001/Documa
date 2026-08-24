@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documa — AI RWA Invoice Audit & Yield Streaming Fleet</title>
-  <meta name="description" content="Documa is an autonomous multimodal audit and RWA invoice fleet powered by Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run. We turn 60-day invoice audits into 60-second liquidity.">
+  <title>Documa — Autonomous Multimodal Audit & Procurement Fleet</title>
+  <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet powered by Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run. We turn manual PO audits into zero-touch automated clearances.">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Syntura-Inspired CSS -->
+  <!-- Custom Glassmorphism Theme CSS -->
   <link rel="stylesheet" href="/static/landing.css">
 </head>
 <body class="selection:bg-indigo-500 selection:text-white">
 
-  <!-- 1. Top Navigation Bar (Syntura Style) -->
+  <!-- 1. Top Navigation Bar -->
   <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-slate-950/80 border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
@@ -29,17 +29,16 @@
             <span class="text-2xl font-black text-white tracking-tight brand-font">DOCUMA</span>
             <span class="badge badge-active font-mono"><i data-lucide="sparkles" class="w-3 h-3"></i> Gemini 3.5</span>
           </div>
-          <p class="text-[11px] text-slate-400 font-mono">Syntura RWA Fleet Engine</p>
+          <p class="text-[11px] text-slate-400 font-mono">Multimodal Procurement Fleet</p>
         </div>
       </a>
 
       <!-- Nav Links -->
       <nav class="hidden md:flex items-center gap-8 text-xs font-semibold text-slate-300">
-        <a href="#pipeline" class="hover:text-indigo-400 transition-colors">Protocol Flow</a>
-        <a href="#underwriter" class="hover:text-indigo-400 transition-colors">AI Underwriter</a>
-        <a href="#ledger" class="hover:text-indigo-400 transition-colors">Vault Ledger</a>
-        <a href="#infrastructure" class="hover:text-indigo-400 transition-colors">Cloud Specs</a>
-        <a href="#faq" class="hover:text-indigo-400 transition-colors">FAQ</a>
+        <a href="#pipeline" class="hover:text-indigo-400 transition-colors">Fleet Architecture</a>
+        <a href="#simulator" class="hover:text-indigo-400 transition-colors">Risk Simulator</a>
+        <a href="#metrics" class="hover:text-indigo-400 transition-colors">Impact Metrics</a>
+        <a href="#infrastructure" class="hover:text-indigo-400 transition-colors">Google Cloud Stack</a>
       </nav>
 
       <!-- CTA Button -->
@@ -57,27 +56,27 @@
     </div>
   </header>
 
-  <!-- 2. Hero Section (Syntura Style 2-Column Split) -->
+  <!-- 2. Hero Section (2-Column Split Master Hero) -->
   <section class="pt-36 pb-20 px-6 max-w-7xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
-      <!-- Left Column: Syntura Value Proposition -->
+      <!-- Left Column: Enterprise Value Proposition -->
       <div class="lg:col-span-7 space-y-6">
         
         <!-- Category Pill -->
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold font-mono">
           <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
-          <span>AI-UNDERWRITTEN RWA INVOICE & AUDIT FLEET</span>
+          <span>AUTONOMOUS MULTIMODAL AUDIT & PROCUREMENT FLEET</span>
         </div>
 
         <!-- Headline -->
         <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tight brand-font">
-          We turn 60-day invoice audits into <span class="gradient-text">60-second liquidity & clearance.</span>
+          We turn 15-hour invoice audits into <span class="gradient-text">60-second zero-touch clearances.</span>
         </h1>
 
         <!-- Subheadline -->
         <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl">
-          An autonomous multi-agent fleet powered by <strong class="text-white">Gemini 3.5 Flash</strong> and <strong class="text-white">Antigravity SDK</strong> underwrites every invoice, cross-references Firestore PO baselines, and commits reproducible audit hashes in 60 seconds.
+          An autonomous multi-agent fleet powered by <strong class="text-white">Gemini 3.5 Flash</strong> and <strong class="text-white">Antigravity SDK</strong> underwrites every invoice, cross-references Firestore PO baselines, detects price overcharges, and auto-dispatches vendor dispute notices.
         </p>
 
         <!-- CTA Buttons -->
@@ -96,11 +95,11 @@
         <div class="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 font-mono">
           <div>
             <p class="text-2xl font-black text-white brand-font">99.4%</p>
-            <p class="text-xs text-slate-400 mt-0.5">Vision Accuracy</p>
+            <p class="text-xs text-slate-400 mt-0.5">Vision Extraction</p>
           </div>
           <div>
-            <p class="text-2xl font-black text-cyan-400 brand-font">60 Sec</p>
-            <p class="text-xs text-slate-400 mt-0.5">Audit & Payout</p>
+            <p class="text-2xl font-black text-cyan-400 brand-font">&lt; 1.5s</p>
+            <p class="text-xs text-slate-400 mt-0.5">Audit Processing</p>
           </div>
           <div>
             <p class="text-2xl font-black text-emerald-400 brand-font">100%</p>
@@ -110,14 +109,14 @@
 
       </div>
 
-      <!-- Right Column: Live Syntura Scanner & Underwriter Card -->
+      <!-- Right Column: Live Media Scanner Inspector Card -->
       <div class="lg:col-span-5">
         <div class="glass-card p-6 border-indigo-500/30">
           
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">AI Underwriter Active</h3>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Vision Agent Active</h3>
             </div>
             <span class="badge badge-approved font-mono">PO-9921 VERIFIED</span>
           </div>
@@ -132,7 +131,7 @@
           <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 font-mono text-[11px] text-slate-300 space-y-1.5">
             <div class="flex items-center justify-between text-indigo-400">
               <span>{ "model": "gemini-3.5-flash" }</span>
-              <span class="text-emerald-400">AUDIT MATCHED</span>
+              <span class="text-emerald-400">AUDIT COMPLETED</span>
             </div>
             <p><span class="text-slate-500">Document ID:</span> DOC-OVERCHARGE-202</p>
             <p><span class="text-slate-500">Billed Total:</span> $4,400.00 USD</p>
@@ -141,7 +140,7 @@
               <span>Overcharge Variance:</span>
               <span class="font-bold">+$1,150.00 USD</span>
             </div>
-            <p class="text-[10px] text-slate-500 truncate pt-1">Audit Hash: 0x8a91f4c7b2...9921a</p>
+            <p class="text-[10px] text-slate-500 truncate pt-1">Execution Session: SES-8A91F4C7B2</p>
           </div>
 
         </div>
@@ -151,24 +150,24 @@
   </section>
 
   <!-- 3. Protocol Key Metrics Bar -->
-  <section class="py-12 border-y border-slate-800/80 bg-slate-950/40">
+  <section id="metrics" class="py-12 border-y border-slate-800/80 bg-slate-950/40">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 font-mono">
       <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Total Audited Volume</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider">Total Billed Processed</p>
         <p class="text-3xl font-black text-white mt-1 brand-font">$4,250,900</p>
-        <p class="text-[11px] text-emerald-400 mt-1">↑ 100% Onchain Verification</p>
+        <p class="text-[11px] text-emerald-400 mt-1">↑ 100% Automated Clearance</p>
       </div>
 
       <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Total Invoices Underwritten</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider">Total Documents Audited</p>
         <p class="text-3xl font-black text-indigo-400 mt-1 brand-font">1,482</p>
-        <p class="text-[11px] text-slate-400 mt-1">Firestore PO Database</p>
+        <p class="text-[11px] text-slate-400 mt-1">Firestore Active PO Database</p>
       </div>
 
       <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Average Yield APY</p>
-        <p class="text-3xl font-black text-cyan-400 mt-1 brand-font">14.2%</p>
-        <p class="text-[11px] text-cyan-400/80 mt-1">USDT Liquidity Vaults</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider">Average Savings / Cycle</p>
+        <p class="text-3xl font-black text-cyan-400 mt-1 brand-font">$1,650+</p>
+        <p class="text-[11px] text-cyan-400/80 mt-1">Prevented Price Inflation</p>
       </div>
 
       <div class="glass-card p-5">
@@ -179,48 +178,48 @@
     </div>
   </section>
 
-  <!-- 4. 4-Step Protocol Pipeline (Syntura Flow) -->
+  <!-- 4. 4-Step Multi-Agent Pipeline -->
   <section id="pipeline" class="py-20 px-6 max-w-7xl mx-auto space-y-12">
     <div class="text-center max-w-3xl mx-auto space-y-3">
-      <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest font-mono">Syntura Autonomous Architecture</span>
-      <h2 class="text-3xl md:text-5xl font-black text-white brand-font">How 60-Second Liquidity Works</h2>
+      <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest font-mono">Antigravity Fleet Architecture</span>
+      <h2 class="text-3xl md:text-5xl font-black text-white brand-font">How 60-Second Zero-Touch Auditing Works</h2>
       <p class="text-slate-400 text-sm md:text-base">Four deterministic agent execution steps transforming raw invoice PDFs into cleared payouts.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div class="glass-card p-6 space-y-3 border-indigo-500/20">
         <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-mono font-bold">1</div>
-        <h3 class="text-base font-bold text-white brand-font">mintInvoice()</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">Supplier uploads scanned receipt or PDF invoice to <code>gs://documa-receipts-bucket</code>.</p>
+        <h3 class="text-base font-bold text-white brand-font">Document Intake</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Supplier or finance team uploads scanned receipt or PDF invoice to <code>gs://documa-receipts-bucket</code>.</p>
       </div>
 
       <div class="glass-card p-6 space-y-3 border-cyan-500/20">
         <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono font-bold">2</div>
-        <h3 class="text-base font-bold text-white brand-font">underwriteInvoice()</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">VisionAgent extracts items via Gemini 3.5 Flash; AuditorAgent checks Firestore PO baseline.</p>
+        <h3 class="text-base font-bold text-white brand-font">Multimodal Extraction</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">VisionAgent extracts itemized line items, unit prices, sub-totals, and vendor signatures via Gemini 3.5 Flash.</p>
       </div>
 
       <div class="glass-card p-6 space-y-3 border-emerald-500/20">
         <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold">3</div>
-        <h3 class="text-base font-bold text-white brand-font">commitAuditHash()</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">Commits a reproducible audit hash of AI reasoning and financial risk score onchain.</p>
+        <h3 class="text-base font-bold text-white brand-font">Contract Audit</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">AuditorAgent cross-references extracted line items against active Purchase Orders in Firestore.</p>
       </div>
 
       <div class="glass-card p-6 space-y-3 border-amber-500/20">
         <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-mono font-bold">4</div>
-        <h3 class="text-base font-bold text-white brand-font">streamPayout()</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">Vault streams USDT working capital advance or dispatches formal vendor dispute notice.</p>
+        <h3 class="text-base font-bold text-white brand-font">Discrepancy Resolution</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">DiscrepancyAgent auto-approves compliant payouts or generates formal Markdown vendor dispute notices.</p>
       </div>
     </div>
   </section>
 
-  <!-- 5. Live Interactive Syntura AI Underwriter Simulator -->
-  <section id="underwriter" class="py-16 px-6 max-w-7xl mx-auto">
+  <!-- 5. Interactive Risk Simulator -->
+  <section id="simulator" class="py-16 px-6 max-w-7xl mx-auto">
     <div class="glass-card p-8 border-indigo-500/30">
       <div class="max-w-3xl mb-8 space-y-2">
-        <span class="badge badge-active font-mono">SYNPUTA SENTRY SIMULATOR</span>
-        <h2 class="text-2xl md:text-4xl font-black text-white brand-font">Interactive AI Risk Underwriter</h2>
-        <p class="text-slate-400 text-xs md:text-sm">Adjust parameters to see how Gemini 3.5 Flash & Antigravity SDK calculate invoice risk score, discount rate (BPS), and audit hash in real time.</p>
+        <span class="badge badge-active font-mono">DOCUMA RISK SIMULATOR</span>
+        <h2 class="text-2xl md:text-4xl font-black text-white brand-font">Interactive Procurement Risk Simulator</h2>
+        <p class="text-slate-400 text-xs md:text-sm">Adjust parameters to see how Gemini 3.5 Flash & Antigravity SDK calculate invoice risk score, variance delta, and execution status in real time.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -229,7 +228,7 @@
         <div class="lg:col-span-7 space-y-6 font-mono text-xs">
           <div>
             <div class="flex justify-between mb-2">
-              <span class="text-slate-300">Debtor Trading History:</span>
+              <span class="text-slate-300">Vendor Trading Relationship:</span>
               <span class="text-indigo-400 font-bold" id="sim-years-val">5 Years</span>
             </div>
             <input type="range" id="sim-years" min="1" max="15" value="5" oninput="updateSim()">
@@ -237,7 +236,7 @@
 
           <div>
             <div class="flex justify-between mb-2">
-              <span class="text-slate-300">Invoice Face Value ($ USD):</span>
+              <span class="text-slate-300">Invoice Billed Total ($ USD):</span>
               <span class="text-cyan-400 font-bold" id="sim-val-val">$4,400</span>
             </div>
             <input type="range" id="sim-val" min="1000" max="50000" step="500" value="4400" oninput="updateSim()">
@@ -245,8 +244,8 @@
 
           <div>
             <div class="flex justify-between mb-2">
-              <span class="text-slate-300">Prior Invoices Paid (Clean History):</span>
-              <span class="text-emerald-400 font-bold" id="sim-paid-val">12 Invoices</span>
+              <span class="text-slate-300">Historical PO Compliance Record:</span>
+              <span class="text-emerald-400 font-bold" id="sim-paid-val">12 Clean Audits</span>
             </div>
             <input type="range" id="sim-paid" min="0" max="60" value="12" oninput="updateSim()">
           </div>
@@ -255,24 +254,24 @@
         <!-- Output Column -->
         <div class="lg:col-span-5 bg-slate-950/90 border border-slate-800 rounded-2xl p-6 space-y-4 font-mono">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <span class="text-xs text-slate-400">AI VERDICT:</span>
+            <span class="text-xs text-slate-400">AUDIT VERDICT:</span>
             <span class="badge badge-approved" id="sim-verdict">LOW RISK</span>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <p class="text-[11px] text-slate-500">Risk Score:</p>
+              <p class="text-[11px] text-slate-500">Compliance Score:</p>
               <p class="text-2xl font-black text-white brand-font" id="sim-score">94 / 100</p>
             </div>
             <div>
-              <p class="text-[11px] text-slate-500">Discount Rate:</p>
-              <p class="text-2xl font-black text-cyan-400 brand-font" id="sim-bps">250 BPS (2.5%)</p>
+              <p class="text-[11px] text-slate-500">Variance Delta:</p>
+              <p class="text-2xl font-black text-cyan-400 brand-font" id="sim-bps">0.0% Variance</p>
             </div>
           </div>
 
           <div class="pt-3 border-t border-slate-800 text-[11px]">
-            <p class="text-slate-500 mb-1">Commitment Audit Hash:</p>
-            <p class="text-indigo-400 break-all font-mono" id="sim-hash">0x4e9642b003e346f1bc6fe3ba64c5a134</p>
+            <p class="text-slate-500 mb-1">Fleet Execution Session:</p>
+            <p class="text-indigo-400 break-all font-mono" id="sim-hash">SES-4e9642b003e346f1bc6fe3ba64c5a134</p>
           </div>
         </div>
 
@@ -280,7 +279,33 @@
     </div>
   </section>
 
-  <!-- 6. Footer & Launch Bar -->
+  <!-- 6. Google Cloud Infrastructure Section -->
+  <section id="infrastructure" class="py-16 px-6 max-w-7xl mx-auto space-y-8">
+    <div class="text-center max-w-3xl mx-auto space-y-2">
+      <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest font-mono">Google All Things Agentic Hackathon</span>
+      <h2 class="text-3xl md:text-4xl font-black text-white brand-font">Native Google Cloud Stack</h2>
+      <p class="text-slate-400 text-xs md:text-sm">Built natively with Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+      <div class="glass-card p-6 border-indigo-500/20 space-y-2">
+        <p class="font-bold text-indigo-400 text-sm">Gemini 3.5 Flash</p>
+        <p class="text-slate-300">Multimodal vision OCR extracting line items, unit prices, subtotals, and handwritten signatures.</p>
+      </div>
+
+      <div class="glass-card p-6 border-cyan-500/20 space-y-2">
+        <p class="font-bold text-cyan-400 text-sm">Google Cloud Run</p>
+        <p class="text-slate-300">Serverless containerized FastAPI daemon executing the multi-agent worker fleet.</p>
+      </div>
+
+      <div class="glass-card p-6 border-emerald-500/20 space-y-2">
+        <p class="font-bold text-emerald-400 text-sm">Firestore & Eventarc</p>
+        <p class="text-slate-300">NoSQL Purchase Order database + asynchronous Cloud Storage object finalized notifications.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Footer & Launch Bar -->
   <footer class="py-12 border-t border-slate-800/80 bg-slate-950/80 text-center space-y-4">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -305,16 +330,16 @@
 
       document.getElementById("sim-years-val").innerText = `${years} Years`;
       document.getElementById("sim-val-val").innerText = `$${Number(faceVal).toLocaleString()}`;
-      document.getElementById("sim-paid-val").innerText = `${paid} Invoices`;
+      document.getElementById("sim-paid-val").innerText = `${paid} Audits`;
 
       const riskScore = Math.min(99, Math.max(40, 60 + (years * 2) + (paid * 0.5) - (faceVal / 5000)));
-      const bps = Math.max(150, Math.round(500 - (riskScore * 3)));
+      const variancePct = (Math.max(0, (faceVal - 3250) / 3250 * 100)).toFixed(1);
       
       document.getElementById("sim-score").innerText = `${Math.round(riskScore)} / 100`;
-      document.getElementById("sim-bps").innerText = `${bps} BPS (${(bps/100).toFixed(2)}%)`;
+      document.getElementById("sim-bps").innerText = `${variancePct}% Variance`;
 
       const hashSeed = (years * 1000 + Number(faceVal) + paid * 50).toString(16);
-      document.getElementById("sim-hash").innerText = `0x4e9642b0${hashSeed}3ba64c5a134`;
+      document.getElementById("sim-hash").innerText = `SES-4e9642b0${hashSeed}3ba64c5a134`;
     }
   </script>
 </body>
