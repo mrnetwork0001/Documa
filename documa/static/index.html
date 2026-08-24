@@ -428,6 +428,54 @@
       }
     }
 
+    function animateRealExecutionLog(log, data) {
+      const vStatus = document.getElementById("agent-vision-status");
+      const aStatus = document.getElementById("agent-auditor-status");
+      const dStatus = document.getElementById("agent-discrepancy-status");
+
+      // Reset to RUNNING with glowing indicators
+      vStatus.className = "badge badge-active font-mono animate-pulse";
+      vStatus.innerText = "RUNNING...";
+      aStatus.className = "badge badge-active font-mono";
+      aStatus.innerText = "WAITING";
+      dStatus.className = "badge badge-active font-mono";
+      dStatus.innerText = "WAITING";
+
+      // Step 1: Multimodal Vision Agent Completed
+      setTimeout(() => {
+        const visionLog = log.find(l => l.agent === "MultimodalVisionAgent" && l.action.includes("Success"));
+        const itemsCount = data.extracted_document ? data.extracted_document.line_items.length : 0;
+        vStatus.className = "badge badge-approved font-mono";
+        vStatus.innerText = `PASSED (${itemsCount} ITEMS)`;
+
+        aStatus.className = "badge badge-active font-mono animate-pulse";
+        aStatus.innerText = "QUERYING PO...";
+      }, 400);
+
+      // Step 2: Contract Auditor Agent Completed
+      setTimeout(() => {
+        const audit = data.audit_result;
+        aStatus.className = "badge badge-approved font-mono";
+        aStatus.innerText = audit && audit.discrepancies.length > 0 ? `FLAGGED (${audit.discrepancies.length} DIFFS)` : "PO MATCHED";
+
+        dStatus.className = "badge badge-active font-mono animate-pulse";
+        dStatus.innerText = "DISPATCHING...";
+      }, 800);
+
+      // Step 3: Discrepancy Dispatcher Agent Completed
+      setTimeout(() => {
+        const dispute = data.discrepancy_report;
+        dStatus.className = "badge badge-approved font-mono";
+        dStatus.innerText = dispute ? dispute.action_taken : "COMPLETED";
+
+        // Append to Eventarc Feed Box with exact timestamp
+        const feed = document.getElementById("eventarc-feed-box");
+        const logLine = document.createElement("p");
+        logLine.innerText = `[Antigravity Fleet Log] Executed 3 agents in ${log.length} steps. Audit status: ${data.audit_result.status}`;
+        feed.appendChild(logLine);
+      }, 1200);
+    }
+
     function renderAuditData(data, filePath) {
       const doc = data.extracted_document;
       const audit = data.audit_result;
@@ -492,6 +540,11 @@
         currentReportId = dispute.report_id;
         document.getElementById("action-type").innerText = dispute.action_taken;
         document.getElementById("dispute-markdown-box").innerText = dispute.formal_dispute_markdown;
+      }
+
+      // Animate Real Step-by-Step Execution Log
+      if (data.execution_log && data.execution_log.length > 0) {
+        animateRealExecutionLog(data.execution_log, data);
       }
     }
 
