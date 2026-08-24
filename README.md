@@ -1,115 +1,67 @@
 # 👁️ Documa — Autonomous Multimodal Audit & Procurement Fleet
 
-> Built for the **Google All Things Agentic Hackathon** ($180,000 Cash Pool / $50,000 Grand Prize Target)  
-> **Target Track:** The Taskmaster ($20,000 Track Winner)  
-> **Core Stack:** Gemini 3.5 Flash + Antigravity SDK + Google Cloud Run + Firestore + Cloud Storage  
-> **License:** Apache 2.0 Open Source  
+**Google All Things Agentic Hackathon ($180,000 Cash Pool / $50,000 Grand Prize Target)**
+
+Documa is an autonomous multimodal audit and procurement fleet built with **Gemini 3.5 Flash**, **Antigravity SDK**, **Google Cloud Run**, **Google Firestore**, **Google Cloud Storage**, and **Google Eventarc**.
+
+![Documa Architecture Diagram](documa/static/architecture_diagram.png)
 
 ---
 
-## 📌 Executive Summary
+## 🏗️ Architecture & Technology Stack
 
-**Documa** is an autonomous multi-agent procurement and audit fleet that turns tedious, manual invoice and receipt auditing into a zero-touch background workflow.
-
-Procurement and finance teams handle thousands of physical receipts, scanned PDF contracts, and vendor manifests. Manually cross-checking line items against purchase orders takes 15+ hours per week. Documa automates this end-to-end:
-
-1. **Multimodal Vision Intake:** Users/systems drop scanned PDFs, receipts, or invoices into **Google Cloud Storage**.
-2. **Gemini 3.5 Vision Agent:** Uses **Gemini 3.5 Flash multimodal vision** to extract itemized line items, unit prices, taxes, dates, and vendor signatures.
-3. **Contract Auditor Agent:** Cross-references extracted line items against approved purchase orders stored in **Firestore**, detecting price inflation, quantity mismatches, and unapproved fees.
-4. **Discrepancy Dispatcher Agent:** Automatically authorizes compliant payouts, drafts formal vendor price-discrepancy reports, or escalates major anomalies to finance leaders.
-
----
-
-## 🏗️ Architecture & Multi-Agent Workflow
-
-```
-                                  ┌──────────────────────────────┐
-                                  │ Scanned Receipts / PDFs / POs│
-                                  └──────────────┬───────────────┘
-                                                 │
-                                                 │ Upload / Webhook Event
-                                                 ▼
-                                  ┌───────────────────────────────┐
-                                  │     Google Cloud Storage      │
-                                  └───────────────┬───────────────┘
-                                                 │
-                                                 │ Triggers Background Worker
-                                                 ▼
-                                  ┌───────────────────────────────┐
-                                  │   Documa Antigravity Fleet    │
-                                  │    (Google Cloud Run Worker)  │
-                                  └───────────────┬───────────────┘
-                                                 │
-                   ┌─────────────────────────────┼─────────────────────────────┐
-                   │                             │                             │
-                   ▼                             ▼                             ▼
-     [ Agent 1: Multimodal Vision ]   [ Agent 2: Contract Auditor ]   [ Agent 3: Discrepancy Filer ]
-     • Gemini 3.5 Vision Extraction   • Cross-checks Firestore POs    • Auto-approves compliant payouts
-     • Itemized Data Parsing          • Detects Overcharges & Fees    • Dispatches Vendor Dispute Reports
-                   │                             │                             │
-                   └─────────────────────────────┼─────────────────────────────┘
-                                                 │
-                                                 │ Surfaces ONLY when major anomaly occurs
-                                                 ▼
-                                  ┌───────────────────────────────┐
-                                  │ Human Finance Approval Alert  │
-                                  │ "Overcharge detected ($450)"  │
-                                  │  [ Approve Dispute ] [ Pass ] │
-                                  └───────────────────────────────┘
-```
+- **Multimodal AI Vision:** `gemini-3.5-flash` (`google-genai` SDK v0.1.0+) parsing receipts, invoice PDFs, unit prices, sub-totals, and vendor signatures.
+- **Agent Framework:** `Antigravity SDK Engine` (`MultimodalVisionAgent` -> `ContractAuditorAgent` -> `DiscrepancyDispatcherAgent`).
+- **Google Cloud Services:**
+  - **Google Cloud Run:** Serverless containerized daemon (`Dockerfile`).
+  - **Google Firestore:** Real-time NoSQL Purchase Order & Audit database.
+  - **Google Cloud Storage:** Object bucket (`gs://documa-receipts-bucket`).
+  - **Google Eventarc:** Asynchronous `object.finalized` Cloud Storage notifications.
+- **Web Application & UI:** Python 3.14 + FastAPI + Stripe/Supabase Cyberpunk Glassmorphism (`dashboard.css` & `landing.css`).
 
 ---
 
-## 🚀 Quickstart & Setup Instructions
+## 🚀 Quick Spin-Up Instructions
 
-### 1. Prerequisites
-- Python 3.11+
-- Google Cloud SDK (`gcloud`)
-- Gemini API Key (`GEMINI_API_KEY`) or GCP Service Account Credentials
-
-### 2. Installation
+### Option A: Local Python Environment
 ```bash
-git clone https://github.com/mrnetwork/Documa.git
+# 1. Clone & Enter Directory
+git clone https://github.com/mrnetwork0001/Documa.git
 cd Documa
-python -m venv venv
+
+# 2. Set Up Virtual Environment & Dependencies
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
 
-### 3. Run CLI Execution Demo
-```bash
-python main.py
-```
+# 3. Set Gemini API Key (Optional for API; Resilient Vision Engine Enabled)
+export GEMINI_API_KEY="your-gemini-api-key"
 
-### 4. Run Automated Test Suite
-```bash
-pytest tests/test_audit_fleet.py -v
+# 4. Start Server
+PYTHONPATH=. uvicorn documa.server:app --port 8085
 ```
-
-### 5. Launch Cloud Run Web Daemon Locally
-```bash
-python -m uvicorn documa.server:app --reload --port 8080
-```
-Then access:
-- Health check: `http://localhost:8080/health`
-- Active POs: `http://localhost:8080/api/po`
-- Audit logs: `http://localhost:8080/api/audit/logs`
-- Discrepancy reports: `http://localhost:8080/api/disputes`
+Open **[http://localhost:8085/](http://localhost:8085/)** (Landing Page) or **[http://localhost:8085/app](http://localhost:8085/app)** (App Dashboard).
 
 ---
 
-## ☁️ Google Cloud Run Deployment
-
-To build and deploy the container daemon to Google Cloud Run:
-
+### Option B: Docker & Google Cloud Run Deployment
 ```bash
-export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
-export GCP_REGION="us-central1"
-chmod +x deploy.sh
+# Build & Run Container Locally
+docker build -t documa .
+docker run -p 8085:8085 -e GEMINI_API_KEY="your-key" documa
+
+# Deploy to Google Cloud Run
 ./deploy.sh
 ```
 
 ---
 
-## 📄 License
-Apache 2.0 Open Source
+## 🧪 Automated Test Suite
+```bash
+PYTHONPATH=. pytest tests/test_audit_fleet.py -v
+```
+
+---
+
+## 📦 License
+Licensed under the [Apache 2.0 License](LICENSE).
