@@ -7,3 +7,12 @@ venv/
 .env
 tmp/
 .DS_Store
+
+# Uploaded documents land in receipts/ via /api/audit/upload and may contain
+# personal or customer data. Ignore everything there except the demo fixtures
+# that are meant to be public.
+receipts/*
+!receipts/compliant_invoice.png
+!receipts/overcharged_invoice.png
+!receipts/unauthorized_fees_invoice.png
+!receipts/minor_overcharge_invoice.png
