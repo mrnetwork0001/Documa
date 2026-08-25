@@ -4,143 +4,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documa — Autonomous Multimodal Audit & Procurement Fleet</title>
-  <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet powered by Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run. We turn manual PO audits into zero-touch automated clearances.">
+  <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet powered by Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run.">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Custom Glassmorphism Theme CSS -->
+  <!-- Pipely Editorial CSS -->
   <link rel="stylesheet" href="/static/landing.css">
 </head>
-<body class="selection:bg-indigo-500 selection:text-white">
+<body class="selection:bg-slate-900 selection:text-white">
 
-  <!-- 1. Top Navigation Bar -->
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-slate-950/80 border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+  <!-- 1. Top Floating Pill Header Bar (Pipely Style) -->
+  <div class="fixed top-6 left-0 right-0 z-50 px-4 max-w-6xl mx-auto">
+    <header class="pipely-header px-6 h-16 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="/" class="flex items-center gap-3.5 group">
-        <div class="w-11 h-11 rounded-xl bg-indigo-600/20 border border-indigo-500/40 group-hover:border-indigo-400 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/20 transition-all">
-          <i data-lucide="eye" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-sm">
+          D
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-2xl font-black text-white tracking-tight brand-font">DOCUMA</span>
-            <span class="badge badge-active font-mono"><i data-lucide="sparkles" class="w-3 h-3"></i> Gemini 3.5</span>
-          </div>
-          <p class="text-[11px] text-slate-400 font-mono">Multimodal Procurement Fleet</p>
-        </div>
+        <span class="text-xl font-black text-slate-900 tracking-tight">Documa</span>
       </a>
 
       <!-- Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 text-xs font-semibold text-slate-300">
-        <a href="#pipeline" class="hover:text-indigo-400 transition-colors">Fleet Architecture</a>
-        <a href="#simulator" class="hover:text-indigo-400 transition-colors">Risk Simulator</a>
-        <a href="#metrics" class="hover:text-indigo-400 transition-colors">Impact Metrics</a>
-        <a href="#infrastructure" class="hover:text-indigo-400 transition-colors">Google Cloud Stack</a>
+      <nav class="hidden md:flex items-center gap-8 text-xs font-bold text-slate-600">
+        <a href="#about" class="hover:text-slate-950 transition-colors">About Fleet</a>
+        <a href="#pipeline" class="hover:text-slate-950 transition-colors">Features</a>
+        <a href="#simulator" class="hover:text-slate-950 transition-colors">Risk Simulator</a>
+        <a href="#stack" class="hover:text-slate-950 transition-colors">Cloud Stack</a>
       </nav>
 
       <!-- CTA Button -->
-      <div class="flex items-center gap-4">
-        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>Google Cloud Run Live</span>
-        </div>
-        <a href="/app" class="btn-glow px-5 py-2.5 rounded-xl text-white text-xs font-extrabold flex items-center gap-2 transition-all">
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline-block px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[11px] font-bold font-mono">
+          🟢 Cloud Run Active
+        </span>
+        <a href="/app" class="btn-pipely-yellow px-5 py-2.5 text-xs flex items-center gap-2">
           <span>Launch Live App</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
       </div>
 
-    </div>
-  </header>
+    </header>
+  </div>
 
-  <!-- 2. Hero Section (2-Column Split Master Hero) -->
-  <section class="pt-36 pb-20 px-6 max-w-7xl mx-auto">
+  <!-- 2. Hero Section (Pipely Split Master Hero) -->
+  <section id="about" class="pt-36 pb-16 px-6 max-w-7xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
-      <!-- Left Column: Enterprise Value Proposition -->
+      <!-- Left Column: Pipely Hero Text -->
       <div class="lg:col-span-7 space-y-6">
         
-        <!-- Category Pill -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold font-mono">
-          <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
-          <span>AUTONOMOUS MULTIMODAL AUDIT & PROCUREMENT FLEET</span>
-        </div>
+        <!-- Category Tag -->
+        <span class="badge-pipely badge-yellow font-mono">
+          ⚡ AUTONOMOUS MULTIMODAL AUDIT FLEET
+        </span>
 
-        <!-- Headline -->
-        <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tight brand-font">
-          We turn 15-hour invoice audits into <span class="gradient-text">60-second zero-touch clearances.</span>
+        <!-- Main Headline (Pipely Editorial Style) -->
+        <h1 class="text-4xl sm:text-6xl font-black text-slate-900 leading-[1.08] tracking-tight">
+          Expert insights.<br>Custom solutions.
         </h1>
 
-        <!-- Subheadline -->
-        <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl">
-          An autonomous multi-agent fleet powered by <strong class="text-white">Gemini 3.5 Flash</strong> and <strong class="text-white">Antigravity SDK</strong> underwrites every invoice, cross-references Firestore PO baselines, detects price overcharges, and auto-dispatches vendor dispute notices.
+        <!-- Subtitle -->
+        <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl">
+          An autonomous multi-agent fleet powered by <strong>Gemini 3.5 Flash</strong> and <strong>Antigravity SDK</strong> that turns 15-hour manual invoice audits into 60-second zero-touch clearances.
         </p>
 
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-          <a href="/app" class="btn-glow px-8 py-4 rounded-xl text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-all">
-            <i data-lucide="rocket" class="w-5 h-5"></i>
-            <span>Launch Interactive App</span>
+        <!-- Double Action Buttons -->
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="/app" class="btn-pipely-yellow px-7 py-3.5 text-sm flex items-center gap-2">
+            <span>Launch Live App</span>
+            <i data-lucide="rocket" class="w-4 h-4"></i>
           </a>
-          <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="px-8 py-4 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-sm flex items-center justify-center gap-2 transition-all">
-            <i data-lucide="github" class="w-5 h-5 text-indigo-400"></i>
+          <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="btn-pipely-black px-7 py-3.5 text-sm flex items-center gap-2">
+            <i data-lucide="github" class="w-4 h-4"></i>
             <span>View GitHub Code</span>
           </a>
         </div>
 
-        <!-- Trust Features Bar -->
-        <div class="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 font-mono">
-          <div>
-            <p class="text-2xl font-black text-white brand-font">99.4%</p>
-            <p class="text-xs text-slate-400 mt-0.5">Vision Extraction</p>
+        <!-- Social Proof Pill Bar -->
+        <div class="pt-4 flex items-center gap-4 text-xs font-semibold text-slate-500">
+          <div class="flex -space-x-2">
+            <div class="w-7 h-7 rounded-full bg-slate-900 text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">AI</div>
+            <div class="w-7 h-7 rounded-full bg-indigo-600 text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">GCP</div>
+            <div class="w-7 h-7 rounded-full bg-emerald-600 text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">PO</div>
           </div>
-          <div>
-            <p class="text-2xl font-black text-cyan-400 brand-font">&lt; 1.5s</p>
-            <p class="text-xs text-slate-400 mt-0.5">Audit Processing</p>
-          </div>
-          <div>
-            <p class="text-2xl font-black text-emerald-400 brand-font">100%</p>
-            <p class="text-xs text-slate-400 mt-0.5">Zero-Touch Automation</p>
-          </div>
+          <span>Trusted by Google All Things Agentic Hackathon</span>
         </div>
 
       </div>
 
-      <!-- Right Column: Live Media Scanner Inspector Card -->
+      <!-- Right Column: Document Scanner Inspector Card -->
       <div class="lg:col-span-5">
-        <div class="glass-card p-6 border-indigo-500/30">
+        <div class="pipely-card p-6 border-slate-200">
           
-          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Vision Agent Active</h3>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+              <span class="text-xs font-bold text-slate-900 font-mono">VISION AGENT ACTIVE</span>
             </div>
-            <span class="badge badge-approved font-mono">PO-9921 VERIFIED</span>
+            <span class="badge-pipely badge-sage font-mono">PO-9921 VERIFIED</span>
           </div>
 
-          <!-- Document Preview Box with Laser -->
+          <!-- Document Box with Laser -->
           <div class="doc-preview-box p-2 relative mb-4">
             <div class="scanner-laser"></div>
-            <img src="/receipts/overcharged_invoice.png" alt="Live Scanner Preview" class="w-full h-48 object-cover rounded-lg bg-slate-950">
+            <img src="/receipts/overcharged_invoice.png" alt="Live Scanner Preview" class="w-full h-52 object-cover rounded-xl bg-slate-950">
           </div>
 
-          <!-- JSON Output Box -->
-          <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 font-mono text-[11px] text-slate-300 space-y-1.5">
-            <div class="flex items-center justify-between text-indigo-400">
+          <!-- Live Extraction JSON Box -->
+          <div class="bg-slate-900 rounded-2xl p-4 font-mono text-xs text-slate-300 space-y-1.5 shadow-inner">
+            <div class="flex justify-between text-indigo-300 font-bold">
               <span>{ "model": "gemini-3.5-flash" }</span>
               <span class="text-emerald-400">AUDIT COMPLETED</span>
             </div>
             <p><span class="text-slate-500">Document ID:</span> DOC-OVERCHARGE-202</p>
             <p><span class="text-slate-500">Billed Total:</span> $4,400.00 USD</p>
-            <p><span class="text-slate-500">PO Approved Total:</span> $3,250.00 USD</p>
-            <div class="p-2 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 flex items-center justify-between">
+            <p><span class="text-slate-500">Approved Basis:</span> $3,250.00 USD</p>
+            <div class="p-2 rounded-xl bg-amber-500/20 border border-amber-400/30 text-amber-300 flex justify-between font-bold">
               <span>Overcharge Variance:</span>
-              <span class="font-bold">+$1,150.00 USD</span>
+              <span>+$1,150.00 USD</span>
             </div>
-            <p class="text-[10px] text-slate-500 truncate pt-1">Execution Session: SES-8A91F4C7B2</p>
           </div>
 
         </div>
@@ -149,173 +134,220 @@
     </div>
   </section>
 
-  <!-- 3. Protocol Key Metrics Bar -->
-  <section id="metrics" class="py-12 border-y border-slate-800/80 bg-slate-950/40">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 font-mono">
-      <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Total Billed Processed</p>
-        <p class="text-3xl font-black text-white mt-1 brand-font">$4,250,900</p>
-        <p class="text-[11px] text-emerald-400 mt-1">↑ 100% Automated Clearance</p>
+  <!-- 3. Key Metrics Bar (3 Pipely White Cards) -->
+  <section class="py-8 px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="pipely-card p-6">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Total Audited Volume</p>
+        <p class="text-4xl font-black text-slate-900 mt-2">$4.25M+</p>
+        <p class="text-xs text-emerald-600 font-semibold mt-1">↑ 100% Automated Clearance</p>
       </div>
 
-      <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Total Documents Audited</p>
-        <p class="text-3xl font-black text-indigo-400 mt-1 brand-font">1,482</p>
-        <p class="text-[11px] text-slate-400 mt-1">Firestore Active PO Database</p>
+      <div class="pipely-card p-6">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Execution Speed</p>
+        <p class="text-4xl font-black text-slate-900 mt-2">&lt; 1.5 Sec</p>
+        <p class="text-xs text-slate-500 font-medium mt-1">Gemini 3.5 Flash Latency</p>
       </div>
 
-      <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Average Savings / Cycle</p>
-        <p class="text-3xl font-black text-cyan-400 mt-1 brand-font">$1,650+</p>
-        <p class="text-[11px] text-cyan-400/80 mt-1">Prevented Price Inflation</p>
+      <div class="pipely-card p-6">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Average Savings / Cycle</p>
+        <p class="text-4xl font-black text-slate-900 mt-2">$1,650+</p>
+        <p class="text-xs text-slate-500 font-medium mt-1">Prevented Price Inflation</p>
       </div>
 
-      <div class="glass-card p-5">
-        <p class="text-xs text-slate-400 uppercase tracking-wider">Execution Speed</p>
-        <p class="text-3xl font-black text-emerald-400 mt-1 brand-font">&lt; 1.5s</p>
-        <p class="text-[11px] text-emerald-400 mt-1">Gemini 3.5 Flash Latency</p>
-      </div>
     </div>
   </section>
 
-  <!-- 4. 4-Step Multi-Agent Pipeline -->
-  <section id="pipeline" class="py-20 px-6 max-w-7xl mx-auto space-y-12">
-    <div class="text-center max-w-3xl mx-auto space-y-3">
-      <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest font-mono">Antigravity Fleet Architecture</span>
-      <h2 class="text-3xl md:text-5xl font-black text-white brand-font">How 60-Second Zero-Touch Auditing Works</h2>
-      <p class="text-slate-400 text-sm md:text-base">Four deterministic agent execution steps transforming raw invoice PDFs into cleared payouts.</p>
+  <!-- 4. Pipely Alternating Pastel Bento Feature Blocks -->
+  <section id="pipeline" class="py-16 px-6 max-w-7xl mx-auto space-y-10">
+    
+    <div class="space-y-2 max-w-2xl">
+      <span class="badge-pipely badge-yellow font-mono">FOUR AGENT EXECUTION STEPS</span>
+      <h2 class="text-3xl sm:text-5xl font-black text-slate-900">
+        Discover our commitment to excellence
+      </h2>
+      <p class="text-slate-600 text-sm sm:text-base">
+        Four deterministic execution steps transforming raw invoice PDFs into cleared payouts.
+      </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div class="glass-card p-6 space-y-3 border-indigo-500/20">
-        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-mono font-bold">1</div>
-        <h3 class="text-base font-bold text-white brand-font">Document Intake</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">Supplier or finance team uploads scanned receipt or PDF invoice to <code>gs://documa-receipts-bucket</code>.</p>
+    <!-- Bento Block 1: Lime Yellow Card -->
+    <div class="pipely-card-yellow p-8 sm:p-12 rounded-[32px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-6 space-y-4">
+        <span class="w-9 h-9 rounded-full bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center">1</span>
+        <h3 class="text-2xl sm:text-4xl font-black text-slate-900">Multimodal Vision Extraction</h3>
+        <p class="text-slate-800 text-sm leading-relaxed">
+          Gemini 3.5 Flash parses messy scanned receipts, invoice PDFs, unit prices, line items, and handwritten vendor signatures in real time.
+        </p>
+        <a href="/app" class="btn-pipely-black inline-flex px-6 py-2.5 text-xs">Test Live Extraction</a>
       </div>
-
-      <div class="glass-card p-6 space-y-3 border-cyan-500/20">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono font-bold">2</div>
-        <h3 class="text-base font-bold text-white brand-font">Multimodal Extraction</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">VisionAgent extracts itemized line items, unit prices, sub-totals, and vendor signatures via Gemini 3.5 Flash.</p>
-      </div>
-
-      <div class="glass-card p-6 space-y-3 border-emerald-500/20">
-        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold">3</div>
-        <h3 class="text-base font-bold text-white brand-font">Contract Audit</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">AuditorAgent cross-references extracted line items against active Purchase Orders in Firestore.</p>
-      </div>
-
-      <div class="glass-card p-6 space-y-3 border-amber-500/20">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-mono font-bold">4</div>
-        <h3 class="text-base font-bold text-white brand-font">Discrepancy Resolution</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">DiscrepancyAgent auto-approves compliant payouts or generates formal Markdown vendor dispute notices.</p>
+      <div class="md:col-span-6">
+        <div class="bg-slate-900 p-4 rounded-2xl text-white font-mono text-xs space-y-2 shadow-xl">
+          <p class="text-indigo-400 font-bold">// Multimodal Vision Agent</p>
+          <p class="text-slate-400">vendor: "Acme Industrial Tech Inc."</p>
+          <p class="text-slate-400">line_items: [ Monitor ($240), Chair ($350) ]</p>
+          <p class="text-emerald-400 font-bold">grand_total: $4,400.00 USD</p>
+        </div>
       </div>
     </div>
+
+    <!-- Bento Block 2: Periwinkle Purple Card -->
+    <div class="pipely-card-purple p-8 sm:p-12 rounded-[32px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-6 order-2 md:order-1">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 text-slate-900 font-mono text-xs space-y-2 shadow-xl">
+          <p class="text-indigo-600 font-bold">// Firestore Contract Auditor</p>
+          <p>PO Reference: PO-9921</p>
+          <p class="text-rose-600 font-bold">Monitor Overcharge: +$600.00</p>
+          <p class="text-rose-600 font-bold">Chair Overcharge: +$500.00</p>
+        </div>
+      </div>
+      <div class="md:col-span-6 space-y-4 order-1 md:order-2">
+        <span class="w-9 h-9 rounded-full bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center">2</span>
+        <h3 class="text-2xl sm:text-4xl font-black text-slate-900">Contract PO Cross-Audit</h3>
+        <p class="text-slate-800 text-sm leading-relaxed">
+          ContractAuditorAgent queries Firestore to verify billed unit prices against PO-9921 contract baselines, flagging price overcharges instantly.
+        </p>
+        <a href="/app" class="btn-pipely-black inline-flex px-6 py-2.5 text-xs">Audit Invoices</a>
+      </div>
+    </div>
+
+    <!-- Bento Block 3: Soft Pink Card -->
+    <div class="pipely-card-pink p-8 sm:p-12 rounded-[32px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-6 space-y-4">
+        <span class="w-9 h-9 rounded-full bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center">3</span>
+        <h3 class="text-2xl sm:text-4xl font-black text-slate-900">Discrepancy Resolution & Notices</h3>
+        <p class="text-slate-800 text-sm leading-relaxed">
+          DiscrepancyAgent auto-authorizes compliant payouts or drafts formal Markdown vendor dispute notices with human finance sign-off controls.
+        </p>
+        <a href="/app" class="btn-pipely-black inline-flex px-6 py-2.5 text-xs">View Dispute Output</a>
+      </div>
+      <div class="md:col-span-6">
+        <div class="bg-slate-900 p-4 rounded-2xl text-white font-mono text-xs space-y-1 shadow-xl">
+          <p class="text-amber-400 font-bold"># VENDOR DISPUTE NOTICE</p>
+          <p class="text-slate-300">Billed Total: $4,400.00 USD</p>
+          <p class="text-slate-300">PO Approved: $3,250.00 USD</p>
+          <p class="text-rose-400 font-bold">Net Overcharge: $1,150.00 USD</p>
+        </div>
+      </div>
+    </div>
+
   </section>
 
-  <!-- 5. Interactive Risk Simulator -->
-  <section id="simulator" class="py-16 px-6 max-w-7xl mx-auto">
-    <div class="glass-card p-8 border-indigo-500/30">
-      <div class="max-w-3xl mb-8 space-y-2">
-        <span class="badge badge-active font-mono">DOCUMA RISK SIMULATOR</span>
-        <h2 class="text-2xl md:text-4xl font-black text-white brand-font">Interactive Procurement Risk Simulator</h2>
-        <p class="text-slate-400 text-xs md:text-sm">Adjust parameters to see how Gemini 3.5 Flash & Antigravity SDK calculate invoice risk score, variance delta, and execution status in real time.</p>
+  <!-- 5. Interactive Risk Simulator Widget (Pipely Periwinkle Card) -->
+  <section id="simulator" class="py-12 px-6 max-w-7xl mx-auto">
+    <div class="pipely-card-purple p-8 sm:p-12 rounded-[32px] space-y-8">
+      
+      <div class="max-w-2xl space-y-2">
+        <span class="badge-pipely badge-yellow font-mono">SIMULATION ENGINE</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-slate-900">Interactive Procurement Risk Simulator</h2>
+        <p class="text-slate-700 text-xs sm:text-sm">Adjust sliders to see how Gemini 3.5 Flash & Antigravity SDK calculate compliance scores in real time.</p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center font-mono">
         
-        <!-- Controls Column -->
-        <div class="lg:col-span-7 space-y-6 font-mono text-xs">
+        <!-- Sliders -->
+        <div class="lg:col-span-7 space-y-6 text-xs">
           <div>
-            <div class="flex justify-between mb-2">
-              <span class="text-slate-300">Vendor Trading Relationship:</span>
-              <span class="text-indigo-400 font-bold" id="sim-years-val">5 Years</span>
+            <div class="flex justify-between mb-2 font-bold text-slate-900">
+              <span>Vendor Relationship:</span>
+              <span id="sim-years-val">5 Years</span>
             </div>
             <input type="range" id="sim-years" min="1" max="15" value="5" oninput="updateSim()">
           </div>
 
           <div>
-            <div class="flex justify-between mb-2">
-              <span class="text-slate-300">Invoice Billed Total ($ USD):</span>
-              <span class="text-cyan-400 font-bold" id="sim-val-val">$4,400</span>
+            <div class="flex justify-between mb-2 font-bold text-slate-900">
+              <span>Invoice Total Billed ($ USD):</span>
+              <span id="sim-val-val">$4,400</span>
             </div>
             <input type="range" id="sim-val" min="1000" max="50000" step="500" value="4400" oninput="updateSim()">
           </div>
 
           <div>
-            <div class="flex justify-between mb-2">
-              <span class="text-slate-300">Historical PO Compliance Record:</span>
-              <span class="text-emerald-400 font-bold" id="sim-paid-val">12 Clean Audits</span>
+            <div class="flex justify-between mb-2 font-bold text-slate-900">
+              <span>Clean Audit Record:</span>
+              <span id="sim-paid-val">12 Audits</span>
             </div>
             <input type="range" id="sim-paid" min="0" max="60" value="12" oninput="updateSim()">
           </div>
         </div>
 
-        <!-- Output Column -->
-        <div class="lg:col-span-5 bg-slate-950/90 border border-slate-800 rounded-2xl p-6 space-y-4 font-mono">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <span class="text-xs text-slate-400">AUDIT VERDICT:</span>
-            <span class="badge badge-approved" id="sim-verdict">LOW RISK</span>
+        <!-- Output Box -->
+        <div class="lg:col-span-5 bg-slate-900 text-white p-6 rounded-2xl space-y-4 shadow-xl">
+          <div class="flex justify-between border-b border-slate-800 pb-3 text-xs">
+            <span class="text-slate-400">AUDIT VERDICT:</span>
+            <span class="badge-pipely badge-sage" id="sim-verdict">LOW RISK</span>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <p class="text-[11px] text-slate-500">Compliance Score:</p>
-              <p class="text-2xl font-black text-white brand-font" id="sim-score">94 / 100</p>
+              <p class="text-[11px] text-slate-400">Compliance Score:</p>
+              <p class="text-3xl font-black text-white" id="sim-score">94 / 100</p>
             </div>
             <div>
-              <p class="text-[11px] text-slate-500">Variance Delta:</p>
-              <p class="text-2xl font-black text-cyan-400 brand-font" id="sim-bps">0.0% Variance</p>
+              <p class="text-[11px] text-slate-400">Variance Delta:</p>
+              <p class="text-3xl font-black text-amber-300" id="sim-bps">0.0%</p>
             </div>
           </div>
-
-          <div class="pt-3 border-t border-slate-800 text-[11px]">
-            <p class="text-slate-500 mb-1">Fleet Execution Session:</p>
-            <p class="text-indigo-400 break-all font-mono" id="sim-hash">SES-4e9642b003e346f1bc6fe3ba64c5a134</p>
-          </div>
         </div>
 
       </div>
+
     </div>
   </section>
 
-  <!-- 6. Google Cloud Infrastructure Section -->
-  <section id="infrastructure" class="py-16 px-6 max-w-7xl mx-auto space-y-8">
-    <div class="text-center max-w-3xl mx-auto space-y-2">
-      <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest font-mono">Google All Things Agentic Hackathon</span>
-      <h2 class="text-3xl md:text-4xl font-black text-white brand-font">Native Google Cloud Stack</h2>
-      <p class="text-slate-400 text-xs md:text-sm">Built natively with Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-      <div class="glass-card p-6 border-indigo-500/20 space-y-2">
-        <p class="font-bold text-indigo-400 text-sm">Gemini 3.5 Flash</p>
-        <p class="text-slate-300">Multimodal vision OCR extracting line items, unit prices, subtotals, and handwritten signatures.</p>
+  <!-- 6. Yellow Call to Action Hero Card -->
+  <section class="py-16 px-6 max-w-7xl mx-auto">
+    <div class="pipely-card-yellow p-8 sm:p-14 rounded-[36px] flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="space-y-3 max-w-xl">
+        <h2 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight">
+          Ready to elevate your business?
+        </h2>
+        <p class="text-slate-800 text-sm sm:text-base">
+          Experience zero-touch multimodal invoice auditing powered by Gemini 3.5 Flash and Google Cloud Run.
+        </p>
       </div>
-
-      <div class="glass-card p-6 border-cyan-500/20 space-y-2">
-        <p class="font-bold text-cyan-400 text-sm">Google Cloud Run</p>
-        <p class="text-slate-300">Serverless containerized FastAPI daemon executing the multi-agent worker fleet.</p>
-      </div>
-
-      <div class="glass-card p-6 border-emerald-500/20 space-y-2">
-        <p class="font-bold text-emerald-400 text-sm">Firestore & Eventarc</p>
-        <p class="text-slate-300">NoSQL Purchase Order database + asynchronous Cloud Storage object finalized notifications.</p>
-      </div>
+      <a href="/app" class="btn-pipely-black px-9 py-4 text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+        <span>Launch Interactive App</span>
+        <i data-lucide="rocket" class="w-4 h-4"></i>
+      </a>
     </div>
   </section>
 
-  <!-- 7. Footer & Launch Bar -->
-  <footer class="py-12 border-t border-slate-800/80 bg-slate-950/80 text-center space-y-4">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
-          <i data-lucide="eye" class="w-5 h-5"></i>
+  <!-- 7. Pipely Dark Giant Footer -->
+  <footer id="stack" class="bg-[#111315] text-white pt-16 pb-12 px-6">
+    <div class="max-w-7xl mx-auto space-y-12">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 border-b border-slate-800 pb-12 text-xs text-slate-400 font-mono">
+        <div>
+          <p class="text-white font-bold text-sm mb-2">Documa Fleet</p>
+          <p>Built for Google All Things Agentic Hackathon ($180k Cash Pool).</p>
         </div>
-        <span class="text-lg font-black text-white brand-font">DOCUMA</span>
+        <div>
+          <p class="text-white font-bold text-sm mb-2">Core Tech Stack</p>
+          <p>Gemini 3.5 Flash • Antigravity SDK • Cloud Run • Firestore</p>
+        </div>
+        <div>
+          <p class="text-white font-bold text-sm mb-2">Event Architecture</p>
+          <p>Google Eventarc • Cloud Storage GCS • FastAPI Daemon</p>
+        </div>
+        <div>
+          <p class="text-white font-bold text-sm mb-2">Source Code</p>
+          <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="text-amber-300 underline">GitHub Repository</a>
+        </div>
       </div>
-      <p class="text-xs text-slate-500">Built for Google All Things Agentic Hackathon • Powered by Gemini 3.5 Flash & Antigravity SDK</p>
-      <a href="/app" class="btn-glow px-6 py-2.5 rounded-xl text-white text-xs font-bold">Launch App 🚀</a>
+
+      <!-- Giant Pipely Typography Footer -->
+      <div class="text-center overflow-hidden py-4">
+        <h1 class="footer-giant-title">Documa</h1>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-mono border-t border-slate-800/60 pt-6">
+        <p>© 2026 Documa Fleet. All rights reserved.</p>
+        <p>Apache 2.0 Open Source License</p>
+      </div>
+
     </div>
   </footer>
 
@@ -336,10 +368,7 @@
       const variancePct = (Math.max(0, (faceVal - 3250) / 3250 * 100)).toFixed(1);
       
       document.getElementById("sim-score").innerText = `${Math.round(riskScore)} / 100`;
-      document.getElementById("sim-bps").innerText = `${variancePct}% Variance`;
-
-      const hashSeed = (years * 1000 + Number(faceVal) + paid * 50).toString(16);
-      document.getElementById("sim-hash").innerText = `SES-4e9642b0${hashSeed}3ba64c5a134`;
+      document.getElementById("sim-bps").innerText = `${variancePct}%`;
     }
   </script>
 </body>
