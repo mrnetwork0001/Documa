@@ -210,7 +210,10 @@ button { font: inherit; color: inherit; }
 .hero__cta { display: flex; justify-content: center; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
 
 /* Perspective console slab beneath the hero */
-.hero__stage { margin-top: 62px; perspective: 1800px; }
+/* The slab is scaled slightly past its container for the spill effect, which
+   would otherwise widen the page; clip horizontally without creating a scroll
+   container or affecting the vertical mask fade. */
+.hero__stage { margin-top: 62px; perspective: 1800px; overflow-x: clip; overflow-y: visible; }
 .hero__slab {
   transform: rotateX(34deg) scale(1.02);
   transform-origin: 50% 0;
