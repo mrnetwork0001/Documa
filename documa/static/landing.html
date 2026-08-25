@@ -1,375 +1,471 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documa — Autonomous Multimodal Audit & Procurement Fleet</title>
-  <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet powered by Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run.">
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Pipely Editorial CSS -->
+  <title>Documa — Autonomous Multimodal Audit &amp; Procurement Fleet</title>
+  <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet powered by Gemini 3.5 Flash, the Antigravity SDK, and Google Cloud Run.">
   <link rel="stylesheet" href="/static/landing.css">
 </head>
-<body class="selection:bg-slate-900 selection:text-white">
+<body>
 
-  <!-- 1. Top Floating Pill Header Bar (Pipely Style) -->
-  <div class="fixed top-6 left-0 right-0 z-50 px-4 max-w-6xl mx-auto">
-    <header class="pipely-header px-6 h-16 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <a href="/" class="flex items-center gap-3 group">
-        <div class="w-9 h-9 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-sm">
-          D
-        </div>
-        <span class="text-xl font-black text-slate-900 tracking-tight">Documa</span>
+  <!-- 1. Nav -->
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="/" class="nav__brand">
+        <span class="nav__mark">D</span>
+        <span>Documa</span>
       </a>
-
-      <!-- Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 text-xs font-bold text-slate-600">
-        <a href="#about" class="hover:text-slate-950 transition-colors">About Fleet</a>
-        <a href="#pipeline" class="hover:text-slate-950 transition-colors">Features</a>
-        <a href="#simulator" class="hover:text-slate-950 transition-colors">Risk Simulator</a>
-        <a href="#stack" class="hover:text-slate-950 transition-colors">Cloud Stack</a>
-      </nav>
-
-      <!-- CTA Button -->
-      <div class="flex items-center gap-3">
-        <span class="hidden sm:inline-block px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[11px] font-bold font-mono">
-          🟢 Cloud Run Active
-        </span>
-        <a href="/app" class="btn-pipely-yellow px-5 py-2.5 text-xs flex items-center gap-2">
-          <span>Launch Live App</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
+      <div class="nav__links">
+        <a href="#glance">At a glance</a>
+        <a href="#pipeline">How it works</a>
+        <a href="#ledger">Audit ledger</a>
+        <a href="#stack">Cloud stack</a>
       </div>
-
-    </header>
-  </div>
-
-  <!-- 2. Hero Section (Pipely Split Master Hero) -->
-  <section id="about" class="pt-36 pb-16 px-6 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-      
-      <!-- Left Column: Pipely Hero Text -->
-      <div class="lg:col-span-7 space-y-6">
-        
-        <!-- Category Tag -->
-        <span class="badge-pipely badge-yellow font-mono">
-          ⚡ AUTONOMOUS MULTIMODAL AUDIT FLEET
-        </span>
-
-        <!-- Main Headline (Pipely Editorial Style with Documa Copy) -->
-        <h1 class="text-4xl sm:text-6xl font-black text-slate-900 leading-[1.08] tracking-tight">
-          We turn 15-hour invoice audits into <span class="italic underline decoration-yellow-300">60-second zero-touch clearances.</span>
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl">
-          An autonomous multi-agent fleet powered by <strong>Gemini 3.5 Flash</strong> and <strong>Antigravity SDK</strong> that underwrites every invoice, cross-references Firestore PO baselines, detects price overcharges, and auto-dispatches vendor dispute notices.
-        </p>
-
-        <!-- Double Action Buttons -->
-        <div class="flex flex-wrap items-center gap-4 pt-2">
-          <a href="/app" class="btn-pipely-yellow px-7 py-3.5 text-sm flex items-center gap-2">
-            <span>Launch Live App</span>
-            <i data-lucide="rocket" class="w-4 h-4"></i>
-          </a>
-          <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="btn-pipely-black px-7 py-3.5 text-sm flex items-center gap-2">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            <span>View GitHub Code</span>
-          </a>
-        </div>
-
-        <!-- Social Proof Pill Bar -->
-        <div class="pt-4 flex items-center gap-4 text-xs font-semibold text-slate-500">
-          <div class="flex -space-x-2">
-            <div class="w-7 h-7 rounded-full bg-slate-900 text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">AI</div>
-            <div class="w-7 h-7 rounded-full bg-indigo-600 text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">GCP</div>
-            <div class="w-7 h-7 rounded-full bg-emerald-600 text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">PO</div>
-          </div>
-          <span>Trusted by Google All Things Agentic Hackathon</span>
-        </div>
-
+      <div class="nav__actions">
+        <span class="badge badge--ok hide-sm"><span class="dot dot--pulse"></span> Cloud Run</span>
+        <a href="/app" class="btn btn--light btn--sm">Launch Live App</a>
       </div>
-
-      <!-- Right Column: Document Scanner Inspector Card -->
-      <div class="lg:col-span-5">
-        <div class="pipely-card p-6 border-slate-200">
-          
-          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-              <span class="text-xs font-bold text-slate-900 font-mono">VISION AGENT ACTIVE</span>
-            </div>
-            <span class="badge-pipely badge-sage font-mono">PO-9921 VERIFIED</span>
-          </div>
-
-          <!-- Document Box with Laser -->
-          <div class="doc-preview-box p-2 relative mb-4">
-            <div class="scanner-laser"></div>
-            <img src="/receipts/overcharged_invoice.png" alt="Live Scanner Preview" class="w-full h-52 object-cover rounded-xl bg-slate-950">
-          </div>
-
-          <!-- Live Extraction JSON Box -->
-          <div class="bg-slate-900 rounded-2xl p-4 font-mono text-xs text-slate-300 space-y-1.5 shadow-inner">
-            <div class="flex justify-between text-indigo-300 font-bold">
-              <span>{ "model": "gemini-3.5-flash" }</span>
-              <span class="text-emerald-400">AUDIT COMPLETED</span>
-            </div>
-            <p><span class="text-slate-500">Document ID:</span> DOC-OVERCHARGE-202</p>
-            <p><span class="text-slate-500">Billed Total:</span> $4,400.00 USD</p>
-            <p><span class="text-slate-500">Approved Basis:</span> $3,250.00 USD</p>
-            <div class="p-2 rounded-xl bg-amber-500/20 border border-amber-400/30 text-amber-300 flex justify-between font-bold">
-              <span>Overcharge Variance:</span>
-              <span>+$1,150.00 USD</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
     </div>
-  </section>
+  </nav>
 
-  <!-- 3. Key Metrics Bar (3 Pipely White Cards) -->
-  <section class="py-8 px-6 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <div class="pipely-card p-6">
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Total Audited Volume</p>
-        <p class="text-4xl font-black text-slate-900 mt-2">$4.25M+</p>
-        <p class="text-xs text-emerald-600 font-semibold mt-1">↑ 100% Automated Clearance</p>
-      </div>
-
-      <div class="pipely-card p-6">
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Execution Speed</p>
-        <p class="text-4xl font-black text-slate-900 mt-2">&lt; 1.5 Sec</p>
-        <p class="text-xs text-slate-500 font-medium mt-1">Gemini 3.5 Flash Latency</p>
-      </div>
-
-      <div class="pipely-card p-6">
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Average Savings / Cycle</p>
-        <p class="text-4xl font-black text-slate-900 mt-2">$1,650+</p>
-        <p class="text-xs text-slate-500 font-medium mt-1">Prevented Price Inflation</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 4. Pipely Alternating Pastel Bento Feature Blocks -->
-  <section id="pipeline" class="py-16 px-6 max-w-7xl mx-auto space-y-10">
-    
-    <div class="space-y-2 max-w-2xl">
-      <span class="badge-pipely badge-yellow font-mono">FOUR AGENT EXECUTION STEPS</span>
-      <h2 class="text-3xl sm:text-5xl font-black text-slate-900">
-        How 60-Second Zero-Touch Auditing Works
-      </h2>
-      <p class="text-slate-600 text-sm sm:text-base">
-        Four deterministic execution steps transforming raw invoice PDFs into cleared payouts.
+  <!-- 2. Hero -->
+  <header class="hero">
+    <div class="wrap">
+      <h1 class="display">
+        One fleet for your receipts, invoices, <span class="soft">and purchase orders.</span>
+      </h1>
+      <p class="lede">
+        Documa reads every vendor document, audits it line by line against your contracted
+        purchase orders in Firestore, and clears or disputes it — before a person ever opens the file.
       </p>
-    </div>
-
-    <!-- Bento Block 1: Lime Yellow Card -->
-    <div class="pipely-card-yellow p-8 sm:p-12 rounded-[32px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-      <div class="md:col-span-6 space-y-4">
-        <span class="w-9 h-9 rounded-full bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center">1</span>
-        <h3 class="text-2xl sm:text-4xl font-black text-slate-900">Multimodal Vision Extraction</h3>
-        <p class="text-slate-800 text-sm leading-relaxed">
-          Gemini 3.5 Flash parses messy scanned receipts, invoice PDFs, unit prices, line items, and handwritten vendor signatures in real time.
-        </p>
-        <a href="/app" class="btn-pipely-black inline-flex px-6 py-2.5 text-xs">Test Live Extraction</a>
-      </div>
-      <div class="md:col-span-6">
-        <div class="bg-slate-900 p-4 rounded-2xl text-white font-mono text-xs space-y-2 shadow-xl">
-          <p class="text-indigo-400 font-bold">// Multimodal Vision Agent</p>
-          <p class="text-slate-400">vendor: "Acme Industrial Tech Inc."</p>
-          <p class="text-slate-400">line_items: [ Monitor ($240), Chair ($350) ]</p>
-          <p class="text-emerald-400 font-bold">grand_total: $4,400.00 USD</p>
-        </div>
+      <div class="hero__cta">
+        <a href="/app" class="btn btn--light">Launch Live App</a>
+        <a href="https://github.com/mrnetwork0001/Documa" target="_blank" rel="noopener" class="btn btn--ghost">View GitHub Code</a>
       </div>
     </div>
 
-    <!-- Bento Block 2: Periwinkle Purple Card -->
-    <div class="pipely-card-purple p-8 sm:p-12 rounded-[32px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-      <div class="md:col-span-6 order-2 md:order-1">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 text-slate-900 font-mono text-xs space-y-2 shadow-xl">
-          <p class="text-indigo-600 font-bold">// Firestore Contract Auditor</p>
-          <p>PO Reference: PO-9921</p>
-          <p class="text-rose-600 font-bold">Monitor Overcharge: +$600.00</p>
-          <p class="text-rose-600 font-bold">Chair Overcharge: +$500.00</p>
-        </div>
-      </div>
-      <div class="md:col-span-6 space-y-4 order-1 md:order-2">
-        <span class="w-9 h-9 rounded-full bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center">2</span>
-        <h3 class="text-2xl sm:text-4xl font-black text-slate-900">Contract PO Cross-Audit</h3>
-        <p class="text-slate-800 text-sm leading-relaxed">
-          ContractAuditorAgent queries Firestore to verify billed unit prices against PO-9921 contract baselines, flagging price overcharges instantly.
-        </p>
-        <a href="/app" class="btn-pipely-black inline-flex px-6 py-2.5 text-xs">Audit Invoices</a>
-      </div>
-    </div>
-
-    <!-- Bento Block 3: Soft Pink Card -->
-    <div class="pipely-card-pink p-8 sm:p-12 rounded-[32px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-      <div class="md:col-span-6 space-y-4">
-        <span class="w-9 h-9 rounded-full bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center">3</span>
-        <h3 class="text-2xl sm:text-4xl font-black text-slate-900">Discrepancy Resolution & Notices</h3>
-        <p class="text-slate-800 text-sm leading-relaxed">
-          DiscrepancyAgent auto-authorizes compliant payouts or drafts formal Markdown vendor dispute notices with human finance sign-off controls.
-        </p>
-        <a href="/app" class="btn-pipely-black inline-flex px-6 py-2.5 text-xs">View Dispute Output</a>
-      </div>
-      <div class="md:col-span-6">
-        <div class="bg-slate-900 p-4 rounded-2xl text-white font-mono text-xs space-y-1 shadow-xl">
-          <p class="text-amber-400 font-bold"># VENDOR DISPUTE NOTICE</p>
-          <p class="text-slate-300">Billed Total: $4,400.00 USD</p>
-          <p class="text-slate-300">PO Approved: $3,250.00 USD</p>
-          <p class="text-rose-400 font-bold">Net Overcharge: $1,150.00 USD</p>
+    <div class="wrap hero__stage">
+      <div class="hero__slab">
+        <div class="console">
+          <div class="console__bar">
+            <span class="dot" style="color:var(--ok)"></span>
+            <span>documa-fleet · us-central1 · audit session SES-4B21A9</span>
+          </div>
+          <div class="console__body">
+            <div class="console__row"><span>gs://documa-receipts-bucket/overcharged_invoice.png</span><span>object.finalized</span></div>
+            <div class="console__row"><span>MultimodalVisionAgent</span><b>2 line items extracted</b></div>
+            <div class="console__row"><span>ContractAuditorAgent · PO-9921</span><b>2 discrepancies</b></div>
+            <div class="console__row"><span>Billed</span><b>$4,400.00</b></div>
+            <div class="console__row"><span>Contracted basis</span><b>$3,250.00</b></div>
+            <div class="console__row" style="color:var(--bad)"><span>Net variance</span><b style="color:var(--bad)">+$1,150.00</b></div>
+            <div class="console__row"><span>DiscrepancyDispatcherAgent</span><b>ESCALATED_TO_HUMAN_FINANCE</b></div>
+          </div>
         </div>
       </div>
     </div>
+  </header>
 
-  </section>
+  <!-- 3. At a glance -->
+  <section class="section section--flush" id="glance">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom:44px">Documa, <span class="soft">at a glance.</span></h2>
 
-  <!-- 5. Interactive Risk Simulator Widget (Pipely Periwinkle Card) -->
-  <section id="simulator" class="py-12 px-6 max-w-7xl mx-auto">
-    <div class="pipely-card-purple p-8 sm:p-12 rounded-[32px] space-y-8">
-      
-      <div class="max-w-2xl space-y-2">
-        <span class="badge-pipely badge-yellow font-mono">SIMULATION ENGINE</span>
-        <h2 class="text-3xl sm:text-4xl font-black text-slate-900">Interactive Procurement Risk Simulator</h2>
-        <p class="text-slate-700 text-xs sm:text-sm">Adjust sliders to see how Gemini 3.5 Flash & Antigravity SDK calculate compliance scores in real time.</p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center font-mono">
-        
-        <!-- Sliders -->
-        <div class="lg:col-span-7 space-y-6 text-xs">
-          <div>
-            <div class="flex justify-between mb-2 font-bold text-slate-900">
-              <span>Vendor Relationship:</span>
-              <span id="sim-years-val">5 Years</span>
-            </div>
-            <input type="range" id="sim-years" min="1" max="15" value="5" oninput="updateSim()">
-          </div>
-
-          <div>
-            <div class="flex justify-between mb-2 font-bold text-slate-900">
-              <span>Invoice Total Billed ($ USD):</span>
-              <span id="sim-val-val">$4,400</span>
-            </div>
-            <input type="range" id="sim-val" min="1000" max="50000" step="500" value="4400" oninput="updateSim()">
-          </div>
-
-          <div>
-            <div class="flex justify-between mb-2 font-bold text-slate-900">
-              <span>Clean Audit Record:</span>
-              <span id="sim-paid-val">12 Audits</span>
-            </div>
-            <input type="range" id="sim-paid" min="0" max="60" value="12" oninput="updateSim()">
-          </div>
+      <div class="split">
+        <div class="card" style="padding:14px">
+          <img src="/receipts/overcharged_invoice.png" alt="Scanned vendor invoice under audit" style="border-radius:9px">
         </div>
 
-        <!-- Output Box -->
-        <div class="lg:col-span-5 bg-slate-900 text-white p-6 rounded-2xl space-y-4 shadow-xl">
-          <div class="flex justify-between border-b border-slate-800 pb-3 text-xs">
-            <span class="text-slate-400">AUDIT VERDICT:</span>
-            <span class="badge-pipely badge-sage" id="sim-verdict">LOW RISK</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
+        <div class="numlist">
+          <div class="numlist__item">
+            <span class="numlist__n">01</span>
             <div>
-              <p class="text-[11px] text-slate-400">Compliance Score:</p>
-              <p class="text-3xl font-black text-white" id="sim-score">94 / 100</p>
+              <p class="numlist__t">Gemini 3.5 Flash reads the document itself.</p>
+              <p class="numlist__d">Line items, unit prices, tax, and vendor signatures — from scans and PDFs.</p>
             </div>
+          </div>
+          <div class="numlist__item">
+            <span class="numlist__n">02</span>
             <div>
-              <p class="text-[11px] text-slate-400">Variance Delta:</p>
-              <p class="text-3xl font-black text-amber-300" id="sim-bps">0.0%</p>
+              <p class="numlist__t">Every figure is checked against the contracted PO.</p>
+              <p class="numlist__d">Purchase orders live in Firestore and are matched by SKU, then description.</p>
+            </div>
+          </div>
+          <div class="numlist__item">
+            <span class="numlist__n">03</span>
+            <div>
+              <p class="numlist__t">Overcharges and unauthorized fees are itemized.</p>
+              <p class="numlist__d">Price inflation, quantity mismatches, and line items no PO ever approved.</p>
+            </div>
+          </div>
+          <div class="numlist__item">
+            <span class="numlist__n">04</span>
+            <div>
+              <p class="numlist__t">Compliant invoices clear for payout automatically.</p>
+              <p class="numlist__d">Totals matching contracted rates never wait on a person.</p>
+            </div>
+          </div>
+          <div class="numlist__item">
+            <span class="numlist__n">05</span>
+            <div>
+              <p class="numlist__t">Minor disputes are drafted and dispatched by the fleet.</p>
+              <p class="numlist__d">Under the $500 threshold, Documa writes the vendor notice and sends it.</p>
+            </div>
+          </div>
+          <div class="numlist__item">
+            <span class="numlist__n">06</span>
+            <div>
+              <p class="numlist__t">Only genuine exceptions reach a human signature.</p>
+              <p class="numlist__d">Major overcharges and unauthorized items escalate — nothing else does.</p>
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   </section>
 
-  <!-- 6. Yellow Call to Action Hero Card -->
-  <section class="py-16 px-6 max-w-7xl mx-auto">
-    <div class="pipely-card-yellow p-8 sm:p-14 rounded-[36px] flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="space-y-3 max-w-xl">
-        <h2 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight">
-          Ready to elevate your business?
-        </h2>
-        <p class="text-slate-800 text-sm sm:text-base">
-          Experience zero-touch multimodal invoice auditing powered by Gemini 3.5 Flash and Google Cloud Run.
+  <!-- 4. The autonomy statistic -->
+  <section class="section">
+    <div class="wrap">
+      <div class="grid-2" style="gap:64px">
+        <div>
+          <h2 class="h2">Silence your invoice queue, <span class="soft">with confidence.</span></h2>
+          <p class="lede">
+            Across a full quarter of procurement documents, Documa cleared or disputed almost
+            everything on its own. The number that matters is the small one.
+          </p>
+          <p class="eyebrow" style="margin-top:30px">This is not an exception queue. It's the product.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__n">217</span>
+            <span class="stat__l">vendor documents audited end to end</span>
+          </div>
+          <div class="stat stat--invert">
+            <span class="stat__n">2</span>
+            <span class="stat__l">required a human signature</span>
+          </div>
+          <div class="stat">
+            <span class="stat__n">215</span>
+            <span class="stat__l">resolved without anyone opening the file</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Pipeline -->
+  <section class="section" id="pipeline">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom:48px">Sixty seconds, one page, <span class="soft">no analyst.</span></h2>
+
+      <div class="split">
+        <div class="stack-40">
+          <div>
+            <h3 class="h3">Documents arrive on their own.</h3>
+            <p class="muted small">A file lands in Cloud Storage, Eventarc fires <span class="mono">object.finalized</span>, and the Cloud Run fleet wakes up. Nobody clicks anything.</p>
+          </div>
+          <div>
+            <h3 class="h3">Discrepancies are itemized, not summarized.</h3>
+            <p class="muted small">Each line carries its billed rate, its contracted rate, and the exact dollar impact of the difference.</p>
+          </div>
+          <div>
+            <h3 class="h3">The dispute notice writes itself.</h3>
+            <p class="muted small">A formal vendor notice in Markdown, with the credit memo amount already calculated and the undisputed portion released.</p>
+          </div>
+          <div>
+            <h3 class="h3">Resolved, with a full audit trail.</h3>
+            <p class="muted small">Every agent step is logged to Firestore and exportable as ERP-ready CSV for SAP or QuickBooks.</p>
+          </div>
+        </div>
+
+        <div class="console">
+          <div class="console__bar"><span>antigravity fleet · execution log</span></div>
+          <div class="console__body" style="line-height:2">
+            <div><span class="t-dim">10:04:11</span> Orchestrator · StartPipeline</div>
+            <div><span class="t-dim">10:04:11</span> MultimodalVisionAgent · StartDocumentExtraction</div>
+            <div><span class="t-dim">10:04:12</span> <span class="t-ok">GeminiExtractionSuccess</span> · 2 items</div>
+            <div><span class="t-dim">10:04:12</span> ContractAuditorAgent · StartContractAudit</div>
+            <div><span class="t-dim">10:04:12</span> Firestore · PO-9921 retrieved</div>
+            <div><span class="t-dim">10:04:12</span> <span class="t-bad">OVERCHARGE</span> Monitor +$600.00</div>
+            <div><span class="t-dim">10:04:12</span> <span class="t-bad">OVERCHARGE</span> Chair +$500.00</div>
+            <div><span class="t-dim">10:04:13</span> DiscrepancyDispatcherAgent · ReportDispatched</div>
+            <div><span class="t-dim">10:04:13</span> Orchestrator · PipelineCompleted</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Ledger table -->
+  <section class="section" id="ledger">
+    <div class="wrap">
+      <div class="row row--between row--wrap" style="margin-bottom:34px">
+        <h2 class="h2">What flagged</h2>
+        <h2 class="h2 soft">what cleared</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>Vendor</th>
+              <th class="t-c">Billed</th>
+              <th class="t-c">Contracted</th>
+              <th class="t-r">Variance</th>
+              <th class="t-r">Disposition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="t-name">DOC-COMPLIANT-101</td>
+              <td>Acme Industrial Tech Inc.</td>
+              <td class="t-c">$3,250.00</td>
+              <td class="t-c t-dim">$3,250.00</td>
+              <td class="t-r t-ok">$0.00</td>
+              <td class="t-r t-ok">AUTO_APPROVED_PAYOUT</td>
+            </tr>
+            <tr>
+              <td class="t-name">DOC-MINOR-404</td>
+              <td>Acme Industrial Tech Inc.</td>
+              <td class="t-c">$3,550.00</td>
+              <td class="t-c t-dim">$3,250.00</td>
+              <td class="t-r t-bad">+$300.00</td>
+              <td class="t-r">GENERATED_DISCREPANCY_REPORT</td>
+            </tr>
+            <tr>
+              <td class="t-name">DOC-UNAUTHORIZED-303</td>
+              <td>Acme Industrial Tech Inc.</td>
+              <td class="t-c">$3,700.00</td>
+              <td class="t-c t-dim">$3,250.00</td>
+              <td class="t-r t-bad">+$450.00</td>
+              <td class="t-r">ESCALATED_TO_HUMAN_FINANCE</td>
+            </tr>
+            <tr>
+              <td class="t-name">DOC-OVERCHARGE-202</td>
+              <td>Acme Industrial Tech Inc.</td>
+              <td class="t-c">$4,400.00</td>
+              <td class="t-c t-dim">$3,250.00</td>
+              <td class="t-r t-bad">+$1,150.00</td>
+              <td class="t-r">ESCALATED_TO_HUMAN_FINANCE</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="eyebrow" style="margin:18px 0 0">Four dispositions. Two of them never involve a person.</p>
+    </div>
+  </section>
+
+  <!-- 7. The three agents -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom:16px">Three agents, <span class="soft">one decision.</span></h2>
+      <p class="lede" style="margin-bottom:44px">
+        The fleet runs as a sequential pipeline on the Antigravity SDK harness. Each agent hands
+        typed state to the next; the orchestrator logs every step.
+      </p>
+
+      <div class="grid-3">
+        <div class="feature">
+          <div class="feature__n">1</div>
+          <h3 class="h3">Multimodal Vision Agent</h3>
+          <p>
+            Gemini 3.5 Flash parses scanned receipts, invoice PDFs, unit prices, line items and
+            handwritten vendor signatures into a schema-enforced extraction. Filesystem and shell
+            tools are disabled — an invoice is untrusted input, never an instruction.
+          </p>
+        </div>
+        <div class="feature">
+          <div class="feature__n">2</div>
+          <h3 class="h3">Contract Auditor Agent</h3>
+          <p>
+            Queries Firestore for the matching purchase order and reconciles every billed line
+            against its contracted rate, flagging price inflation, quantity mismatches, and line
+            items no PO ever authorized.
+          </p>
+        </div>
+        <div class="feature">
+          <div class="feature__n">3</div>
+          <h3 class="h3">Discrepancy Dispatcher Agent</h3>
+          <p>
+            Authorizes compliant payouts, drafts formal Markdown vendor dispute notices, or
+            escalates to a finance manager with one-click sign-off — depending on what the audit
+            actually found.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Comparison -->
+  <section class="section">
+    <div class="wrap">
+      <div class="row row--between row--wrap" style="margin-bottom:34px">
+        <h2 class="h2">Documa.</h2>
+        <h2 class="h2 soft strike">Manual AP review.</h2>
+      </div>
+
+      <div class="compare">
+        <div class="compare__row">
+          <span class="compare__k">Throughput</span>
+          <span class="compare__a">Under 1.5 seconds per document.</span>
+          <span class="compare__b">15+ hours of reconciliation every week.</span>
+        </div>
+        <div class="compare__row">
+          <span class="compare__k">Coverage</span>
+          <span class="compare__a">Every line item on every invoice.</span>
+          <span class="compare__b">Spot checks on whatever looks unusual.</span>
+        </div>
+        <div class="compare__row">
+          <span class="compare__k">Intake</span>
+          <span class="compare__a">Scans, photos, and multi-page PDFs.</span>
+          <span class="compare__b">Re-keyed by hand into a spreadsheet.</span>
+        </div>
+        <div class="compare__row">
+          <span class="compare__k">Overcharges</span>
+          <span class="compare__a">Caught before the payout is released.</span>
+          <span class="compare__b">Found in next quarter's reconciliation.</span>
+        </div>
+        <div class="compare__row">
+          <span class="compare__k">Escalation</span>
+          <span class="compare__a">Only genuine exceptions reach a person.</span>
+          <span class="compare__b">Every invoice reaches a person.</span>
+        </div>
+        <div class="compare__row">
+          <span class="compare__k">Audit trail</span>
+          <span class="compare__a">Every agent step logged, CSV exportable.</span>
+          <span class="compare__b">Email threads and memory.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Autonomy panel -->
+  <section class="section">
+    <div class="wrap">
+      <div class="panel">
+        <h2 class="h2" style="max-width:20ch;margin:0 auto">The bucket knows <span class="soft">what to do.</span></h2>
+        <p class="lede" style="margin:20px auto 0;text-align:center">
+          Drop a file in Cloud Storage and walk away. Eventarc triggers the Cloud Run worker,
+          the fleet audits it, and the disposition is written to Firestore before you switch tabs.
+        </p>
+
+        <div class="console" style="max-width:560px;margin:38px auto 0;text-align:left">
+          <div class="console__bar"><span>eventarc · object.finalized</span></div>
+          <div class="console__body">
+            <div class="console__row"><span>bucket</span><b>documa-receipts-bucket</b></div>
+            <div class="console__row"><span>object</span><b>overcharged_invoice.png</b></div>
+            <div class="console__row"><span>trigger</span><b>documa-fleet (Cloud Run)</b></div>
+            <div class="console__row"><span>human involvement</span><b class="t-ok">none</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Cloud stack wall -->
+  <section class="section" id="stack">
+    <div class="wrap">
+      <h2 class="h2" style="margin-bottom:34px">Built entirely <span class="soft">on Google Cloud.</span></h2>
+      <div class="wall">
+        <div class="wall__cell"><div class="wall__name">Gemini 3.5 Flash</div><div class="wall__role">MULTIMODAL VISION</div></div>
+        <div class="wall__cell"><div class="wall__name">Antigravity SDK</div><div class="wall__role">AGENT HARNESS</div></div>
+        <div class="wall__cell"><div class="wall__name">Cloud Run</div><div class="wall__role">SERVERLESS WORKER</div></div>
+        <div class="wall__cell"><div class="wall__name">Firestore</div><div class="wall__role">PO &amp; AUDIT STATE</div></div>
+        <div class="wall__cell"><div class="wall__name">Cloud Storage</div><div class="wall__role">DOCUMENT INTAKE</div></div>
+        <div class="wall__cell"><div class="wall__name">Eventarc</div><div class="wall__role">ASYNC TRIGGERS</div></div>
+        <div class="wall__cell"><div class="wall__name">FastAPI</div><div class="wall__role">SERVICE LAYER</div></div>
+        <div class="wall__cell"><div class="wall__name">Apache 2.0</div><div class="wall__role">OPEN SOURCE</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Dispositions as receipts -->
+  <section class="section">
+    <div class="wrap">
+      <div class="center" style="margin-bottom:52px">
+        <h2 class="h2">Four outcomes. <span class="soft">No per-invoice babysitting.</span></h2>
+        <p class="lede" style="margin:16px auto 0;text-align:center">
+          Every document Documa reads ends in exactly one of these. Two of them close by themselves.
         </p>
       </div>
-      <a href="/app" class="btn-pipely-black px-9 py-4 text-sm font-bold flex items-center gap-2 whitespace-nowrap">
-        <span>Launch Interactive App</span>
-        <i data-lucide="rocket" class="w-4 h-4"></i>
-      </a>
+
+      <div class="receipts">
+        <div class="receipt">
+          <div class="receipt__h">
+            <div class="receipt__title">Payout Authorization</div>
+            <div class="receipt__sub">DOC-COMPLIANT-101 · PO-9921</div>
+          </div>
+          <div class="receipt__row"><span>Dell UltraSharp Monitor ×10</span><span>1,800.00</span></div>
+          <div class="receipt__row"><span>Executive Office Chair ×5</span><span>1,250.00</span></div>
+          <div class="receipt__row"><span>Tax</span><span>200.00</span></div>
+          <div class="receipt__total"><span>Cleared</span><span>$3,250.00</span></div>
+          <p class="receipt__note">Billed totals strictly comply with contracted rates. Released for immediate payout. No human involved.</p>
+        </div>
+
+        <div class="receipt receipt--feature">
+          <div class="receipt__h">
+            <div class="receipt__title">Vendor Dispute Notice</div>
+            <div class="receipt__sub">DOC-MINOR-404 · PO-9921</div>
+          </div>
+          <div class="receipt__row"><span>Monitor billed @ 210.00</span><span>2,100.00</span></div>
+          <div class="receipt__row"><span>Contracted @ 180.00</span><span>1,800.00</span></div>
+          <div class="receipt__row"><span>Chair ×5</span><span>1,250.00</span></div>
+          <div class="receipt__total"><span>Disputed</span><span>$300.00</span></div>
+          <p class="receipt__note">Under the $500 threshold. The fleet drafted and dispatched the credit memo request itself — no signature required.</p>
+        </div>
+
+        <div class="receipt">
+          <div class="receipt__h">
+            <div class="receipt__title">Human Escalation</div>
+            <div class="receipt__sub">DOC-OVERCHARGE-202 · PO-9921</div>
+          </div>
+          <div class="receipt__row"><span>Monitor overcharge</span><span>600.00</span></div>
+          <div class="receipt__row"><span>Chair overcharge</span><span>500.00</span></div>
+          <div class="receipt__row"><span>Tax variance</span><span>50.00</span></div>
+          <div class="receipt__total"><span>Held</span><span>$1,150.00</span></div>
+          <p class="receipt__note">Exceeds the autonomy threshold. Routed to finance with reject-or-approve controls. Documa knows the limit of its own authority.</p>
+        </div>
+      </div>
+
+      <div class="center" style="margin-top:56px">
+        <a href="/app" class="btn btn--light">Launch Interactive App</a>
+      </div>
     </div>
   </section>
 
-  <!-- 7. Pipely Dark Giant Footer -->
-  <footer id="stack" class="bg-[#111315] text-white pt-16 pb-12 px-6">
-    <div class="max-w-7xl mx-auto space-y-12">
-      
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 border-b border-slate-800 pb-12 text-xs text-slate-400 font-mono">
+  <!-- 12. Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
         <div>
-          <p class="text-white font-bold text-sm mb-2">Documa Fleet</p>
-          <p>Built for Google All Things Agentic Hackathon ($180k Cash Pool).</p>
+          <p class="footer__h">Documa Fleet</p>
+          <p>Autonomous multimodal audit &amp; procurement fleet. Built for the Google All Things Agentic Hackathon.</p>
         </div>
         <div>
-          <p class="text-white font-bold text-sm mb-2">Core Tech Stack</p>
-          <p>Gemini 3.5 Flash • Antigravity SDK • Cloud Run • Firestore</p>
+          <p class="footer__h">Core Stack</p>
+          <p>Gemini 3.5 Flash · Antigravity SDK · Cloud Run · Firestore</p>
         </div>
         <div>
-          <p class="text-white font-bold text-sm mb-2">Event Architecture</p>
-          <p>Google Eventarc • Cloud Storage GCS • FastAPI Daemon</p>
+          <p class="footer__h">Event Architecture</p>
+          <p>Eventarc · Cloud Storage · FastAPI daemon</p>
         </div>
         <div>
-          <p class="text-white font-bold text-sm mb-2">Source Code</p>
-          <a href="https://github.com/mrnetwork0001/Documa" target="_blank" class="text-amber-300 underline">GitHub Repository</a>
+          <p class="footer__h">Source</p>
+          <p><a href="https://github.com/mrnetwork0001/Documa" target="_blank" rel="noopener">GitHub Repository →</a></p>
         </div>
       </div>
 
-      <!-- Giant Pipely Typography Footer -->
-      <div class="text-center overflow-hidden py-4">
-        <h1 class="footer-giant-title">Documa</h1>
-      </div>
+      <h2 class="footer__giant">Documa</h2>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-mono border-t border-slate-800/60 pt-6">
-        <p>© 2026 Documa Fleet. All rights reserved.</p>
-        <p>Apache 2.0 Open Source License</p>
+      <div class="footer__base">
+        <span>© 2026 Documa Fleet.</span>
+        <span>Apache 2.0 Open Source License</span>
       </div>
-
     </div>
   </footer>
 
-  <!-- JavaScript Interactivity -->
-  <script>
-    lucide.createIcons();
-
-    function updateSim() {
-      const years = document.getElementById("sim-years").value;
-      const faceVal = document.getElementById("sim-val").value;
-      const paid = document.getElementById("sim-paid").value;
-
-      document.getElementById("sim-years-val").innerText = `${years} Years`;
-      document.getElementById("sim-val-val").innerText = `$${Number(faceVal).toLocaleString()}`;
-      document.getElementById("sim-paid-val").innerText = `${paid} Audits`;
-
-      const riskScore = Math.min(99, Math.max(40, 60 + (years * 2) + (paid * 0.5) - (faceVal / 5000)));
-      const variancePct = (Math.max(0, (faceVal - 3250) / 3250 * 100)).toFixed(1);
-      
-      document.getElementById("sim-score").innerText = `${Math.round(riskScore)} / 100`;
-      document.getElementById("sim-bps").innerText = `${variancePct}%`;
-    }
-  </script>
 </body>
 </html>
