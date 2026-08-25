@@ -1,117 +1,87 @@
-/* Documa Cyberpunk Glassmorphism Theme (Stripe/Supabase Inspired) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+/* Pipely Editorial Theme for App Dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-void: #04060f;
-  --bg-glass: rgba(10, 15, 30, 0.72);
-  --bg-glass-hover: rgba(20, 28, 55, 0.85);
+  --bg-stone: #f6f5f1;
+  --bg-card-white: #ffffff;
+  --bg-dark-charcoal: #111315;
   
-  --border-glass: rgba(255, 255, 255, 0.1);
-  --border-neon-indigo: rgba(99, 102, 241, 0.5);
-  --border-neon-cyan: rgba(6, 182, 212, 0.5);
-  --border-neon-emerald: rgba(16, 185, 129, 0.5);
+  --pipely-yellow: #eef875;
+  --pipely-purple: #dcd5fe;
+  --pipely-pink: #fbcfe8;
+  --pipely-sage: #dcfce7;
   
-  --primary: #6366f1;
-  --accent-cyan: #06b6d4;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-rose: #f43f5e;
-  
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --text-main: #0f172a;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-void);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.22) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.18) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(4, 6, 15, 0.8) 0px, transparent 100%);
-  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-stone);
+  color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, .brand-font {
-  font-family: 'Outfit', sans-serif;
+.mono-font, code, pre {
+  font-family: 'JetBrains Mono', monospace;
 }
 
-/* Gradient Text Effect */
-.gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 45%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.pipely-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 28px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.gradient-text-emerald {
-  background: linear-gradient(135deg, #ffffff 0%, #6ee7b7 50%, #10b981 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.pipely-card-yellow {
+  background-color: var(--pipely-yellow);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Cyberpunk Frosted Glass Card */
-.glass-card {
-  background: var(--bg-glass);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--border-glass);
-  border-radius: 24px;
-  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+.pipely-card-purple {
+  background-color: var(--pipely-purple);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+.pipely-card-pink {
+  background-color: var(--pipely-pink);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.glass-card:hover {
-  border-color: var(--border-neon-indigo);
-  box-shadow: 0 25px 65px -15px rgba(99, 102, 241, 0.25), 0 0 20px rgba(99, 102, 241, 0.15);
+.pipely-card-sage {
+  background-color: var(--pipely-sage);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.btn-pipely-yellow {
+  background-color: var(--pipely-yellow);
+  color: #111315;
+  font-weight: 800;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.btn-pipely-yellow:hover {
   transform: translateY(-2px);
+  background-color: #e4f060;
 }
 
-/* Glow Buttons */
-.btn-neon {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+.btn-pipely-black {
+  background-color: var(--bg-dark-charcoal);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
 }
 
-.btn-neon:hover {
-  box-shadow: 0 0 35px rgba(99, 102, 241, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px) scale(1.02);
+.btn-pipely-black:hover {
+  transform: translateY(-2px);
+  background-color: #1e2227;
 }
 
-.btn-neon-emerald {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
-}
-
-.btn-neon-emerald:hover {
-  box-shadow: 0 0 35px rgba(16, 185, 129, 0.75);
-  transform: translateY(-2px) scale(1.02);
-}
-
-/* Glowing Neon Badges */
-.badge {
+.badge-pipely {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -119,91 +89,19 @@ h1, h2, h3, h4, .brand-font {
   border-radius: 9999px;
   font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
-.badge-approved {
-  background: rgba(16, 185, 129, 0.12);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+.badge-yellow {
+  background: var(--pipely-yellow);
+  color: #111315;
 }
 
-.badge-discrepancy {
-  background: rgba(245, 158, 11, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+.badge-purple {
+  background: var(--pipely-purple);
+  color: #4c1d95;
 }
 
-.badge-escalated {
-  background: rgba(244, 63, 94, 0.12);
-  color: #fb7185;
-  border: 1px solid rgba(244, 63, 94, 0.4);
-  box-shadow: 0 0 12px rgba(244, 63, 94, 0.2);
-}
-
-.badge-active {
-  background: rgba(99, 102, 241, 0.12);
-  color: #818cf8;
-  border: 1px solid rgba(99, 102, 241, 0.4);
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
-}
-
-/* Document Media Inspector Box */
-.doc-preview-box {
-  background: rgba(4, 6, 15, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.doc-preview-box img {
-  width: 100%;
-  height: auto;
-  max-height: 420px;
-  object-fit: contain;
-  transition: transform 0.4s ease;
-}
-
-.doc-preview-box:hover img {
-  transform: scale(1.03);
-}
-
-/* Scanner Beam Laser */
-@keyframes scan-beam {
-  0% { top: 0%; opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-.scanner-laser {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent 0%, #38bdf8 50%, transparent 100%);
-  box-shadow: 0 0 15px #38bdf8, 0 0 30px #6366f1;
-  animation: scan-beam 3.5s ease-in-out infinite;
-  z-index: 10;
-}
-
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(4, 6, 15, 0.8);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.4);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+.badge-sage {
+  background: var(--pipely-sage);
+  color: #065f46;
 }
