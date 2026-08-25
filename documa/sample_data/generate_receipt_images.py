@@ -73,7 +73,7 @@ def create_invoice_image(filename: str, title: str, inv_number: str, po_number: 
 
 
 def generate_all_sample_invoices():
-    """Generates 3 test receipt PNG files in receipts/."""
+    """Generates 4 test receipt PNG files in receipts/."""
     # 1. Compliant Invoice
     create_invoice_image(
         filename="compliant_invoice.png",
@@ -121,6 +121,24 @@ def generate_all_sample_invoices():
         tax=200.0,
         grand_total=3700.0,
         note="UNAUTHORIZED SURCHARGE: Priority expedited delivery fee added."
+    )
+
+    # 4. Minor Overcharge Invoice — variance stays under the $500 human-signoff
+    #    threshold, so the fleet resolves it autonomously by issuing a formal
+    #    vendor dispute notice instead of escalating to a person.
+    create_invoice_image(
+        filename="minor_overcharge_invoice.png",
+        title="COMMERCIAL INVOICE",
+        inv_number="INV-2026-9330",
+        po_number="PO-9921",
+        items=[
+            {"code": "SKU-881", "desc": "Dell UltraSharp 27-inch Monitor", "qty": 10, "price": 210.0, "total": 2100.0},
+            {"code": "SKU-402", "desc": "Ergonomic Executive Office Chair", "qty": 5, "price": 250.0, "total": 1250.0}
+        ],
+        subtotal=3350.0,
+        tax=200.0,
+        grand_total=3550.0,
+        note="Monitor rate billed at $210.00 vs contracted $180.00 per unit."
     )
 
 

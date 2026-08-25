@@ -38,7 +38,7 @@ def run_demo():
             "po_override": "PO-9921"
         },
         {
-            "title": "Scenario 2: Unit Price Overcharge Audit (Vendor Dispute Report Generated)",
+            "title": "Scenario 2: Major Unit Price Overcharge Audit (Human Finance Escalation Alert)",
             "document_id": "DOC-OVERCHARGE-202",
             "file_path": "receipts/overcharged_invoice.png",
             "po_override": "PO-9921"
@@ -48,12 +48,19 @@ def run_demo():
             "document_id": "DOC-UNAUTHORIZED-303",
             "file_path": "receipts/unauthorized_fees_invoice.png",
             "po_override": "PO-9921"
+        },
+        {
+            "title": "Scenario 4: Minor Overcharge Audit (Autonomous Vendor Dispute Notice)",
+            "document_id": "DOC-MINOR-404",
+            "file_path": "receipts/minor_overcharge_invoice.png",
+            "po_override": "PO-9921"
         }
     ]
 
+    total = len(test_scenarios)
     for idx, test in enumerate(test_scenarios, 1):
         print(f"\n------------------------------------------------------------------------------------------")
-        print(f" ▶ [{idx}/3] {test['title']}")
+        print(f" ▶ [{idx}/{total}] {test['title']}")
         print(f"   Document ID: {test['document_id']} | Target PO: {test['po_override']}")
         print(f"------------------------------------------------------------------------------------------")
 
@@ -66,6 +73,7 @@ def run_demo():
         response = fleet.process_document(req)
 
         print(f"\n   [Agent 1: Multimodal Vision]")
+        print(f"   Extraction Mode: {response.extracted_document.extraction_mode.value}")
         print(f"   Vendor Extracted: {response.extracted_document.vendor_name}")
         print(f"   Line Items Count: {len(response.extracted_document.line_items)}")
         print(f"   Billed Grand Total: ${response.extracted_document.grand_total:.2f} USD")
