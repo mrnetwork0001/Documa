@@ -18,16 +18,23 @@
         <div>
           <div class="row">
             <h1 class="app-header__name">Documa</h1>
-            <span class="badge">Gemini 3.5</span>
+            <span class="badge badge--meta">Gemini 3.5</span>
             <span class="badge badge--ok"><span class="dot dot--pulse"></span> Cloud Run</span>
           </div>
           <p class="app-header__back">← Return to landing page</p>
         </div>
       </a>
 
-      <div class="app-header__actions">
-        <button onclick="toggleArchModal()" class="btn btn--ghost btn--sm">Cloud Specs</button>
-        <a href="/api/audit/export/csv" download class="btn btn--light btn--sm">Export ERP CSV</a>
+      <div class="app-header__nav">
+        <button type="button" class="burger" id="menu-toggle"
+                aria-label="Open menu" aria-expanded="false" aria-controls="app-menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="app-header__actions" id="app-menu">
+          <button onclick="toggleArchModal()" class="btn btn--ghost btn--sm">Cloud Specs</button>
+          <a href="/api/audit/export/csv" download class="btn btn--light btn--sm">Export ERP CSV</a>
+        </div>
       </div>
     </header>
 
@@ -546,6 +553,33 @@
       }
     }
 
+    /* ---- Mobile header menu -------------------------------------------- */
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const appMenu = document.getElementById("app-menu");
+
+    function setMenu(open) {
+      appMenu.classList.toggle("is-open", open);
+      menuToggle.setAttribute("aria-expanded", String(open));
+    }
+
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setMenu(!appMenu.classList.contains("is-open"));
+    });
+
+    // Any choice inside the menu closes it, as does a click anywhere outside.
+    appMenu.addEventListener("click", () => setMenu(false));
+    document.addEventListener("click", (e) => {
+      if (!appMenu.contains(e.target) && !menuToggle.contains(e.target)) setMenu(false);
+    });
+
+    // Leaving mobile widths while the panel is open would otherwise strand the
+    // is-open class on an element that is now a plain inline row.
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 820) setMenu(false);
+    });
+
     /* ---- Themed dialog + toasts (replaces window.alert) ---------------- */
 
     const dialogEl = document.getElementById("app-dialog");
@@ -574,6 +608,7 @@
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape") return;
       if (!dialogEl.hidden) closeDialog(false);
+      else if (appMenu.classList.contains("is-open")) setMenu(false);
       else {
         const m = document.getElementById("arch-modal");
         if (!m.hidden) m.hidden = true;
