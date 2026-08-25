@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documa - Autonomous Multimodal Audit &amp; Procurement Fleet</title>
   <meta name="description" content="Documa is an autonomous multimodal audit and procurement fleet powered by Gemini 3.5 Flash, the Antigravity SDK, and Google Cloud Run.">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
   <link rel="stylesheet" href="/static/landing.css">
 </head>
 <body>
@@ -12,9 +14,9 @@
   <!-- 1. Nav -->
   <nav class="nav">
     <div class="wrap nav__inner">
-      <a href="/" class="nav__brand">
-        <span class="nav__mark">D</span>
-        <span>Documa</span>
+      <a href="/" class="nav__brand" aria-label="Documa home">
+        <img class="nav__logo" src="/static/documa-header.png"
+             alt="Documa - Autonomous Document Control" width="1294" height="297">
       </a>
       <div class="nav__links">
         <a href="#glance">At a glance</a>
@@ -457,7 +459,10 @@
         </div>
       </div>
 
-      <h2 class="footer__giant">Documa</h2>
+      <div class="footer__mark">
+        <img src="/static/documa-header.png" alt="Documa - Autonomous Document Control"
+             width="1294" height="297" loading="lazy">
+      </div>
 
       <div class="footer__base">
         <span>© 2026 Documa Fleet.</span>

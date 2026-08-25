@@ -18,15 +18,10 @@ body.app { background: var(--bg); padding: 0 0 64px; }
   margin-bottom: 26px;
 }
 .app-header__brand { display: flex; align-items: center; gap: 12px; }
-.app-header__mark {
-  width: 34px; height: 34px; border-radius: 9px;
-  background: var(--ink); color: #0a0a0a;
-  display: grid; place-items: center;
-  font-size: 15px; font-weight: 700; flex: none;
-  transition: transform .18s ease;
-}
-.app-header__brand:hover .app-header__mark { transform: scale(1.06); }
-.app-header__name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; margin: 0; }
+.app-header__h1 { margin: 0; line-height: 0; flex: none; }
+.app-header__logo { height: 30px; width: auto; transition: opacity .18s ease; }
+.app-header__brand:hover .app-header__logo { opacity: .82; }
+.app-header__meta { min-width: 0; }
 .app-header__back { font-family: var(--mono); font-size: 10.5px; color: var(--ink-4); margin: 2px 0 0; transition: color .16s ease; }
 .app-header__brand:hover .app-header__back { color: var(--ink-2); }
 .app-header__actions { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
@@ -404,7 +399,7 @@ body.app { background: var(--bg); padding: 0 0 64px; }
   .app-header__brand { gap: 10px; min-width: 0; }
   .app-header__brand > div { min-width: 0; }
   .app-header__brand .row { flex-wrap: wrap; gap: 7px; }
-  .app-header__name { font-size: 16px; }
+  .app-header__logo { height: 25px; }
 
   .panel-card { padding: 17px 15px; }
   .kpi { padding: 17px 16px; }
