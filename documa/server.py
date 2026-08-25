@@ -98,17 +98,26 @@ async def upload_and_process_document(file: UploadFile = File(...), po_number: O
     """Uploads a real scanned receipt/invoice file and runs the real multi-agent audit fleet."""
     try:
         os.makedirs("receipts", exist_ok=True)
-        file_path = f"receipts/{file.filename}"
+
+        # Never trust the client-supplied filename: strip any directory
+        # component so an upload cannot escape the receipts/ directory.
+        safe_name = os.path.basename(file.filename or "").replace("\\", "/").split("/")[-1]
+        if not safe_name or safe_name in (".", ".."):
+            raise HTTPException(status_code=400, detail="Invalid upload filename.")
+
+        file_path = os.path.join("receipts", safe_name)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        document_id = f"UPL-{file.filename.split('.')[0].upper()}"
+        document_id = f"UPL-{safe_name.split('.')[0].upper()}"
         req = DocumentAuditRequest(
             document_id=document_id,
             file_path_or_url=file_path,
             po_number_override=po_number or "PO-9921"
         )
         return fleet.process_document(req)
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File upload & audit error: {str(e)}")
 
