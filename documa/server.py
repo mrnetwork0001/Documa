@@ -13,7 +13,7 @@ import shutil
 import csv
 import io
 
-from documa.models import DocumentAuditRequest, DocumentAuditResponse, PurchaseOrder, AuditResult, DiscrepancyReport
+from documa.models import DocumentAuditRequest, DocumentAuditResponse, PurchaseOrder, AuditResult, DiscrepancyReport, HumanDecision
 from documa.services.firestore_service import FirestoreService
 from documa.services.storage_service import StorageService
 from documa.services.eventarc_simulator import EventarcTriggerHandler
@@ -233,9 +233,14 @@ def export_audit_logs_csv():
 
 
 @app.post("/api/disputes/{report_id}/approve")
-def approve_dispute_override(report_id: str, new_action: str = Body(..., embed=True)):
-    """Human finance manager approval or status override endpoint."""
+def approve_dispute_override(report_id: str, new_action: HumanDecision = Body(..., embed=True)):
+    """Human finance manager approval or status override endpoint.
+
+    new_action is typed to HumanDecision so an unrecognised value is rejected as
+    a 422 before it can reach the store. It is recorded against human_decision,
+    leaving action_taken as the fleet's own account of what it dispatched.
+    """
     success = firestore_service.update_discrepancy_action(report_id, new_action)
     if not success:
         raise HTTPException(status_code=404, detail=f"Discrepancy report {report_id} not found.")
-    return {"report_id": report_id, "status": "UPDATED", "new_action": new_action}
+    return {"report_id": report_id, "status": "UPDATED", "new_action": new_action.value}

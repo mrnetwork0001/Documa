@@ -5,7 +5,9 @@ Firestore database service for Documa with seamless in-memory fallback.
 import os
 import logging
 from typing import Dict, Any, List, Optional
-from documa.models import PurchaseOrder, AuditResult, DiscrepancyReport
+from datetime import datetime, timezone
+
+from documa.models import PurchaseOrder, AuditResult, DiscrepancyReport, HumanDecision
 
 logger = logging.getLogger("FirestoreService")
 
@@ -122,15 +124,26 @@ class FirestoreService:
 
         return [DiscrepancyReport(**d) for d in self._in_memory_disputes.values()]
 
-    def update_discrepancy_action(self, report_id: str, new_action: str) -> bool:
+    def update_discrepancy_action(self, report_id: str, new_action: HumanDecision) -> bool:
+        """Records a finance manager's ruling against an existing report.
+
+        Writes to human_decision, never to action_taken: action_taken is the
+        fleet's own record of what it dispatched, and overwriting it with a
+        human verdict both loses that history and stores a value outside the
+        ActionTaken enum, which breaks every later read of the collection.
+        """
+        decision = HumanDecision(new_action).value
+        decided_at = datetime.now(timezone.utc).isoformat()
+        patch = {"human_decision": decision, "decided_at": decided_at}
+
         if self.db:
             try:
-                self.db.collection("disputes").document(report_id).update({"action_taken": new_action})
+                self.db.collection("disputes").document(report_id).update(patch)
                 return True
             except Exception as e:
                 logger.error(f"Firestore update error: {e}")
 
         if report_id in self._in_memory_disputes:
-            self._in_memory_disputes[report_id]["action_taken"] = new_action
+            self._in_memory_disputes[report_id].update(patch)
             return True
         return False

@@ -36,6 +36,17 @@ class ActionTaken(str, Enum):
     ESCALATED_TO_HUMAN_FINANCE = "ESCALATED_TO_HUMAN_FINANCE"
 
 
+class HumanDecision(str, Enum):
+    """A finance manager's ruling on an escalated report.
+
+    Kept separate from ActionTaken: that field records what the fleet decided
+    on its own and must stay an accurate account of the agent run, whatever a
+    human later rules.
+    """
+    REJECT_OVERCHARGE = "REJECT_OVERCHARGE"
+    APPROVE_EXCEPTION = "APPROVE_EXCEPTION"
+
+
 class LineItem(BaseModel):
     item_code: Optional[str] = Field(default=None, description="SKU or item identifier code")
     description: str = Field(description="Description of item or service")
@@ -146,6 +157,11 @@ class DiscrepancyReport(BaseModel):
     formal_dispute_markdown: str
     requires_human_signature: bool = Field(default=False)
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    human_decision: Optional[HumanDecision] = Field(
+        default=None,
+        description="Finance manager's ruling on an escalated report, if one has been recorded"
+    )
+    decided_at: Optional[str] = Field(default=None, description="When the human decision was recorded")
 
 
 class DocumentAuditRequest(BaseModel):
