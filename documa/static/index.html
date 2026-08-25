@@ -235,6 +235,7 @@
             <div class="row row--wrap">
               <h2 class="panel-card__t">Dispatched Action Output</h2>
               <span id="action-type" class="badge">AUTO_APPROVED_PAYOUT</span>
+              <span id="human-decision-badge" class="badge" hidden></span>
             </div>
             <div class="row">
               <button onclick="playVoiceBriefing()" class="btn btn--ghost btn--sm">AI Voice Briefing</button>
@@ -304,6 +305,22 @@
       </div>
     </div>
   </div>
+
+  <!-- Confirmation dialog -->
+  <div id="app-dialog" class="dialog" hidden>
+    <div class="dialog__box" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+      <p class="dialog__eyebrow" id="dialog-eyebrow"><span id="dialog-kicker">CONFIRM</span><span class="dialog__rule"></span></p>
+      <h3 class="dialog__t" id="dialog-title">Title</h3>
+      <p class="dialog__d" id="dialog-body">Body</p>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost btn--sm" id="dialog-cancel">Cancel</button>
+        <button class="btn btn--light btn--sm" id="dialog-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast stack -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
 
   <script>
     let currentReportId = "RPT-DEMO";
@@ -497,6 +514,16 @@
         currentReportId = dispute.report_id;
         currentAuditSummary = audit.summary_notes;
         document.getElementById("action-type").innerText = dispute.action_taken;
+
+        const hBadge = document.getElementById("human-decision-badge");
+        if (dispute.human_decision) {
+          hBadge.innerText = `HUMAN: ${dispute.human_decision}`;
+          hBadge.className = "badge " + (dispute.human_decision === "REJECT_OVERCHARGE" ? "badge--bad" : "badge--ok");
+          hBadge.hidden = false;
+        } else {
+          hBadge.hidden = true;
+        }
+
         document.getElementById("dispute-markdown-box").innerText = dispute.formal_dispute_markdown;
         document.getElementById("human-action-controls").style.display =
           dispute.requires_human_signature ? "flex" : "none";
@@ -519,14 +546,81 @@
       }
     }
 
+    /* ---- Themed dialog + toasts (replaces window.alert) ---------------- */
+
+    const dialogEl = document.getElementById("app-dialog");
+    let dialogResolve = null;
+
+    function confirmDialog({ kicker = "CONFIRM", title, body, confirmLabel = "Confirm", tone = "" }) {
+      document.getElementById("dialog-kicker").textContent = kicker;
+      document.getElementById("dialog-title").textContent = title;
+      document.getElementById("dialog-body").textContent = body;
+      document.getElementById("dialog-confirm").textContent = confirmLabel;
+      dialogEl.querySelector(".dialog__box").parentElement.className = "dialog" + (tone ? ` dialog--${tone}` : "");
+      dialogEl.hidden = false;
+      document.getElementById("dialog-confirm").focus();
+      return new Promise(resolve => { dialogResolve = resolve; });
+    }
+
+    function closeDialog(result) {
+      dialogEl.hidden = true;
+      if (dialogResolve) { dialogResolve(result); dialogResolve = null; }
+    }
+
+    document.getElementById("dialog-confirm").addEventListener("click", () => closeDialog(true));
+    document.getElementById("dialog-cancel").addEventListener("click", () => closeDialog(false));
+    dialogEl.addEventListener("click", (e) => { if (e.target === dialogEl) closeDialog(false); });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (!dialogEl.hidden) closeDialog(false);
+      else {
+        const m = document.getElementById("arch-modal");
+        if (!m.hidden) m.hidden = true;
+      }
+    });
+
+    const TOAST_ICON = { ok: "✓", bad: "✕", info: "→", "": "•" };
+
+    function toast(title, detail = "", tone = "") {
+      const el = document.createElement("div");
+      el.className = "toast" + (tone ? ` toast--${tone}` : "");
+
+      const icon = document.createElement("span");
+      icon.className = "toast__i";
+      icon.textContent = TOAST_ICON[tone] || TOAST_ICON[""];
+
+      const wrap = document.createElement("div");
+      const t = document.createElement("p");
+      t.className = "toast__t";
+      t.textContent = title;
+      wrap.appendChild(t);
+
+      if (detail) {
+        const d = document.createElement("p");
+        d.className = "toast__d";
+        d.textContent = detail;
+        wrap.appendChild(d);
+      }
+
+      el.append(icon, wrap);
+      document.getElementById("toasts").appendChild(el);
+
+      setTimeout(() => {
+        el.classList.add("is-leaving");
+        el.addEventListener("animationend", () => el.remove(), { once: true });
+      }, 5200);
+    }
+
     function playVoiceBriefing() {
       if ('speechSynthesis' in window) {
         const text = `Documa Audit Executive Briefing: ${currentAuditSummary}`;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 1.0;
         window.speechSynthesis.speak(utterance);
+        toast("Executive briefing playing", currentAuditSummary, "info");
       } else {
-        alert("AI Executive Voice Briefing: " + currentAuditSummary);
+        toast("Voice unavailable in this browser", currentAuditSummary, "info");
       }
     }
 
@@ -541,8 +635,61 @@
       m.hidden = !m.hidden;
     }
 
-    function overrideAction(action) {
-      alert(`Finance Action Dispatched: ${action}. Audit status updated in Firestore.`);
+    const OVERRIDE_COPY = {
+      REJECT_OVERCHARGE: {
+        kicker: "REJECT OVERCHARGE",
+        title: "Pay the contracted basis only?",
+        confirmLabel: "Reject overcharge",
+        tone: "danger",
+        body: "Documa will record a finance decision to withhold the disputed variance and remit only the approved purchase-order amount."
+      },
+      APPROVE_EXCEPTION: {
+        kicker: "APPROVE EXCEPTION",
+        title: "Override the audit and release full payout?",
+        confirmLabel: "Pass exception",
+        tone: "confirm",
+        body: "Documa will record a finance decision to overrule the flagged discrepancy and release the full billed amount to the vendor."
+      }
+    };
+
+    async function overrideAction(action) {
+      const copy = OVERRIDE_COPY[action];
+      const ok = await confirmDialog({
+        kicker: copy.kicker,
+        title: copy.title,
+        body: `${copy.body}\n\nReport ${currentReportId}.`,
+        confirmLabel: copy.confirmLabel,
+        tone: copy.tone
+      });
+      if (!ok) return;
+
+      try {
+        const res = await fetch(`/api/disputes/${currentReportId}/approve`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ new_action: action })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          toast("Finance decision not recorded", err.detail || `Server returned ${res.status}.`, "bad");
+          return;
+        }
+
+        const data = await res.json();
+
+        // The agent's dispatch action stays as it was; the human ruling is shown
+        // alongside it so the record of what the fleet decided is never rewritten.
+        const badge = document.getElementById("human-decision-badge");
+        badge.innerText = `HUMAN: ${data.new_action}`;
+        badge.className = "badge " + (data.new_action === "REJECT_OVERCHARGE" ? "badge--bad" : "badge--ok");
+        badge.hidden = false;
+
+        toast("Finance decision recorded", `${data.new_action} written to ${data.report_id}.`, "ok");
+      } catch (err) {
+        console.error("Override error:", err);
+        toast("Finance decision not recorded", "Could not reach the Documa API.", "bad");
+      }
     }
   </script>
 </body>
