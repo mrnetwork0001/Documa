@@ -1,4 +1,4 @@
-# 👁️ ANTIGRAVITY_DOCUMA — Persistent Project Context Directive
+# 👁️ ANTIGRAVITY_DOCUMA - Persistent Project Context Directive
 
 > **Project Name:** DOCUMA  
 > **Target Hackathon:** Google All Things Agentic Hackathon ($180,000 Cash Pool)  

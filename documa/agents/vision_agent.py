@@ -160,7 +160,7 @@ class VisionAgent(BaseAgent):
                 grand_total=3550.0,
                 signature_detected=True,
                 extraction_mode=ExtractionMode.SIMULATED_FALLBACK,
-                raw_notes="SIMULATED DEMO FIXTURE — not a live Gemini extraction. Monitor rate billed above contracted price."
+                raw_notes="SIMULATED DEMO FIXTURE - not a live Gemini extraction. Monitor rate billed above contracted price."
             )
 
         # Demo fixture: unit-price overcharge
@@ -181,7 +181,7 @@ class VisionAgent(BaseAgent):
                 grand_total=4400.0,
                 signature_detected=True,
                 extraction_mode=ExtractionMode.SIMULATED_FALLBACK,
-                raw_notes="SIMULATED DEMO FIXTURE — not a live Gemini extraction. Mid-quarter price adjustment applied by vendor."
+                raw_notes="SIMULATED DEMO FIXTURE - not a live Gemini extraction. Mid-quarter price adjustment applied by vendor."
             )
 
         # Demo fixture: unauthorized line item
@@ -203,7 +203,7 @@ class VisionAgent(BaseAgent):
                 grand_total=3700.0,
                 signature_detected=False,
                 extraction_mode=ExtractionMode.SIMULATED_FALLBACK,
-                raw_notes="SIMULATED DEMO FIXTURE — not a live Gemini extraction. Priority freight surcharge added."
+                raw_notes="SIMULATED DEMO FIXTURE - not a live Gemini extraction. Priority freight surcharge added."
             )
 
         # Demo fixture: fully compliant invoice
@@ -224,7 +224,7 @@ class VisionAgent(BaseAgent):
                 grand_total=3250.0,
                 signature_detected=True,
                 extraction_mode=ExtractionMode.SIMULATED_FALLBACK,
-                raw_notes="SIMULATED DEMO FIXTURE — not a live Gemini extraction. Billed at contracted rates."
+                raw_notes="SIMULATED DEMO FIXTURE - not a live Gemini extraction. Billed at contracted rates."
             )
 
         # Unknown document with no live model available. Report honestly rather
@@ -236,7 +236,7 @@ class VisionAgent(BaseAgent):
         return ExtractedDocument(
             document_id=document_id,
             document_type=DocumentType.UNKNOWN,
-            vendor_name="UNKNOWN — NO LIVE EXTRACTION",
+            vendor_name="UNKNOWN - NO LIVE EXTRACTION",
             invoice_number=None,
             purchase_order_ref=None,
             invoice_date=None,

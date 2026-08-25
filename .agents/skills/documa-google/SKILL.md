@@ -3,9 +3,9 @@ name: documa-google
 description: Architecture, guidelines, Antigravity SDK specs, and Google Cloud hackathon rules for Documa (Autonomous Multimodal Audit & Procurement Fleet) built for the Google All Things Agentic Hackathon.
 ---
 
-# 👁️ Documa — Google Hackathon Skill & Execution Guide
+# 👁️ Documa - Google Hackathon Skill & Execution Guide
 
-Use this skill whenever working on, reviewing, or developing **Documa** — the Autonomous Multimodal Audit & Procurement Fleet for the Google All Things Agentic Hackathon.
+Use this skill whenever working on, reviewing, or developing **Documa** - the Autonomous Multimodal Audit & Procurement Fleet for the Google All Things Agentic Hackathon.
 
 ## 📌 Project Overview & Prize Targets
 - **Target Event:** Google All Things Agentic Hackathon (Devpost)

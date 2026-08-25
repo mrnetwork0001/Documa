@@ -1,4 +1,4 @@
-# 👁️ Documa — Autonomous Multimodal Audit & Procurement Fleet
+# 👁️ Documa - Autonomous Multimodal Audit & Procurement Fleet
 
 **Google All Things Agentic Hackathon ($180,000 Cash Pool / $50,000 Grand Prize Target)**
 

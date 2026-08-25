@@ -1,5 +1,5 @@
 """
-Documa — Autonomous Multimodal Audit & Procurement Fleet CLI Runner.
+Documa - Autonomous Multimodal Audit & Procurement Fleet CLI Runner.
 Built for the Google All Things Agentic Hackathon ($180,000 Cash Pool).
 Powered by Gemini 3.5 Flash, Antigravity SDK, and Google Cloud Run.
 """
@@ -16,7 +16,7 @@ from documa.sample_data.seed_data import seed_sample_purchase_orders
 
 def print_banner():
     print("==========================================================================================")
-    print(" 👁️ DOCUMA — Autonomous Multimodal Audit & Procurement Fleet")
+    print(" 👁️ DOCUMA - Autonomous Multimodal Audit & Procurement Fleet")
     print(" Powered by Gemini 3.5 Flash + Antigravity SDK + Google Cloud Run")
     print("==========================================================================================")
 

@@ -123,7 +123,7 @@ def generate_all_sample_invoices():
         note="UNAUTHORIZED SURCHARGE: Priority expedited delivery fee added."
     )
 
-    # 4. Minor Overcharge Invoice — variance stays under the $500 human-signoff
+    # 4. Minor Overcharge Invoice - variance stays under the $500 human-signoff
     #    threshold, so the fleet resolves it autonomously by issuing a formal
     #    vendor dispute notice instead of escalating to a person.
     create_invoice_image(

@@ -1,4 +1,4 @@
-# 👁️ DOCUMA — Autonomous Multimodal Audit & Procurement Fleet
+# 👁️ DOCUMA - Autonomous Multimodal Audit & Procurement Fleet
 
 > **Google All Things Agentic Hackathon Master Blueprint ($180,000 Cash Pool)**  
 > **Target Track:** The Taskmaster ($20,000 Track Winner / $50,000 Grand Prize Target)  

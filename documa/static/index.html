@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documa — Autonomous Multimodal Audit &amp; Procurement Fleet</title>
+  <title>Documa - Autonomous Multimodal Audit &amp; Procurement Fleet</title>
   <link rel="stylesheet" href="/static/landing.css">
   <link rel="stylesheet" href="/static/dashboard.css">
 </head>
@@ -188,7 +188,7 @@
               <div class="row row--wrap">
                 <h2 class="audit-head__id" id="audit-doc-id">DOC-COMPLIANT-101</h2>
                 <span id="audit-status-badge" class="badge badge--ok">APPROVED</span>
-                <span id="extraction-mode-badge" class="badge" title="Where these numbers came from">—</span>
+                <span id="extraction-mode-badge" class="badge" title="Where these numbers came from">-</span>
               </div>
               <p class="audit-head__vendor" id="audit-vendor">Acme Industrial Tech • PO Reference: PO-9921</p>
             </div>
@@ -456,7 +456,7 @@
       modeEl.className = "badge " + (isLive ? "badge--ok" : "badge--warn");
       modeEl.title = isLive
         ? "Extracted by Gemini 3.5 Flash on the Antigravity harness."
-        : "Offline demo fixture — not a live vision extraction. Set GEMINI_API_KEY for live mode.";
+        : "Offline demo fixture - not a live vision extraction. Set GEMINI_API_KEY for live mode.";
 
       document.getElementById("audit-total-billed").innerText = `$${doc.grand_total.toFixed(2)}`;
 

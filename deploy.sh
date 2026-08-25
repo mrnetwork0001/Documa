@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Documa — Google Cloud Run Deployment Script
+# Documa - Google Cloud Run Deployment Script
 # Targets: Google Cloud Run + Firestore + Cloud Storage
 # ==============================================================================
 

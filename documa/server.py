@@ -21,7 +21,7 @@ from documa.agents.orchestrator import DocumaFleet
 from documa.sample_data.seed_data import seed_sample_purchase_orders
 
 app = FastAPI(
-    title="Documa — Autonomous Multimodal Audit & Procurement Fleet API",
+    title="Documa - Autonomous Multimodal Audit & Procurement Fleet API",
     description="Google Cloud Run service powered by Gemini 3.5 Flash and Antigravity SDK.",
     version="1.0.0"
 )
@@ -70,7 +70,7 @@ def read_dashboard_app():
     if os.path.exists(index_path):
         return FileResponse(index_path)
     return {
-        "service": "Documa — Autonomous Multimodal Audit & Procurement Fleet",
+        "service": "Documa - Autonomous Multimodal Audit & Procurement Fleet",
         "status": "OPERATIONAL",
         "model": "Gemini 3.5 Flash",
         "framework": "Antigravity SDK",
@@ -184,7 +184,7 @@ def export_dispute_pdf(report_id: str):
 </head>
 <body>
     <div class="header">
-        <div class="title">DOCUMA FLEET — OFFICIAL VENDOR DISPUTE NOTICE</div>
+        <div class="title">DOCUMA FLEET - OFFICIAL VENDOR DISPUTE NOTICE</div>
         <div class="meta">Report ID: {report.report_id} | Created: {report.created_at} | Action: {report.action_taken.value}</div>
     </div>
     <div class="box">

@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Documa — Dark Editorial Design System
+   Documa - Dark Editorial Design System
    Shared by the landing page and the app dashboard.
    Self-contained: no CSS framework, no icon CDN. The only network dependency
-   is the webfont, which degrades to system fonts if it fails to load — so a
+   is the webfont, which degrades to system fonts if it fails to load - so a
    flaky connection can never break a live demo recording.
    ========================================================================== */
 
@@ -271,7 +271,7 @@ button { font: inherit; color: inherit; }
 }
 .stat__n { font-family: var(--mono); font-size: clamp(2rem, 5vw, 3.1rem); letter-spacing: -.04em; line-height: 1; }
 .stat__l { font-size: 13px; color: var(--ink-3); text-align: right; max-width: 30ch; }
-/* The inverted row — the number the whole section is about. */
+/* The inverted row - the number the whole section is about. */
 .stat--invert { background: var(--ink); color: #0a0a0a; border-radius: 4px; }
 .stat--invert .stat__l { color: #3f3f46; }
 

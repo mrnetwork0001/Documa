@@ -1,4 +1,4 @@
-# 🏆 DOCUMA — DEVPOST SUBMISSION MASTER KIT
+# 🏆 DOCUMA - DEVPOST SUBMISSION MASTER KIT
 
 > **Hackathon:** Google All Things Agentic Hackathon ($180,000 Cash Pool)  
 > **Target Track:** The Taskmaster ($20,000 Track Winner / $50,000 Grand Prize Target)  
@@ -42,7 +42,7 @@ Documa turns manual document audit into an autonomous background workflow:
 
 > **Framing note.** Judging weights *Innovation & Operational Utility* at 40%, defined as
 > "autonomous, high-value action over simple chat." So the video opens on the **zero-touch
-> Eventarc path** — a file lands in a bucket and the fleet acts with nobody watching — and
+> Eventarc path** - a file lands in a bucket and the fleet acts with nobody watching - and
 > treats the dashboard as the *human escalation surface*, not the entry point. Clicking preset
 > buttons first would frame Documa as a chatbot with extra steps.
 >
@@ -55,7 +55,7 @@ Documa turns manual document audit into an autonomous background workflow:
 • Physical receipts on a desk; the 15+ hour weekly manual reconciliation bottleneck.
 • "Documa is not a chatbot you ask. It is a fleet that already did the work."
 
-⏱️ 0:40 – 1:40: THE AUTONOMOUS PATH (the money shot — no UI, no clicking)
+⏱️ 0:40 – 1:40: THE AUTONOMOUS PATH (the money shot - no UI, no clicking)
 • Terminal: `gsutil cp overcharged_invoice.png gs://documa-receipts-bucket/`
 • Cut to the Google Cloud Run console. Show the request arriving on its own via Eventarc.
 • Cloud Run logs stream live: MultimodalVisionAgent -> ContractAuditorAgent ->
@@ -63,10 +63,10 @@ Documa turns manual document audit into an autonomous background workflow:
 • Firestore console: the new audit_logs and disputes documents appearing in real time.
 
 ⏱️ 1:40 – 2:25: WHAT THE FLEET DECIDED
-• Open the dashboard on that same audit — it is the review surface, not the trigger.
+• Open the dashboard on that same audit - it is the review surface, not the trigger.
 • Point at the ⬤ LIVE GEMINI badge: these numbers came from Gemini 3.5 Flash, not a fixture.
 • Line-item variance table: $4,400.00 billed vs $3,250.00 contracted, +$1,150.00 flagged.
-• This one exceeded the $500 autonomy threshold, so the fleet escalated it to a human —
+• This one exceeded the $500 autonomy threshold, so the fleet escalated it to a human -
   show the sign-off controls. Documa knows the limit of its own authority.
 
 ⏱️ 2:25 – 3:00: FULL AUTONOMY, END TO END (Scenario 4)
