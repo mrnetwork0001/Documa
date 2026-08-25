@@ -40,27 +40,49 @@ Documa turns manual document audit into an autonomous background workflow:
 
 ## 🎬 4-Minute Demo Video Recording Storyboard
 
+> **Framing note.** Judging weights *Innovation & Operational Utility* at 40%, defined as
+> "autonomous, high-value action over simple chat." So the video opens on the **zero-touch
+> Eventarc path** — a file lands in a bucket and the fleet acts with nobody watching — and
+> treats the dashboard as the *human escalation surface*, not the entry point. Clicking preset
+> buttons first would frame Documa as a chatbot with extra steps.
+>
+> **Record with `DOCUMA_STRICT_MODE=true` set.** In strict mode Documa refuses to fall back to
+> simulated fixtures, so every figure on screen is provably a live Gemini extraction. The
+> `⬤ LIVE GEMINI` badge next to the audit status is the on-camera proof.
+
 ```text
-⏱️ 0:00 – 0:45: THE PROBLEM
-• Show messy scanned physical receipt images and explain the 15+ hour weekly manual audit bottleneck.
-• Introduce Documa as the Autonomous Multimodal Audit Fleet built on Gemini 3.5 Flash and Google Cloud Run.
+⏱️ 0:00 – 0:40: THE PROBLEM
+• Physical receipts on a desk; the 15+ hour weekly manual reconciliation bottleneck.
+• "Documa is not a chatbot you ask. It is a fleet that already did the work."
 
-⏱️ 0:45 – 1:45: COMPLIANT RECEIPT DEMO
-• Open http://localhost:8080 (Documa Web Dashboard).
-• Click "Compliant Invoice" preset.
-• Show Gemini 3.5 Vision Agent extracting $3,250.00 baseline.
-• Highlight Auditor Agent matching PO-9921 and Discrepancy Dispatcher auto-approving immediate payout.
+⏱️ 0:40 – 1:40: THE AUTONOMOUS PATH (the money shot — no UI, no clicking)
+• Terminal: `gsutil cp overcharged_invoice.png gs://documa-receipts-bucket/`
+• Cut to the Google Cloud Run console. Show the request arriving on its own via Eventarc.
+• Cloud Run logs stream live: MultimodalVisionAgent -> ContractAuditorAgent ->
+  DiscrepancyDispatcherAgent. Say plainly: "Nobody clicked anything."
+• Firestore console: the new audit_logs and disputes documents appearing in real time.
 
-⏱️ 1:45 – 2:45: OVERCHARGE & UNAUTHORIZED FEE DISCOVERY
-• Click "Unit Price Overcharge" preset ($4,400.00 billed vs $3,250.00 approved).
-• Point to red variance badges (+ $1,150.00 overcharge).
-• Show generated formal Markdown Vendor Dispute Report.
-• Demonstrate Human Finance Manager sign-off controls ("Reject Overcharge" / "Pass Exception").
+⏱️ 1:40 – 2:25: WHAT THE FLEET DECIDED
+• Open the dashboard on that same audit — it is the review surface, not the trigger.
+• Point at the ⬤ LIVE GEMINI badge: these numbers came from Gemini 3.5 Flash, not a fixture.
+• Line-item variance table: $4,400.00 billed vs $3,250.00 contracted, +$1,150.00 flagged.
+• This one exceeded the $500 autonomy threshold, so the fleet escalated it to a human —
+  show the sign-off controls. Documa knows the limit of its own authority.
 
-⏱️ 2:45 – 3:30: GOOGLE CLOUD ARCHITECTURE & LOGS
-• Show gcloud run deploy execution and Cloud Run logs executing background daemon tasks.
-• Show Firestore database records storing purchase orders and audit logs.
+⏱️ 2:25 – 3:00: FULL AUTONOMY, END TO END (Scenario 4)
+• Run the Minor Overcharge document ($3,550.00 billed vs $3,250.00 contracted).
+• $300.00 variance is under threshold, so no human is involved at all: the fleet drafts and
+  dispatches the formal vendor dispute notice itself. Show the generated Markdown.
+• "That is the difference between an agent that reports a problem and one that resolves it."
 
-⏱️ 3:30 – 4:00: CONCLUSION & IMPACT
-• Summarize how Documa saves enterprise finance teams 15+ hours weekly with zero-touch background multi-agent execution.
+⏱️ 3:00 – 3:35: ARCHITECTURE & ENGINEERING DISCIPLINE
+• Architecture diagram: GCS -> Eventarc -> Cloud Run -> Antigravity fleet -> Firestore.
+• Antigravity SDK harness with schema-enforced structured output.
+• Guardrails: all 12 filesystem/shell tools disabled + deny-all policy, because invoices are
+  untrusted input and a malicious document must not be able to drive tools.
+• Strict mode: Documa raises rather than silently returning data it did not actually extract.
+
+⏱️ 3:35 – 4:00: IMPACT
+• 15+ hours per week of reconciliation removed; overcharges caught before payout, not after.
+• Humans see only the exceptions that genuinely need a signature.
 ```
