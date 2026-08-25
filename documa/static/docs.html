@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documa Docs - Autonomous Multimodal Audit &amp; Procurement Fleet</title>
+  <meta name="description" content="Documentation for Documa: the agent fleet, the audit engine, the HTTP API, deployment, and the trust model.">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+  <link rel="stylesheet" href="/static/landing.css">
+  <link rel="stylesheet" href="/static/docs.css">
+</head>
+<body class="docs">
+
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="/" class="nav__brand" aria-label="Documa home">
+        <img class="nav__logo" src="/static/documa-header.png"
+             alt="Documa - Autonomous Document Control" width="1294" height="297">
+      </a>
+      <div class="nav__links">
+        <a href="/">Overview</a>
+        <a href="/docs">Docs</a>
+        <a href="/app">App</a>
+        <a href="https://github.com/mrnetwork0001/Documa" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <div class="nav__actions">
+        <a href="/app" class="btn btn--light btn--sm">Launch App</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="docs-shell">
+
+    <!-- Sidebar -->
+    <aside class="docs-side">
+      <button type="button" class="docs-side__toggle" id="toc-toggle"
+              aria-expanded="false" aria-controls="toc">Contents</button>
+
+      <nav class="docs-side__nav" id="toc">
+        <div class="docs-side__group">
+          <p class="docs-side__label">Getting Started</p>
+          <a class="docs-side__link" href="#welcome">Welcome to Documa</a>
+          <a class="docs-side__link" href="#how-it-works">How It Works</a>
+        </div>
+
+        <div class="docs-side__group">
+          <p class="docs-side__label">The Agent Fleet</p>
+          <a class="docs-side__link" href="#agents">The Three Agents</a>
+          <a class="docs-side__link" href="#harness">Antigravity Harness</a>
+        </div>
+
+        <div class="docs-side__group">
+          <p class="docs-side__label">Audit Engine</p>
+          <a class="docs-side__link" href="#purchase-orders">Purchase Orders</a>
+          <a class="docs-side__link" href="#discrepancies">Discrepancy Types</a>
+          <a class="docs-side__link" href="#thresholds">Decision Thresholds</a>
+        </div>
+
+        <div class="docs-side__group">
+          <p class="docs-side__label">Integration</p>
+          <a class="docs-side__link" href="#api">HTTP API</a>
+          <a class="docs-side__link" href="#eventarc">Eventarc Intake</a>
+        </div>
+
+        <div class="docs-side__group">
+          <p class="docs-side__label">Operate</p>
+          <a class="docs-side__link" href="#deploy">Self-Hosting &amp; Deployment</a>
+          <a class="docs-side__link" href="#config">Configuration</a>
+        </div>
+
+        <div class="docs-side__group">
+          <p class="docs-side__label">Trust</p>
+          <a class="docs-side__link" href="#guardrails">Guardrails &amp; Provenance</a>
+          <a class="docs-side__link" href="#faq">FAQ</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Article -->
+    <main class="docs-main">
+
+      <h1 class="docs-h1">Welcome to Documa</h1>
+
+      <section class="docs-sec" id="welcome">
+        <p>
+          <strong>Documa is an autonomous multimodal audit and procurement fleet.</strong>
+          It reads vendor documents - scanned receipts, invoice images, multi-page PDFs -
+          audits them line by line against your contracted purchase orders, and then clears,
+          disputes, or escalates each one.
+        </p>
+        <p>
+          The agents are not a chat feature bolted onto an invoice tool. Three of them run the
+          audit end to end and decide the outcome themselves: <strong>the fleet reads, reconciles,
+          disputes, and clears the documents.</strong> Every step is logged, and every decision is
+          traceable to the line item that caused it.
+        </p>
+        <ul>
+          <li><strong>Compliant invoices</strong> - clear for payout automatically</li>
+          <li><strong>Minor disputes</strong> - drafted and dispatched by the fleet alone</li>
+          <li><strong>Genuine exceptions</strong> - and only those - reach a human signature</li>
+        </ul>
+
+        <h2 class="docs-h2" style="margin-top:44px">Where everything lives</h2>
+
+        <div class="docs-defs">
+          <div class="docs-def">
+            <span class="docs-def__k">Landing page</span>
+            <span class="docs-def__v"><a href="/">/</a></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">App dashboard</span>
+            <span class="docs-def__v"><a href="/app">/app</a></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Documentation</span>
+            <span class="docs-def__v"><a href="/docs">/docs</a></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Health check</span>
+            <span class="docs-def__v"><code>GET /health</code></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Model</span>
+            <span class="docs-def__v"><code>gemini-3.5-flash</code> via Gemini API or Vertex AI</span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Agent framework</span>
+            <span class="docs-def__v"><code>google-antigravity</code> - the official Antigravity SDK harness</span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Cloud services</span>
+            <span class="docs-def__v">Cloud Run, Firestore, Cloud Storage, Eventarc</span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Firestore collections</span>
+            <span class="docs-def__v"><code>purchase_orders</code> <code>audit_logs</code> <code>disputes</code></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">Document bucket</span>
+            <span class="docs-def__v"><code>gs://documa-receipts-bucket</code></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">GitHub</span>
+            <span class="docs-def__v"><a href="https://github.com/mrnetwork0001/Documa" target="_blank" rel="noopener">mrnetwork0001/Documa</a></span>
+          </div>
+          <div class="docs-def">
+            <span class="docs-def__k">License</span>
+            <span class="docs-def__v">Apache 2.0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-sec" id="how-it-works">
+        <h2 class="docs-h2">How It Works</h2>
+        <p>
+          A document enters Documa one of two ways: dropped into Cloud Storage, or posted to the
+          API. The Cloud Storage path is the autonomous one - nobody clicks anything.
+        </p>
+<pre><code>Cloud Storage (document lands)
+  -> Eventarc  object.finalized
+  -> Cloud Run worker
+  -> MultimodalVisionAgent   extracts the document
+  -> ContractAuditorAgent    reconciles against the PO
+  -> DiscrepancyDispatcher   decides the outcome
+  -> Firestore               audit log + dispute record</code></pre>
+        <p>
+          The three agents run as a sequential pipeline. Each hands typed state to the next through
+          a shared <code>AgentState</code>, and the orchestrator records every step in an execution
+          log that is returned with the response.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="agents">
+        <h2 class="docs-h2">The Three Agents</h2>
+
+        <h3 class="docs-h3">1. MultimodalVisionAgent</h3>
+        <p>
+          Reads the document bytes from Cloud Storage or local disk and extracts a structured
+          invoice: vendor, address, invoice number, PO reference, date, line items, subtotal, tax,
+          grand total, currency, and whether a signature is present. Runs Gemini 3.5 Flash with a
+          Pydantic response schema, so the output is schema-enforced rather than parsed out of prose.
+        </p>
+
+        <h3 class="docs-h3">2. ContractAuditorAgent</h3>
+        <p>
+          Fetches the matching purchase order from Firestore and reconciles each billed line against
+          its contracted rate. Lines are matched by <code>item_code</code> first, then by
+          description. Produces an itemized variance carrying the exact dollar impact per line.
+        </p>
+
+        <h3 class="docs-h3">3. DiscrepancyDispatcherAgent</h3>
+        <p>
+          Turns the audit into one of three Markdown documents - a payout authorization, a formal
+          vendor price-discrepancy notice with the credit-memo amount already calculated, or a
+          finance escalation alert with reject-or-approve controls.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="harness">
+        <h2 class="docs-h2">Antigravity Harness</h2>
+        <p>
+          Documa's agents are synchronous while the Antigravity SDK is async-only, so the SDK is
+          wrapped behind a synchronous <code>BaseAgent</code> interface. The bridge runs coroutines
+          from sync callers and works both off the event loop - CLI, tests, FastAPI <code>def</code>
+          endpoints - and on it, where a bare <code>asyncio.run</code> would raise.
+        </p>
+        <p>
+          Model access resolves from the environment: a Gemini API key, or Vertex AI when
+          <code>GOOGLE_GENAI_USE_VERTEXAI</code> is set with a project.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="purchase-orders">
+        <h2 class="docs-h2">Purchase Orders</h2>
+        <p>
+          A purchase order is the contracted baseline an invoice is judged against. It carries
+          approved unit prices per line, a maximum allowed tax, and an approved grand total. Two
+          sample orders are seeded on startup.
+        </p>
+
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr><th>PO</th><th>Vendor</th><th class="t-c">Lines</th><th class="t-r">Subtotal</th><th class="t-r">Max tax</th><th class="t-r">Approved total</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="t-name">PO-9921</td><td>Acme Industrial Tech</td>
+                <td class="t-c">2</td><td class="t-r">$3,050.00</td><td class="t-r t-dim">$200.00</td><td class="t-r">$3,250.00</td>
+              </tr>
+              <tr>
+                <td class="t-name">PO-8810</td><td>Global Logistics Corp</td>
+                <td class="t-c">1</td><td class="t-r">$1,300.00</td><td class="t-r t-dim">$100.00</td><td class="t-r">$1,400.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          PO-9921 approves 10 x Dell UltraSharp 27-inch Monitor at <code>$180.00</code> and
+          5 x Ergonomic Executive Office Chair at <code>$250.00</code>. Every demo scenario is
+          measured against it.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="discrepancies">
+        <h2 class="docs-h2">Discrepancy Types</h2>
+        <ul>
+          <li><strong>OVERCHARGE</strong> - the billed unit price exceeds the contracted rate. Variance is the per-unit difference times the billed quantity.</li>
+          <li><strong>QUANTITY_MISMATCH</strong> - the billed quantity exceeds the authorized quantity. Variance is the excess quantity at the approved rate.</li>
+          <li><strong>UNAUTHORIZED_ITEM</strong> - a line no purchase order ever approved. The whole line total is the variance.</li>
+          <li><strong>MISSING_PO_RECORD</strong> - no purchase order matches the reference at all. The full billed amount is treated as unverified and escalated.</li>
+        </ul>
+      </section>
+
+      <section class="docs-sec" id="thresholds">
+        <h2 class="docs-h2">Decision Thresholds</h2>
+        <p>
+          The <code>$500</code> variance threshold is Documa's autonomy boundary. Below it the fleet
+          resolves the dispute itself; above it, or when an unauthorized charge appears, it defers to
+          a person. Documa knows the limit of its own authority.
+        </p>
+
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr><th>Condition</th><th>Audit status</th><th>Action taken</th><th class="t-r">Human</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No discrepancies and |variance| &lt;= $1</td>
+                <td class="t-name">APPROVED</td><td class="t-ok">AUTO_APPROVED_PAYOUT</td><td class="t-r t-ok">no</td>
+              </tr>
+              <tr>
+                <td>Discrepancies, variance &lt;= $500, nothing unauthorized</td>
+                <td class="t-name">DISCREPANCY_DETECTED</td><td>GENERATED_DISCREPANCY_REPORT</td><td class="t-r t-ok">no</td>
+              </tr>
+              <tr>
+                <td>Variance &gt; $500 or any unauthorized item</td>
+                <td class="t-name">REQUIRES_HUMAN_APPROVAL</td><td class="t-bad">ESCALATED_TO_HUMAN_FINANCE</td><td class="t-r t-bad">yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          A finance manager's ruling is recorded separately as a <code>HumanDecision</code> of
+          <code>REJECT_OVERCHARGE</code> or <code>APPROVE_EXCEPTION</code>. It never overwrites
+          <code>action_taken</code>, which stays the fleet's own account of what it dispatched.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="api">
+        <h2 class="docs-h2">HTTP API</h2>
+
+        <div class="docs-defs">
+          <div class="docs-def"><span class="docs-def__k"><code>POST /api/audit/process</code></span><span class="docs-def__v">Audit a document by path or GCS URI</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>POST /api/audit/upload</code></span><span class="docs-def__v">Multipart upload, then audit</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>POST /api/events/gcs</code></span><span class="docs-def__v">Eventarc <code>object.finalized</code> handler</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GET /api/po</code></span><span class="docs-def__v">List purchase orders</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>POST /api/po</code></span><span class="docs-def__v">Create or update a purchase order</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GET /api/audit/logs</code></span><span class="docs-def__v">Audit history</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GET /api/disputes</code></span><span class="docs-def__v">Dispute reports</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>POST /api/disputes/{id}/approve</code></span><span class="docs-def__v">Record a human finance decision</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GET /api/disputes/{id}/export/pdf</code></span><span class="docs-def__v">Printable vendor dispute notice</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GET /api/audit/export/csv</code></span><span class="docs-def__v">ERP-compatible CSV for SAP or QuickBooks</span></div>
+        </div>
+
+        <h3 class="docs-h3">Auditing a document</h3>
+<pre><code>curl -X POST http://localhost:8085/api/audit/process \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "document_id": "DOC-MINOR-404",
+    "file_path_or_url": "receipts/minor_overcharge_invoice.png",
+    "po_number_override": "PO-9921"
+  }'</code></pre>
+        <p>
+          The response carries the extracted document, the audit result with its itemized
+          discrepancies, the dispatched report, and the full execution log.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="eventarc">
+        <h2 class="docs-h2">Eventarc Intake</h2>
+        <p>
+          The autonomous path. A file landing in the bucket emits
+          <code>object.finalized</code>, Eventarc delivers it to the Cloud Run service, and the
+          fleet audits it without any user interaction.
+        </p>
+<pre><code>gsutil cp overcharged_invoice.png gs://documa-receipts-bucket/</code></pre>
+        <p>
+          The handler derives a document id from the object name and resolves the document over
+          <code>gs://</code>. The same payload shape can be posted directly to
+          <code>/api/events/gcs</code> for local testing.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="deploy">
+        <h2 class="docs-h2">Self-Hosting &amp; Deployment</h2>
+
+        <h3 class="docs-h3">Run locally</h3>
+<pre><code>python3 -m venv venv &amp;&amp; source venv/bin/activate
+pip install -r requirements.txt
+export GEMINI_API_KEY="your-key"      # optional; see Configuration
+PYTHONPATH=. uvicorn documa.server:app --port 8085</code></pre>
+        <p>
+          Open <a href="/">the landing page</a> or <a href="/app">the dashboard</a>. Without
+          credentials Documa still runs: Firestore and Cloud Storage fall back to in-memory and
+          local-disk equivalents.
+        </p>
+
+        <h3 class="docs-h3">Run the agent fleet from the CLI</h3>
+<pre><code>PYTHONPATH=. python main.py        # runs all four scenarios
+PYTHONPATH=. pytest tests/test_audit_fleet.py -v</code></pre>
+
+        <h3 class="docs-h3">Deploy to Cloud Run</h3>
+<pre><code>docker build -t documa .
+./deploy.sh                        # enables APIs, builds, deploys</code></pre>
+        <p>
+          The container is <code>python:3.11-slim</code> and listens on port <code>8080</code>.
+          <code>deploy.sh</code> reads <code>GOOGLE_CLOUD_PROJECT</code> and <code>GCP_REGION</code>,
+          defaulting to <code>documa-hackathon</code> and <code>us-central1</code>.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="config">
+        <h2 class="docs-h2">Configuration</h2>
+
+        <div class="docs-defs">
+          <div class="docs-def"><span class="docs-def__k"><code>GEMINI_API_KEY</code></span><span class="docs-def__v">Gemini API key. <code>GOOGLE_API_KEY</code> is accepted as an alias.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_GENAI_USE_VERTEXAI</code></span><span class="docs-def__v">Set truthy to route through Vertex AI instead of the Gemini API.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_CLOUD_PROJECT</code></span><span class="docs-def__v">GCP project for Firestore and Vertex AI. Defaults to <code>documa-hackathon</code>.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_CLOUD_LOCATION</code></span><span class="docs-def__v">Vertex AI region. Defaults to <code>us-central1</code>.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GCS_BUCKET_NAME</code></span><span class="docs-def__v">Document bucket. Defaults to <code>documa-receipts-bucket</code>.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_STRICT_MODE</code></span><span class="docs-def__v">Set truthy to make a failed or unavailable extraction raise instead of falling back.</span></div>
+        </div>
+
+        <div class="docs-note">
+          <p class="docs-note__t">Recording a demo</p>
+          <p>
+            Run with <code>DOCUMA_STRICT_MODE=true</code>. Documa then refuses to fall back to
+            simulated fixtures, so every figure on screen is provably a live extraction.
+          </p>
+        </div>
+      </section>
+
+      <section class="docs-sec" id="guardrails">
+        <h2 class="docs-h2">Guardrails &amp; Provenance</h2>
+
+        <h3 class="docs-h3">An invoice is untrusted input</h3>
+        <p>
+          The Antigravity local harness enables filesystem and shell tools by default. For an agent
+          whose input is a third-party document that is an injection surface, so Documa disables all
+          twelve non-terminal tools behind a deny-all policy - the vision agent can only perform
+          inference. The system prompt also instructs the model to treat document text as data,
+          never as instructions.
+        </p>
+
+        <h3 class="docs-h3">Every extraction is labelled</h3>
+        <p>
+          Each result records an <code>extraction_mode</code>, surfaced in the API and shown in the
+          dashboard as a badge:
+        </p>
+        <ul>
+          <li><strong>ANTIGRAVITY_GEMINI</strong> - a real Gemini vision call</li>
+          <li><strong>SIMULATED_FALLBACK</strong> - an offline demo fixture, not extraction</li>
+        </ul>
+        <p>
+          A document matching no fixture is reported as <code>UNKNOWN</code> at <code>$0.00</code>
+          with zero confidence, rather than being given invented invoice data. Documa would rather
+          fail visibly than return a number it did not read.
+        </p>
+
+        <div class="docs-note docs-note--warn">
+          <p class="docs-note__t">Not production-hardened</p>
+          <p>
+            This is a hackathon build. CORS is open to all origins and no endpoint carries
+            authentication, including the finance override. Put it behind your own auth before
+            pointing it at real procurement data.
+          </p>
+        </div>
+      </section>
+
+      <section class="docs-sec" id="faq">
+        <h2 class="docs-h2">FAQ</h2>
+
+        <h3 class="docs-h3">Does it need a Gemini API key to run?</h3>
+        <p>
+          No. Without one the fleet runs on offline fixtures so the pipeline is fully
+          demonstrable - but nothing is actually read from the document. Set a key for real
+          extraction, and <code>DOCUMA_STRICT_MODE</code> to guarantee it.
+        </p>
+
+        <h3 class="docs-h3">What happens if no purchase order matches?</h3>
+        <p>
+          The audit returns <code>REQUIRES_HUMAN_APPROVAL</code> with a
+          <code>MISSING_PO_RECORD</code> discrepancy covering the full billed amount. Documa never
+          clears a payout it cannot justify against a contract.
+        </p>
+
+        <h3 class="docs-h3">Can a human override the fleet?</h3>
+        <p>
+          Yes, on escalated reports - either reject the overcharge and pay the contracted basis, or
+          approve the exception and release the full amount. The ruling is stored alongside the
+          agent's decision, never in place of it.
+        </p>
+
+        <h3 class="docs-h3">Which Google services does it use?</h3>
+        <p>
+          Gemini 3.5 Flash for vision, the Antigravity SDK as the agent framework, and Cloud Run,
+          Firestore, Cloud Storage and Eventarc for execution, state, intake and triggering.
+        </p>
+
+        <h3 class="docs-h3">Where do uploaded documents go?</h3>
+        <p>
+          Into <code>receipts/</code> on the service, with the filename stripped to its basename so
+          an upload cannot escape that directory. The repository ignores everything there except the
+          demo fixtures, since uploads may contain personal or customer data.
+        </p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__h">Documa Fleet</p>
+          <p>Autonomous multimodal audit &amp; procurement fleet. Built for the Google All Things Agentic Hackathon.</p>
+        </div>
+        <div>
+          <p class="footer__h">Core Stack</p>
+          <p>Gemini 3.5 Flash · Antigravity SDK · Cloud Run · Firestore</p>
+        </div>
+        <div>
+          <p class="footer__h">Event Architecture</p>
+          <p>Eventarc · Cloud Storage · FastAPI daemon</p>
+        </div>
+        <div>
+          <p class="footer__h">Source</p>
+          <p><a href="/docs">Documentation</a><br>
+             <a href="https://github.com/mrnetwork0001/Documa" target="_blank" rel="noopener">GitHub Repository →</a></p>
+        </div>
+      </div>
+
+      <div class="footer__mark">
+        <img src="/static/documa-header.png" alt="Documa - Autonomous Document Control"
+             width="1294" height="297" loading="lazy">
+      </div>
+
+      <div class="footer__base">
+        <span>© 2026 Documa Fleet.</span>
+        <span>Apache 2.0 Open Source License</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile contents toggle
+    const tocToggle = document.getElementById("toc-toggle");
+    const toc = document.getElementById("toc");
+    tocToggle.addEventListener("click", () => {
+      const open = toc.classList.toggle("is-open");
+      tocToggle.setAttribute("aria-expanded", String(open));
+    });
+
+    const links = [...document.querySelectorAll(".docs-side__link")];
+    const byHash = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+
+    function setActive(id) {
+      links.forEach(a => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
+    }
+
+    // Scrollspy: track the section nearest the top of the viewport rather than
+    // whichever happens to intersect, so short sections still register.
+    const sections = [...document.querySelectorAll(".docs-sec")];
+    function onScroll() {
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= 120) current = s;
+      }
+      if (current) setActive(current.id);
+    }
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Selecting an entry closes the mobile panel.
+    links.forEach(a => a.addEventListener("click", () => {
+      if (window.innerWidth <= 980) {
+        toc.classList.remove("is-open");
+        tocToggle.setAttribute("aria-expanded", "false");
+      }
+    }));
+  </script>
+</body>
+</html>

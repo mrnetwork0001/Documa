@@ -23,7 +23,11 @@ from documa.sample_data.seed_data import seed_sample_purchase_orders
 app = FastAPI(
     title="Documa - Autonomous Multimodal Audit & Procurement Fleet API",
     description="Google Cloud Run service powered by Gemini 3.5 Flash and Antigravity SDK.",
-    version="1.0.0"
+    version="1.0.0",
+    # /docs serves the Documa documentation site; the interactive schema
+    # explorer moves aside rather than being disabled.
+    docs_url="/openapi-docs",
+    redoc_url="/openapi-redoc"
 )
 
 app.add_middleware(
@@ -76,6 +80,19 @@ def read_dashboard_app():
         "framework": "Antigravity SDK",
         "cloud": "Google Cloud Run"
     }
+
+
+@app.get("/docs", include_in_schema=False)
+def read_docs_page():
+    """Serves the Documa documentation site.
+
+    Overrides FastAPI's default Swagger UI at /docs; the interactive schema
+    explorer stays available at /openapi-docs.
+    """
+    docs_path = os.path.join(static_dir, "docs.html")
+    if os.path.exists(docs_path):
+        return FileResponse(docs_path)
+    raise HTTPException(status_code=404, detail="Documentation page not found.")
 
 
 @app.get("/health")

@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Documa - Documentation
+   Layers the docs shell on the shared tokens in landing.css. Load landing.css
+   first. Accent is the lime sampled from the Documa mark.
+   ========================================================================== */
+
+:root {
+  --brand:      #b2e929;
+  --brand-dim:  rgba(178, 233, 41, 0.10);
+  --brand-line: rgba(178, 233, 41, 0.30);
+}
+
+/* Flat surface, matching the landing page. */
+body.docs { background: var(--bg); }
+
+/* ---------- Shell ----------------------------------------------------- */
+
+.docs-shell {
+  display: grid;
+  grid-template-columns: 292px minmax(0, 1fr);
+  gap: 56px;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
+  align-items: start;
+}
+
+/* ---------- Sidebar --------------------------------------------------- */
+
+.docs-side {
+  position: sticky;
+  top: 58px;                 /* clears the sticky nav */
+  max-height: calc(100vh - 58px);
+  overflow-y: auto;
+  padding: 40px 0 64px;
+  border-right: 1px solid var(--line);
+  scrollbar-width: thin;
+}
+.docs-side::-webkit-scrollbar { width: 6px; }
+.docs-side::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
+
+.docs-side__group + .docs-side__group { margin-top: 30px; }
+.docs-side__label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--brand);
+  opacity: .72;
+  margin: 0 0 10px;
+  padding-left: 17px;
+}
+.docs-side__link {
+  display: block;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  border-left: 2px solid transparent;
+  transition: color .14s ease, background .14s ease, border-color .14s ease;
+}
+.docs-side__link:hover { color: var(--ink); background: rgba(255,255,255,.03); }
+.docs-side__link.is-active {
+  color: var(--brand);
+  border-left-color: var(--brand);
+  background: var(--brand-dim);
+}
+
+/* Mobile "Contents" toggle, hidden on desktop. */
+.docs-side__toggle { display: none; }
+
+/* ---------- Article --------------------------------------------------- */
+
+.docs-main { padding: 40px 0 120px; min-width: 0; max-width: 860px; }
+
+.docs-h1 {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+  margin: 0 0 26px;
+}
+
+.docs-sec { padding-top: 26px; scroll-margin-top: 78px; }
+.docs-sec + .docs-sec { margin-top: 26px; }
+
+.docs-h2 {
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: -.028em;
+  margin: 0 0 18px;
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+}
+.docs-sec:first-of-type .docs-h2 { border-top: 0; padding-top: 0; }
+
+.docs-h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -.015em;
+  margin: 30px 0 10px;
+}
+
+.docs-main p {
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.72;
+  margin: 0 0 16px;
+  max-width: 74ch;
+}
+.docs-main p strong, .docs-main li strong { color: var(--ink); font-weight: 600; }
+
+.docs-main ul { margin: 0 0 18px; padding-left: 20px; max-width: 74ch; }
+.docs-main li { color: var(--ink-2); font-size: 15px; line-height: 1.68; margin-bottom: 9px; }
+.docs-main li::marker { color: var(--ink-4); }
+
+.docs-main a:not(.docs-side__link):not(.btn) {
+  color: var(--brand);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.docs-main a:not(.docs-side__link):not(.btn):hover { border-bottom-color: var(--brand-line); }
+
+code {
+  font-family: var(--mono);
+  font-size: .88em;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1.5px 6px;
+  white-space: nowrap;
+}
+
+pre {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: 0 0 20px;
+}
+pre code {
+  background: none; border: 0; padding: 0;
+  font-size: 12.5px; line-height: 1.75;
+  color: var(--ink-2); white-space: pre;
+}
+
+/* ---------- Definition rows ("Where everything lives") ---------------- */
+
+.docs-defs { border-top: 1px solid var(--line); margin: 0 0 22px; }
+.docs-def {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 22px;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.docs-def:hover { background: rgba(255,255,255,.018); }
+.docs-def__k { font-size: 13.5px; color: var(--ink-3); }
+.docs-def__v { font-size: 13.5px; color: var(--ink-2); overflow-wrap: anywhere; }
+.docs-def__v .accent { color: var(--brand); }
+
+/* ---------- Callout --------------------------------------------------- */
+
+.docs-note {
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--brand);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--surface);
+  padding: 16px 20px;
+  margin: 0 0 22px;
+}
+.docs-note p { margin: 0; font-size: 13.5px; }
+.docs-note__t {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--brand); margin: 0 0 7px !important;
+}
+.docs-note--warn { border-left-color: var(--warn); }
+.docs-note--warn .docs-note__t { color: var(--warn); }
+
+/* ---------- Table ----------------------------------------------------- */
+
+.docs-main .table-wrap { margin-bottom: 22px; }
+.docs-main table.data { min-width: 520px; }
+
+/* ---------- Responsive ------------------------------------------------ */
+
+@media (max-width: 980px) {
+  .docs-shell { grid-template-columns: 1fr; gap: 0; padding: 0 20px; }
+
+  .docs-side {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 16px 0;
+  }
+
+  .docs-side__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 11px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 11px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .docs-side__toggle::after { content: "+"; font-size: 15px; color: var(--brand); }
+  .docs-side__toggle[aria-expanded="true"]::after { content: "-"; }
+
+  .docs-side__nav { display: none; padding-top: 14px; }
+  .docs-side__nav.is-open { display: block; }
+
+  .docs-main { padding: 30px 0 90px; }
+  .docs-def { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }
+}
+
+@media (max-width: 560px) {
+  .docs-shell { padding: 0 14px; }
+
+  /* Inline code is nowrap by default so short identifiers stay intact; at
+     phone widths a long path like POST /api/disputes/{id}/approve would be
+     clipped instead, so let chips wrap here. */
+  code { white-space: normal; overflow-wrap: anywhere; }
+}
