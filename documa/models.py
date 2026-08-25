@@ -16,6 +16,13 @@ class DocumentType(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
+class ExtractionMode(str, Enum):
+    """Provenance of an extraction. Surfaced through the API and dashboard so a
+    simulated demo result can never be mistaken for a live Gemini extraction."""
+    ANTIGRAVITY_GEMINI = "ANTIGRAVITY_GEMINI"
+    SIMULATED_FALLBACK = "SIMULATED_FALLBACK"
+
+
 class AuditStatus(str, Enum):
     APPROVED = "APPROVED"
     DISCREPANCY_DETECTED = "DISCREPANCY_DETECTED"
@@ -53,7 +60,32 @@ class ExtractedDocument(BaseModel):
     currency: str = Field(default="USD")
     signature_detected: bool = Field(default=False, description="Whether vendor/receiver signature was detected")
     extraction_confidence: float = Field(default=0.95, description="Gemini vision confidence score (0.0 - 1.0)")
+    extraction_mode: ExtractionMode = Field(
+        default=ExtractionMode.SIMULATED_FALLBACK,
+        description="Whether these values came from a live Gemini vision call or from simulated demo data"
+    )
     raw_notes: Optional[str] = Field(default=None)
+
+
+class DocumentExtractionSchema(BaseModel):
+    """Structured-output contract handed to the Antigravity harness for vision extraction.
+
+    Mirrors ExtractedDocument minus the fields Documa supplies itself
+    (document_id, extraction_mode, extraction_confidence).
+    """
+    document_type: DocumentType = Field(default=DocumentType.INVOICE)
+    vendor_name: str = Field(description="Name of supplier/vendor")
+    vendor_address: Optional[str] = Field(default=None)
+    invoice_number: Optional[str] = Field(default=None)
+    purchase_order_ref: Optional[str] = Field(default=None, description="PO number if printed on the document")
+    invoice_date: Optional[str] = Field(default=None, description="Date on invoice (YYYY-MM-DD)")
+    line_items: List[LineItem] = Field(default_factory=list)
+    subtotal: float = Field(description="Calculated or printed subtotal")
+    tax_total: float = Field(default=0.0)
+    grand_total: float = Field(description="Grand total billed amount")
+    currency: str = Field(default="USD")
+    signature_detected: bool = Field(default=False)
+    raw_notes: Optional[str] = Field(default=None, description="Any handwritten notes or warnings visible")
 
 
 class POLineItem(BaseModel):
