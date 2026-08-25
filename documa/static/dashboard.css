@@ -1,5 +1,5 @@
 /* Pipely Editorial Theme for App Dashboard */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
   --bg-stone: #f6f5f1;
@@ -21,6 +21,12 @@ body {
   color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+h1, h2, h3, .font-serif, .pipely-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .mono-font, code, pre {
