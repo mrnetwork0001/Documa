@@ -53,7 +53,7 @@ every step in an execution log returned with the response.
 | Layer | Technology |
 | :--- | :--- |
 | Vision model | **Gemini 3.5 Flash** (`gemini-3.5-flash`) via Gemini API or Vertex AI |
-| Triage model | **Gemma** (`gemma-3-27b-it` by default) via the Google GenAI SDK |
+| Triage model | **Gemma** (`gemma-4-26b-a4b-it-maas`) via the Google GenAI SDK |
 | Agent framework | **Antigravity SDK** (`google-antigravity`) - schema-enforced structured output |
 | Compute | **Google Cloud Run** (Docker, `python:3.11-slim`, port 8080) |
 | State | **Google Firestore** - `purchase_orders`, `audit_logs`, `disputes` |
@@ -108,6 +108,32 @@ docker run -d -p 80:8080 -e GEMINI_API_KEY="your-key" --restart unless-stopped d
 
 Without Firestore credentials, state is in-memory and does not survive a restart.
 
+### Vertex AI with Application Default Credentials
+
+If your organisation disallows API keys, authenticate with ADC instead - no key
+is stored anywhere:
+
+```bash
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+gcloud auth application-default login
+gcloud auth application-default set-quota-project YOUR_PROJECT_ID
+gcloud services enable aiplatform.googleapis.com
+```
+
+Then in `.env`:
+
+```
+GOOGLE_GENAI_USE_VERTEXAI=true
+GOOGLE_CLOUD_PROJECT=your-project-id
+GOOGLE_CLOUD_LOCATION=global
+```
+
+Two things bite here. The **quota project** must be set explicitly, or requests
+are attributed to a shared Google project and every model returns 404. And
+Gemini 3.x publisher models are served from **`global`**, not a regional
+endpoint - `us-central1` returns 404 for `gemini-3.5-flash`.
+
 ### Google Cloud Run
 
 ```bash
@@ -142,7 +168,7 @@ gsutil cp receipts/overcharged_invoice.png gs://documa-receipts-bucket/
 | `GEMINI_API_KEY` | Gemini API key. `GOOGLE_API_KEY` is accepted as an alias. |
 | `GOOGLE_GENAI_USE_VERTEXAI` | Truthy routes the model through Vertex AI instead of the Gemini API. |
 | `GOOGLE_CLOUD_PROJECT` | Project for Firestore and Vertex AI. Defaults to `documa-hackathon`. |
-| `GOOGLE_CLOUD_LOCATION` | Vertex AI region. Defaults to `us-central1`. |
+| `GOOGLE_CLOUD_LOCATION` | Vertex region. Use `global` for Gemini 3.x - regional endpoints return 404. |
 | `GCS_BUCKET_NAME` | Document bucket. Defaults to `documa-receipts-bucket`. |
 | `DOCUMA_STRICT_MODE` | Truthy makes a failed or unavailable extraction **raise** instead of falling back. |
 | `DOCUMA_TRIAGE_MODEL` | Gemma model for pre-flight triage. Defaults to `gemma-3-27b-it`. |

@@ -18,6 +18,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from typing import Any, Callable, Dict, List, Optional, Sequence, Type, Union
@@ -33,7 +34,7 @@ DEFAULT_MODEL = "gemini-3.5-flash"
 # enables filesystem and shell tools by default, which is unacceptable for an
 # agent whose input is an untrusted third-party invoice -- a malicious document
 # could attempt tool-driven prompt injection. Everything except the terminal
-# FINISH tool is disabled, and a deny-all policy backs that up.
+# FINISH tool is disabled, leaving the agent able only to perform inference.
 _DISABLED_TOOLS = (
     "run_command",
     "create_file",
@@ -80,6 +81,35 @@ def build_media_part(data: bytes, mime_type: str, description: str = ""):
 
     primitive = ag.Document if mime_type == "application/pdf" else ag.Image
     return primitive(data=data, mime_type=mime_type, description=description)
+
+
+def _extract_json_object(text: str) -> Optional[Dict[str, Any]]:
+    """Pulls a JSON object out of a response that wrapped it in prose or a fence.
+
+    Models sometimes narrate around their answer. Tries the whole string first,
+    then a fenced ```json block, then the outermost balanced braces.
+    """
+    if not text:
+        return None
+
+    candidates = [text]
+
+    fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
+    if fence:
+        candidates.append(fence.group(1))
+
+    start, end = text.find("{"), text.rfind("}")
+    if start != -1 and end > start:
+        candidates.append(text[start:end + 1])
+
+    for candidate in candidates:
+        try:
+            parsed = json.loads(candidate)
+        except (json.JSONDecodeError, ValueError):
+            continue
+        if isinstance(parsed, dict):
+            return parsed
+    return None
 
 
 class AgentState:
@@ -158,13 +188,16 @@ class BaseAgent:
         system_instructions: Optional[str],
     ):
         import google.antigravity as ag
-        from google.antigravity import policy
 
+        # No deny-all policy here. The explicit disabled_tools list above already
+        # blocks every filesystem and shell tool; deny_all additionally blocked
+        # the harness's own terminal FINISH tool, which is the mechanism that
+        # emits structured output - so the model fell back to writing JSON as
+        # prose and structured_output() always returned None.
         kwargs: Dict[str, Any] = {
             "system_instructions": system_instructions or self.role,
             "model": self.model_name,
             "capabilities": ag.CapabilitiesConfig(disabled_tools=list(_DISABLED_TOOLS)),
-            "policies": [policy.deny_all()],
         }
         if response_schema is not None:
             kwargs["response_schema"] = response_schema
@@ -191,15 +224,18 @@ class BaseAgent:
             if payload is not None:
                 return payload
 
-            # Harness returned prose despite a schema -- recover if it is JSON,
-            # otherwise fail loudly rather than guessing.
+            # Harness returned prose despite a schema -- recover the JSON if it
+            # is in there, otherwise fail loudly rather than guessing.
             text = await response.text()
-            try:
-                return json.loads(text)
-            except json.JSONDecodeError as exc:
-                raise AntigravityUnavailableError(
-                    f"Antigravity returned no structured output for {self.name}: {text[:200]}"
-                ) from exc
+            payload = _extract_json_object(text)
+            if payload is not None:
+                logger.warning(
+                    f"[{self.name}] No structured output; recovered JSON from the response body."
+                )
+                return payload
+            raise AntigravityUnavailableError(
+                f"Antigravity returned no structured output for {self.name}: {text[:200]}"
+            )
 
     def generate(
         self,
