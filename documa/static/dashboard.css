@@ -22,8 +22,6 @@ body.app { background: var(--bg); padding: 0 0 64px; }
 .app-header__logo { height: 30px; width: auto; transition: opacity .18s ease; }
 .app-header__brand:hover .app-header__logo { opacity: .82; }
 .app-header__meta { min-width: 0; }
-.app-header__back { font-family: var(--mono); font-size: 10.5px; color: var(--ink-4); margin: 2px 0 0; transition: color .16s ease; }
-.app-header__brand:hover .app-header__back { color: var(--ink-2); }
 .app-header__actions { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
 
 /* ---------- KPI row --------------------------------------------------- */
