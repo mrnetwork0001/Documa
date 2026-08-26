@@ -195,10 +195,20 @@ button { font: inherit; color: inherit; }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 58px; gap: 20px; }
 .nav__brand { display: flex; align-items: center; gap: 9px; font-weight: 600; letter-spacing: -0.02em; font-size: 14.5px; }
 .nav__logo { height: 23px; width: auto; }
-.nav__links { display: flex; align-items: center; gap: 26px; }
+/* margin-left:auto packs the links against the right edge on desktop; the
+   mobile dropdown positions absolutely, so it is unaffected. */
+.nav__links { display: flex; align-items: center; gap: 26px; margin-left: auto; }
 .nav__links a { font-size: 13px; color: var(--ink-3); transition: color .16s ease; }
 .nav__links a:hover { color: var(--ink); }
 .nav__actions { display: flex; align-items: center; gap: 10px; }
+
+/* On desktop, an actions container holding nothing but the (hidden) burger
+   still costs one flex gap, leaving the links 20px shy of the page gutter.
+   Collapse it so the menu sits flush right; the docs page keeps its container
+   because the Launch App button lives there. */
+@media (min-width: 861px) {
+  .nav__actions:not(:has(> :not(.nav__burger))) { display: none; }
+}
 
 /* The mobile nav menu block near the end of this file takes over below 860px. */
 
