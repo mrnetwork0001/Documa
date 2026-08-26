@@ -2,6 +2,8 @@
 
 **Google All Things Agentic Hackathon - The Taskmaster track**
 
+**Live:** https://documa-fleet-466418539031.us-central1.run.app &nbsp;·&nbsp; [Dashboard](https://documa-fleet-466418539031.us-central1.run.app/app) &nbsp;·&nbsp; [Docs](https://documa-fleet-466418539031.us-central1.run.app/docs)
+
 Documa reads vendor documents, audits them line by line against your contracted purchase
 orders, and then clears, disputes, or escalates each one. It is a background workflow, not a
 chatbot: a file landing in a bucket is the trigger, and most documents are resolved before a
@@ -54,6 +56,7 @@ every step in an execution log returned with the response.
 | :--- | :--- |
 | Vision model | **Gemini 3.5 Flash** (`gemini-3.5-flash`) via Gemini API or Vertex AI |
 | Triage model | **Gemma** (`gemma-4-26b-a4b-it-maas`) via the Google GenAI SDK |
+| Registry | **Artifact Registry** + **Cloud Build** for the deployment pipeline |
 | Agent framework | **Antigravity SDK** (`google-antigravity`) - schema-enforced structured output |
 | Compute | **Google Cloud Run** (Docker, `python:3.11-slim`, port 8080) |
 | State | **Google Firestore** - `purchase_orders`, `audit_logs`, `disputes` |
@@ -171,7 +174,7 @@ gsutil cp receipts/overcharged_invoice.png gs://documa-receipts-bucket/
 | `GOOGLE_CLOUD_LOCATION` | Vertex region. Use `global` for Gemini 3.x - regional endpoints return 404. |
 | `GCS_BUCKET_NAME` | Document bucket. Defaults to `documa-receipts-bucket`. |
 | `DOCUMA_STRICT_MODE` | Truthy makes a failed or unavailable extraction **raise** instead of falling back. |
-| `DOCUMA_TRIAGE_MODEL` | Gemma model for pre-flight triage. Defaults to `gemma-3-27b-it`. |
+| `DOCUMA_TRIAGE_MODEL` | Gemma model for pre-flight triage. Defaults to `gemma-4-26b-a4b-it-maas`. |
 | `DOCUMA_DISABLE_TRIAGE` | Truthy skips triage entirely. |
 
 ### Strict mode

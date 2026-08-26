@@ -108,6 +108,10 @@
 
         <div class="docs-defs">
           <div class="docs-def">
+            <span class="docs-def__k">Live deployment</span>
+            <span class="docs-def__v"><a href="https://documa-fleet-466418539031.us-central1.run.app" target="_blank" rel="noopener">documa-fleet · Cloud Run</a> <span class="accent">running</span></span>
+          </div>
+          <div class="docs-def">
             <span class="docs-def__k">Landing page</span>
             <span class="docs-def__v"><a href="/">/</a></span>
           </div>
@@ -198,7 +202,7 @@
         </div>
         <p>
           Configure with <code>DOCUMA_TRIAGE_MODEL</code> (defaults to
-          <code>gemma-3-27b-it</code>) or turn it off entirely with
+          <code>gemma-4-26b-a4b-it-maas</code>) or turn it off entirely with
           <code>DOCUMA_DISABLE_TRIAGE</code>.
         </p>
       </section>
@@ -403,10 +407,10 @@ PYTHONPATH=. pytest tests/test_audit_fleet.py -v</code></pre>
           <div class="docs-def"><span class="docs-def__k"><code>GEMINI_API_KEY</code></span><span class="docs-def__v">Gemini API key. <code>GOOGLE_API_KEY</code> is accepted as an alias.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_GENAI_USE_VERTEXAI</code></span><span class="docs-def__v">Set truthy to route through Vertex AI instead of the Gemini API.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_CLOUD_PROJECT</code></span><span class="docs-def__v">GCP project for Firestore and Vertex AI. Defaults to <code>documa-hackathon</code>.</span></div>
-          <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_CLOUD_LOCATION</code></span><span class="docs-def__v">Vertex AI region. Defaults to <code>us-central1</code>.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_CLOUD_LOCATION</code></span><span class="docs-def__v">Model location. Use <code>global</code> for Gemini 3.x - regional endpoints return 404.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>GCS_BUCKET_NAME</code></span><span class="docs-def__v">Document bucket. Defaults to <code>documa-receipts-bucket</code>.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_STRICT_MODE</code></span><span class="docs-def__v">Set truthy to make a failed or unavailable extraction raise instead of falling back.</span></div>
-          <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_TRIAGE_MODEL</code></span><span class="docs-def__v">Gemma model used for pre-flight triage. Defaults to <code>gemma-3-27b-it</code>.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_TRIAGE_MODEL</code></span><span class="docs-def__v">Gemma model used for pre-flight triage. Defaults to <code>gemma-4-26b-a4b-it-maas</code> on Vertex.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_DISABLE_TRIAGE</code></span><span class="docs-def__v">Set truthy to skip Gemma triage entirely.</span></div>
         </div>
 
