@@ -4,10 +4,11 @@ Exposes RESTful endpoints for autonomous document auditing, PO management, and d
 """
 
 import os
+import pathlib
 from fastapi import FastAPI, HTTPException, Body, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response
 from typing import List, Optional
 import shutil
 import csv
@@ -74,21 +75,46 @@ os.makedirs(receipts_dir, exist_ok=True)
 app.mount("/receipts", StaticFiles(directory=receipts_dir), name="receipts")
 
 
+import re as _re
+
+
+def _serve_page(filename: str) -> HTMLResponse:
+    """Serves an HTML page with cache-busted asset URLs.
+
+    Every /static/*.css and /static/*.js reference is stamped with the file's
+    mtime (?v=...). A changed asset therefore gets a URL the browser has never
+    cached, which defeats even stylesheets cached before no-cache headers were
+    introduced - the failure mode that rendered the menu button unstyled.
+    """
+    html = pathlib.Path(static_dir, filename).read_text()
+
+    def stamp(match: "_re.Match") -> str:
+        rel = match.group(1)
+        asset = os.path.join(static_dir, os.path.basename(rel))
+        try:
+            version = int(os.path.getmtime(asset))
+        except OSError:
+            return match.group(0)
+        return f'/static/{os.path.basename(rel)}?v={version}'
+
+    html = _re.sub(r'/static/([A-Za-z0-9_.-]+\.(?:css|js))', stamp, html)
+    return HTMLResponse(content=html)
+
+
+
 @app.get("/")
 def read_landing_page():
     """Serves the Documa Landing Page with Launch App CTA."""
-    landing_path = os.path.join(static_dir, "landing.html")
-    if os.path.exists(landing_path):
-        return FileResponse(landing_path)
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    if os.path.exists(os.path.join(static_dir, "landing.html")):
+        return _serve_page("landing.html")
+    return _serve_page("index.html")
 
 
 @app.get("/app")
 def read_dashboard_app():
     """Serves the interactive Documa Web Dashboard UI."""
-    index_path = os.path.join(static_dir, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
+    if os.path.exists(os.path.join(static_dir, "index.html")):
+        return _serve_page("index.html")
     return {
         "service": "Documa - Autonomous Multimodal Audit & Procurement Fleet",
         "status": "OPERATIONAL",
@@ -105,9 +131,8 @@ def read_docs_page():
     Overrides FastAPI's default Swagger UI at /docs; the interactive schema
     explorer stays available at /openapi-docs.
     """
-    docs_path = os.path.join(static_dir, "docs.html")
-    if os.path.exists(docs_path):
-        return FileResponse(docs_path)
+    if os.path.exists(os.path.join(static_dir, "docs.html")):
+        return _serve_page("docs.html")
     raise HTTPException(status_code=404, detail="Documentation page not found.")
 
 
