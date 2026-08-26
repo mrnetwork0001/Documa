@@ -63,23 +63,43 @@ class GemmaTriage:
     def __init__(self, model_name: Optional[str] = None):
         self.model_name = model_name or os.getenv("DOCUMA_TRIAGE_MODEL", DEFAULT_TRIAGE_MODEL)
         self.api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+        self.use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in ("1", "true", "yes")
+        self.project = os.getenv("GOOGLE_CLOUD_PROJECT")
+        self.location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
         self.disabled = os.getenv("DOCUMA_DISABLE_TRIAGE", "").lower() in ("1", "true", "yes")
         self._client = None
 
         if self.disabled:
             logger.info("Gemma triage disabled by DOCUMA_DISABLE_TRIAGE.")
-        elif not self.api_key:
-            logger.info("No API key found. Gemma triage inactive; documents go straight to vision.")
+        elif not self.available:
+            logger.info("No credentials found. Gemma triage inactive; documents go straight to vision.")
 
     @property
     def available(self) -> bool:
-        return bool(self.api_key) and not self.disabled
+        """Triage needs either an API key or an ADC-backed Vertex project."""
+        if self.disabled:
+            return False
+        return bool(self.api_key) or bool(self.use_vertex and self.project)
 
     def _get_client(self):
+        """Builds a GenAI client, preferring an API key when one is available.
+
+        This is the opposite preference to the vision agent, and deliberately so:
+        open Gemma models are served directly by the Gemini API, whereas on
+        Vertex they generally require a Model Garden endpoint to be deployed
+        first. A project can therefore run vision on Vertex through Application
+        Default Credentials while triage uses a key, or fall back to Vertex when
+        no key exists.
+        """
         if self._client is None:
             from google import genai
 
-            self._client = genai.Client(api_key=self.api_key)
+            if self.api_key:
+                self._client = genai.Client(api_key=self.api_key)
+            else:
+                self._client = genai.Client(
+                    vertexai=True, project=self.project, location=self.location
+                )
         return self._client
 
     @staticmethod
