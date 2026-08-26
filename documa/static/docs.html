@@ -18,7 +18,7 @@
         <img class="nav__logo" src="/static/documa-header.png"
              alt="Documa - Autonomous Document Control" width="1294" height="297">
       </a>
-      <div class="nav__links">
+      <div class="nav__links" id="nav-menu">
         <a href="/">Overview</a>
         <a href="/docs">Docs</a>
         <a href="/app">App</a>
@@ -26,6 +26,10 @@
       </div>
       <div class="nav__actions">
         <a href="/app" class="btn btn--light btn--sm">Launch App</a>
+        <button type="button" class="nav__burger" id="nav-toggle"
+                aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -534,5 +538,6 @@ PYTHONPATH=. pytest tests/test_audit_fleet.py -v</code></pre>
       }
     }));
   </script>
+  <script src="/static/nav.js"></script>
 </body>
 </html>

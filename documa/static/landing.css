@@ -36,6 +36,7 @@
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --maxw: 1180px;
+  --wrap-pad: 24px;
   --radius: 14px;
   --radius-lg: 22px;
 }
@@ -67,7 +68,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Layout ---------------------------------------------------- */
 
-.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--wrap-pad); }
 .section { padding: 96px 0; border-top: 1px solid var(--line); }
 .section--flush { border-top: 0; }
 .section--tight { padding: 64px 0; }
@@ -199,7 +200,7 @@ button { font: inherit; color: inherit; }
 .nav__links a:hover { color: var(--ink); }
 .nav__actions { display: flex; align-items: center; gap: 10px; }
 
-@media (max-width: 860px) { .nav__links { display: none; } }
+/* The mobile nav menu block near the end of this file takes over below 860px. */
 
 /* ---------- Hero ------------------------------------------------------ */
 
@@ -478,3 +479,71 @@ input[type="range"]::-moz-range-thumb {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
   .hero__slab { transform: none; }
 }
+
+/* ---------- Mobile nav menu ------------------------------------------- */
+
+.nav__burger {
+  display: none;
+  width: 36px; height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface-2);
+  cursor: pointer;
+  padding: 0;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  transition: border-color .16s ease, background .16s ease;
+}
+.nav__burger:hover { border-color: var(--ink-3); background: var(--surface-3); }
+.nav__burger span {
+  display: block;
+  width: 15px; height: 1.5px;
+  background: var(--ink-2);
+  border-radius: 2px;
+  transition: transform .2s ease, opacity .16s ease;
+}
+.nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  /* .nav__links is a sibling of .nav__actions, so it cannot anchor to the
+     burger's container. It anchors to .nav__inner instead, whose padding box
+     reaches the viewport edge - hence the explicit gutter offset, kept in step
+     with .wrap through --wrap-pad rather than hardcoded. */
+  .nav__inner { position: relative; }
+  .nav__burger { display: grid; }
+
+  /* The status pill and desktop CTA give up the top right to the burger. */
+  .nav__actions > *:not(.nav__burger) { display: none; }
+
+  /* The same .nav__links list becomes the dropdown, so there is only ever
+     one copy of the navigation to maintain. */
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: var(--wrap-pad);
+    z-index: 70;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    min-width: 210px;
+    padding: 9px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 13px;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .6);
+    animation: nav-menu-in .16s ease;
+  }
+  .nav__links.is-open { display: flex; }
+  .nav__links a {
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--ink-2);
+  }
+  .nav__links a:hover { background: rgba(255, 255, 255, .05); color: var(--ink); }
+}
+@keyframes nav-menu-in { from { opacity: 0; transform: translateY(-5px); } }
