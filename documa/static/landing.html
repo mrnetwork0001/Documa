@@ -53,10 +53,10 @@
       <div class="hero__slab">
         <div class="console">
           <div class="console__bar">
-            <span class="dot" style="color:var(--ok)"></span>
-            <span>documa-fleet · us-central1 · audit session SES-4B21A9</span>
+            <span class="dot dot--pulse" style="color:var(--ok)"></span>
+            <span id="hero-console-meta">documa-fleet · us-central1 · audit session SES-4B21A9</span>
           </div>
-          <div class="console__body">
+          <div class="console__body" id="hero-console-body">
             <div class="console__row"><span>gs://documa-receipts-bucket/overcharged_invoice.png</span><span>object.finalized</span></div>
             <div class="console__row"><span>MultimodalVisionAgent</span><b>2 line items extracted</b></div>
             <div class="console__row"><span>ContractAuditorAgent · PO-9921</span><b>2 discrepancies</b></div>
@@ -476,5 +476,152 @@
   </footer>
 
   <script src="/static/nav.js"></script>
+  <script>
+    // Hero console: a looping replay of the fleet auditing each demo scenario.
+    // The static markup above stays as the no-JS / reduced-motion fallback.
+    (function () {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var body = document.getElementById("hero-console-body");
+      var meta = document.getElementById("hero-console-meta");
+      if (!body || !meta) return;
+
+      // Lock the body's height before animating: the replay rebuilds rows from
+      // scratch each cycle, and without this everything below the hero would
+      // bounce as the console refills. The animated end state carries one more
+      // line than the static fallback (the cursor row).
+      var staticRow = body.querySelector(".console__row");
+      if (staticRow) {
+        body.style.minHeight = (body.scrollHeight + staticRow.offsetHeight) + "px";
+      }
+
+      var SCENARIOS = [
+        {
+          session: "SES-4B21A9", file: "gs://documa-receipts-bucket/overcharged_invoice.png",
+          rows: [
+            ["MultimodalVisionAgent", "2 line items extracted", ""],
+            ["ContractAuditorAgent \u00b7 PO-9921", "2 discrepancies", ""],
+            ["Billed", "$4,400.00", ""],
+            ["Contracted basis", "$3,250.00", ""],
+            ["Net variance", "+$1,150.00", "bad"],
+            ["DiscrepancyDispatcherAgent", "ESCALATED_TO_HUMAN_FINANCE", "bad"]
+          ]
+        },
+        {
+          session: "SES-9C03E2", file: "gs://documa-receipts-bucket/compliant_invoice.png",
+          rows: [
+            ["MultimodalVisionAgent", "2 line items extracted", ""],
+            ["ContractAuditorAgent \u00b7 PO-9921", "PO matched cleanly", ""],
+            ["Billed", "$3,250.00", ""],
+            ["Contracted basis", "$3,250.00", ""],
+            ["Net variance", "$0.00", "ok"],
+            ["DiscrepancyDispatcherAgent", "AUTO_APPROVED_PAYOUT", "ok"]
+          ]
+        },
+        {
+          session: "SES-77A1D4", file: "gs://documa-receipts-bucket/minor_overcharge_invoice.png",
+          rows: [
+            ["MultimodalVisionAgent", "2 line items extracted", ""],
+            ["ContractAuditorAgent \u00b7 PO-9921", "1 discrepancy", ""],
+            ["Billed", "$3,550.00", ""],
+            ["Contracted basis", "$3,250.00", ""],
+            ["Net variance", "+$300.00", "warn"],
+            ["DiscrepancyDispatcherAgent", "GENERATED_DISCREPANCY_REPORT", "warn"]
+          ]
+        },
+        {
+          session: "SES-E52B90", file: "gs://documa-receipts-bucket/unauthorized_fees_invoice.png",
+          rows: [
+            ["MultimodalVisionAgent", "3 line items extracted", ""],
+            ["ContractAuditorAgent \u00b7 PO-9921", "1 unauthorized item", ""],
+            ["Billed", "$3,700.00", ""],
+            ["Contracted basis", "$3,250.00", ""],
+            ["Net variance", "+$450.00", "bad"],
+            ["DiscrepancyDispatcherAgent", "ESCALATED_TO_HUMAN_FINANCE", "bad"]
+          ]
+        }
+      ];
+      var TONE = { ok: "var(--ok)", warn: "var(--warn)", bad: "var(--bad)", "": "" };
+      var MONEY = /^([+-]?\$)([\d,]+(?:\.\d{2})?)$/;
+
+      function makeRow(left, right, tone) {
+        var row = document.createElement("div");
+        row.className = "console__row console__row--in";
+        var l = document.createElement("span");
+        l.textContent = left;
+        var r = document.createElement("b");
+        r.textContent = right;
+        if (tone) { row.style.color = TONE[tone]; r.style.color = TONE[tone]; }
+        row.append(l, r);
+        return row;
+      }
+
+      // Money values count up to their final figure as the row lands.
+      function countUp(el, text) {
+        var m = MONEY.exec(text);
+        if (!m) return;
+        var prefix = m[1], target = parseFloat(m[2].replace(/,/g, ""));
+        var t0 = performance.now(), DUR = 520;
+        function frame(t) {
+          var k = Math.min(1, (t - t0) / DUR);
+          var eased = 1 - Math.pow(1 - k, 3);
+          el.textContent = prefix + (target * eased).toLocaleString("en-US",
+            { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          if (k < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      var cursorRow = document.createElement("div");
+      cursorRow.className = "console__row";
+      cursorRow.innerHTML = '<span><span class="console__cursor"></span></span>';
+
+      var i = 0;
+      function play() {
+        var sc = SCENARIOS[i % SCENARIOS.length];
+        i += 1;
+        meta.textContent = "documa-fleet \u00b7 us-central1 \u00b7 audit session " + sc.session;
+        body.classList.remove("console__body--leaving");
+        body.textContent = "";
+
+        // Row 1: the object path types out against its trigger.
+        var fileRow = document.createElement("div");
+        fileRow.className = "console__row";
+        var fileL = document.createElement("span");
+        var fileR = document.createElement("span");
+        fileR.textContent = "object.finalized";
+        fileR.style.opacity = "0";
+        fileRow.append(fileL, fileR);
+        body.append(fileRow, cursorRow);
+
+        var pos = 0;
+        (function type() {
+          fileL.textContent = sc.file.slice(0, pos);
+          if (pos < sc.file.length) { pos += 2; setTimeout(type, 16); return; }
+          fileR.style.opacity = "";
+          fileR.className = "console__fade-in";
+          streamRows(0);
+        })();
+
+        function streamRows(n) {
+          if (n >= sc.rows.length) {
+            setTimeout(function () {
+              body.classList.add("console__body--leaving");
+              setTimeout(play, 600);
+            }, 3400);
+            return;
+          }
+          setTimeout(function () {
+            var spec = sc.rows[n];
+            var row = makeRow(spec[0], spec[1], spec[2]);
+            body.insertBefore(row, cursorRow);
+            countUp(row.lastChild, spec[1]);
+            streamRows(n + 1);
+          }, n === 0 ? 300 : 430);
+        }
+      }
+      play();
+    })();
+  </script>
+
 </body>
 </html>

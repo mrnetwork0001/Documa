@@ -557,3 +557,26 @@ input[type="range"]::-moz-range-thumb {
   .nav__links a:hover { background: rgba(255, 255, 255, .05); color: var(--ink); }
 }
 @keyframes nav-menu-in { from { opacity: 0; transform: translateY(-5px); } }
+
+/* ---------- Hero console replay --------------------------------------- */
+
+.console__row--in { animation: console-row-in .3s ease both; }
+@keyframes console-row-in { from { opacity: 0; transform: translateY(5px); } }
+
+.console__fade-in { animation: console-fade .35s ease both; }
+@keyframes console-fade { from { opacity: 0; } }
+
+.console__cursor {
+  display: inline-block;
+  width: 8px; height: 13px;
+  background: var(--ok);
+  vertical-align: -2px;
+  animation: console-blink 1.05s steps(1) infinite;
+}
+@keyframes console-blink { 50% { opacity: 0; } }
+
+.console__body--leaving { opacity: 0; transition: opacity .5s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .console__cursor { animation: none; }
+}
