@@ -38,6 +38,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.middleware("http")
+async def revalidate_static_assets(request, call_next):
+    """Forces browsers to revalidate stylesheets, scripts and documents.
+
+    Without this a cached stylesheet renders the current markup with stale rules -
+    an unstyled button in place of the menu, for instance - which looks like a
+    broken build rather than a caching artefact. StaticFiles still serves ETags,
+    so an unchanged asset costs a 304 rather than a re-download.
+    """
+    response = await call_next(request)
+    path = request.url.path
+    if path.startswith(("/static/", "/receipts/")) or path in ("/", "/app", "/docs"):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
+
 # Global service instances
 firestore_service = FirestoreService()
 storage_service = StorageService()
