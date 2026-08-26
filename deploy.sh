@@ -9,7 +9,10 @@ set -euo pipefail
 PROJECT_ID="${GOOGLE_CLOUD_PROJECT:-}"
 REGION="${GCP_REGION:-us-central1}"
 SERVICE_NAME="documa-fleet"
-IMAGE_NAME="gcr.io/${PROJECT_ID}/${SERVICE_NAME}:latest"
+# Artifact Registry, not the legacy gcr.io host: new projects have no gcr.io
+# repository provisioned, so pushes there fail with uploadArtifacts denied.
+AR_REPO="${DOCUMA_AR_REPO:-documa}"
+IMAGE_NAME="${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPO}/${SERVICE_NAME}:latest"
 
 # Gemini 3.x publisher models are served from the 'global' endpoint. A regional
 # value here makes every model call return 404.
@@ -42,6 +45,7 @@ gcloud services enable \
   firestore.googleapis.com \
   storage.googleapis.com \
   cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com \
   eventarc.googleapis.com \
   --project="${PROJECT_ID}"
 
@@ -61,7 +65,20 @@ for ROLE in roles/aiplatform.user roles/datastore.user roles/storage.objectViewe
   echo "    ${ROLE} -> ${RUNTIME_SA}"
 done
 
-# 3. Build the container image with Cloud Build.
+# 3. Ensure the Artifact Registry repository exists, then build into it.
+echo "> Ensuring Artifact Registry repository '${AR_REPO}' exists..."
+gcloud artifacts repositories describe "${AR_REPO}" \
+  --location="${REGION}" --project="${PROJECT_ID}" >/dev/null 2>&1 || \
+gcloud artifacts repositories create "${AR_REPO}" \
+  --repository-format=docker --location="${REGION}" \
+  --description="Documa container images" --project="${PROJECT_ID}"
+
+for SA in "${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" "${RUNTIME_SA}"; do
+  gcloud projects add-iam-policy-binding "${PROJECT_ID}" \
+    --member="serviceAccount:${SA}" --role="roles/artifactregistry.writer" \
+    --condition=None --quiet >/dev/null 2>&1 || true
+done
+
 echo "> Building container image via Cloud Build..."
 gcloud builds submit --tag "${IMAGE_NAME}" --project="${PROJECT_ID}"
 
