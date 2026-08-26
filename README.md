@@ -78,7 +78,7 @@ cd Documa
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-export GEMINI_API_KEY="your-gemini-api-key"   # optional - see Configuration
+cp .env.example .env          # then paste your key into .env (gitignored)
 
 PYTHONPATH=. uvicorn documa.server:app --port 8085
 ```
