@@ -36,7 +36,7 @@ class AuditorAgent(BaseAgent):
         if not po:
             state.log(self.name, "PurchaseOrderNotFound", {"po_number": po_number})
             # Generate unassigned/missing PO audit failure
-            return AuditResult(
+            missing_po_result = AuditResult(
                 audit_id=f"AUD-{uuid.uuid4().hex[:8].upper()}",
                 document_id=extracted_doc.document_id,
                 po_number=po_number,
@@ -60,6 +60,20 @@ class AuditorAgent(BaseAgent):
                 has_unauthorized_items=True,
                 summary_notes=f"Audit failed: PO '{po_number}' not found in Firestore."
             )
+
+            # This branch must publish its result exactly like the normal path.
+            # Returning without doing so left state["audit_result"] unset, so the
+            # orchestrator built a response with audit_result=None and the request
+            # failed validation - every unknown-PO document 500'd instead of
+            # escalating to a human as documented.
+            self.firestore.save_audit_result(missing_po_result)
+            state.set("audit_result", missing_po_result)
+            state.log(self.name, "AuditCompleted", {
+                "status": missing_po_result.status.value,
+                "net_variance": missing_po_result.net_variance,
+                "discrepancies_count": len(missing_po_result.discrepancies),
+            })
+            return missing_po_result
 
         # Build lookup maps for PO items by item_code or description
         po_items_by_code = {item.item_code.lower(): item for item in po.line_items if item.item_code}

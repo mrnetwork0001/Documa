@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#71717a"/>
+    </marker>
+    <marker id="arrowOk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7ee0a8"/>
+    </marker>
+    <marker id="arrowWarn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f2c14e"/>
+    </marker>
+    <marker id="arrowBad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff8080"/>
+    </marker>
+    <style>
+      .t   { fill:#f4f4f5; font-size:19px; font-weight:600; }
+      .s   { fill:#a1a1aa; font-size:14px; }
+      .m   { fill:#71717a; font-size:12.5px; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; }
+      .lbl { fill:#52525b; font-size:11px; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; letter-spacing:.14em; }
+      .num { fill:#08080a; font-size:13px; font-weight:700; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; }
+      .box { fill:#131316; stroke:rgba(255,255,255,.16); stroke-width:1; }
+      .ln  { stroke:#71717a; stroke-width:1.5; fill:none; marker-end:url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#08080a"/>
+
+  <!-- Title -->
+  <text x="60" y="66" class="t" font-size="30" letter-spacing="-.5">Documa - Autonomous Multimodal Audit &amp; Procurement Fleet</text>
+  <text x="60" y="96" class="s" font-size="15">Gemini 3.5 Flash · Antigravity SDK · Cloud Run · Firestore · Cloud Storage · Eventarc</text>
+  <line x1="60" y1="120" x2="1540" y2="120" stroke="rgba(255,255,255,.08)"/>
+
+  <!-- ============ INTAKE ============ -->
+  <text x="60" y="166" class="lbl">INTAKE</text>
+
+  <rect x="60" y="184" width="230" height="96" rx="12" class="box"/>
+  <circle cx="84" cy="208" r="10" fill="#a1a1aa"/><text x="84" y="212" class="num" text-anchor="middle">1</text>
+  <text x="104" y="213" class="t" font-size="16">Vendor document</text>
+  <text x="80" y="240" class="s">Scanned receipt, invoice</text>
+  <text x="80" y="260" class="s">image, or multi-page PDF</text>
+
+  <rect x="60" y="308" width="230" height="96" rx="12" class="box"/>
+  <circle cx="84" cy="332" r="10" fill="#a1a1aa"/><text x="84" y="336" class="num" text-anchor="middle">2</text>
+  <text x="104" y="337" class="t" font-size="16">Cloud Storage</text>
+  <text x="80" y="364" class="m">gs://documa-</text>
+  <text x="80" y="384" class="m">receipts-bucket</text>
+
+  <rect x="60" y="432" width="230" height="96" rx="12" class="box"/>
+  <circle cx="84" cy="456" r="10" fill="#a1a1aa"/><text x="84" y="460" class="num" text-anchor="middle">3</text>
+  <text x="104" y="461" class="t" font-size="16">Eventarc</text>
+  <text x="80" y="488" class="m">object.finalized</text>
+  <text x="80" y="510" class="s" font-size="13">No user interaction</text>
+
+  <path d="M 175 280 L 175 300" class="ln"/>
+  <path d="M 175 404 L 175 424" class="ln"/>
+
+  <!-- ============ CLOUD RUN / FLEET ============ -->
+  <text x="360" y="166" class="lbl">CLOUD RUN SERVICE - ANTIGRAVITY AGENT FLEET</text>
+
+  <rect x="360" y="184" width="640" height="600" rx="16" fill="#0d0d10" stroke="rgba(255,255,255,.16)" stroke-dasharray="5 4"/>
+  <text x="384" y="212" class="s" font-size="13">FastAPI · sequential pipeline · shared AgentState · every step logged</text>
+
+  <!-- Gemma triage -->
+  <rect x="392" y="234" width="576" height="86" rx="12" class="box" stroke="rgba(178,233,41,.4)"/>
+  <circle cx="416" cy="258" r="10" fill="#b2e929"/><text x="416" y="262" class="num" text-anchor="middle">4</text>
+  <text x="436" y="263" class="t" font-size="16">Gemma pre-flight triage</text>
+  <text x="412" y="290" class="s">Is this a procurement document at all? A confident no declines it</text>
+  <text x="412" y="308" class="s">before paying for a full multimodal extraction.</text>
+
+  <!-- Agent 1 -->
+  <rect x="392" y="344" width="576" height="120" rx="12" class="box"/>
+  <circle cx="416" cy="368" r="10" fill="#9db4ff"/><text x="416" y="372" class="num" text-anchor="middle">5</text>
+  <text x="436" y="373" class="t">MultimodalVisionAgent</text>
+  <text x="412" y="401" class="s">Gemini 3.5 Flash reads the document into a schema-enforced extraction:</text>
+  <text x="412" y="421" class="s">vendor, line items, unit prices, tax, totals, signature.</text>
+  <text x="412" y="447" class="m">All filesystem and shell tools disabled · deny-all policy</text>
+
+  <!-- Agent 2 -->
+  <rect x="392" y="488" width="576" height="120" rx="12" class="box"/>
+  <circle cx="416" cy="512" r="10" fill="#9db4ff"/><text x="416" y="516" class="num" text-anchor="middle">6</text>
+  <text x="436" y="517" class="t">ContractAuditorAgent</text>
+  <text x="412" y="545" class="s">Reconciles every billed line against the contracted purchase order.</text>
+  <text x="412" y="565" class="s">Flags overcharges, quantity mismatches, unauthorized items.</text>
+  <text x="412" y="591" class="m">Matched by item_code, then description</text>
+
+  <!-- Agent 3 -->
+  <rect x="392" y="632" width="576" height="120" rx="12" class="box"/>
+  <circle cx="416" cy="656" r="10" fill="#9db4ff"/><text x="416" y="660" class="num" text-anchor="middle">7</text>
+  <text x="436" y="661" class="t">DiscrepancyDispatcherAgent</text>
+  <text x="412" y="689" class="s">Decides the outcome and writes the document that carries it out.</text>
+  <text x="412" y="715" class="m">|variance| ≤ $1 → approve   ·   ≤ $500 → dispute   ·   &gt; $500 → escalate</text>
+  <text x="412" y="737" class="m">any unauthorized item → escalate</text>
+
+  <path d="M 680 320 L 680 336" class="ln"/>
+  <path d="M 680 464 L 680 480" class="ln"/>
+  <path d="M 680 608 L 680 624" class="ln"/>
+
+  <!-- Eventarc into the service -->
+  <path d="M 290 480 L 330 480 L 330 277 L 384 277" class="ln"/>
+
+  <!-- ============ OUTCOMES ============ -->
+  <text x="1070" y="166" class="lbl">DISPOSITION</text>
+
+  <rect x="1070" y="184" width="470" height="104" rx="12" class="box" stroke="rgba(126,224,168,.45)"/>
+  <text x="1094" y="217" class="t" font-size="16" fill="#7ee0a8">AUTO_APPROVED_PAYOUT</text>
+  <text x="1094" y="244" class="s">Billed totals match the contract.</text>
+  <text x="1094" y="266" class="s">Released for payment. No human involved.</text>
+
+  <rect x="1070" y="312" width="470" height="104" rx="12" class="box" stroke="rgba(242,193,78,.45)"/>
+  <text x="1094" y="345" class="t" font-size="16" fill="#f2c14e">GENERATED_DISCREPANCY_REPORT</text>
+  <text x="1094" y="372" class="s">Under the $500 threshold: the fleet drafts and</text>
+  <text x="1094" y="394" class="s">dispatches the vendor notice itself. No human involved.</text>
+
+  <rect x="1070" y="440" width="470" height="126" rx="12" class="box" stroke="rgba(255,128,128,.45)"/>
+  <text x="1094" y="473" class="t" font-size="16" fill="#ff8080">ESCALATED_TO_HUMAN_FINANCE</text>
+  <text x="1094" y="500" class="s">Over threshold, unauthorized item, or no matching PO.</text>
+  <text x="1094" y="522" class="s">A finance manager rules: reject the overcharge,</text>
+  <text x="1094" y="544" class="s">or approve the exception.</text>
+
+  <path d="M 968 690 C 1020 690 1020 236 1062 236" stroke="#7ee0a8" stroke-width="1.5" fill="none" marker-end="url(#arrowOk)"/>
+  <path d="M 968 700 C 1024 700 1024 364 1062 364" stroke="#f2c14e" stroke-width="1.5" fill="none" marker-end="url(#arrowWarn)"/>
+  <path d="M 968 710 C 1028 710 1028 500 1062 500" stroke="#ff8080" stroke-width="1.5" fill="none" marker-end="url(#arrowBad)"/>
+
+  <!-- Human decision returns -->
+  <rect x="1070" y="596" width="470" height="80" rx="12" class="box"/>
+  <text x="1094" y="627" class="t" font-size="15">Human decision recorded separately</text>
+  <text x="1094" y="654" class="m">human_decision · never overwrites action_taken</text>
+  <path d="M 1305 566 L 1305 588" class="ln"/>
+
+  <!-- ============ STATE ============ -->
+  <text x="360" y="838" class="lbl">STATE - FIRESTORE</text>
+
+  <rect x="360" y="856" width="200" height="80" rx="12" class="box"/>
+  <text x="384" y="888" class="t" font-size="15">purchase_orders</text>
+  <text x="384" y="914" class="s" font-size="13">Contracted baselines</text>
+
+  <rect x="580" y="856" width="200" height="80" rx="12" class="box"/>
+  <text x="604" y="888" class="t" font-size="15">audit_logs</text>
+  <text x="604" y="914" class="s" font-size="13">Every reconciliation</text>
+
+  <rect x="800" y="856" width="200" height="80" rx="12" class="box"/>
+  <text x="824" y="888" class="t" font-size="15">disputes</text>
+  <text x="824" y="914" class="s" font-size="13">Notices &amp; rulings</text>
+
+  <path d="M 460 856 L 460 800 L 620 800 L 620 756" stroke="#71717a" stroke-width="1.5" fill="none" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M 680 856 L 680 760" class="ln" marker-start="url(#arrow)"/>
+  <path d="M 900 856 L 900 800 L 740 800 L 740 756" stroke="#71717a" stroke-width="1.5" fill="none" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+
+  <!-- ============ SURFACES ============ -->
+  <text x="1070" y="838" class="lbl">SURFACES</text>
+  <rect x="1070" y="856" width="470" height="80" rx="12" class="box"/>
+  <text x="1094" y="888" class="t" font-size="15">Dashboard · REST API · ERP CSV · PDF notice</text>
+  <text x="1094" y="914" class="m">/app · /api/* · /docs</text>
+  <path d="M 1305 780 L 1305 848" class="ln"/>
+  <rect x="1070" y="700" width="470" height="72" rx="12" class="box" stroke-dasharray="4 3"/>
+  <text x="1094" y="730" class="s" font-size="13">Review surface, not the trigger. The audit completes</text>
+  <text x="1094" y="752" class="s" font-size="13">whether or not anyone is watching.</text>
+</svg>

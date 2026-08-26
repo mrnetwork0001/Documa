@@ -21,6 +21,7 @@ from documa.models import (
     ExtractionMode,
     LineItem,
 )
+from documa.services.gemma_triage import GemmaTriage
 from documa.services.storage_service import StorageService
 
 logger = logging.getLogger("VisionAgent")
@@ -56,6 +57,7 @@ class VisionAgent(BaseAgent):
             model_name=model_name
         )
         self.storage = storage_service or StorageService()
+        self.triage = GemmaTriage()
 
     def run(self, input_data: Dict[str, Any], state: AgentState) -> ExtractedDocument:
         """
@@ -69,6 +71,26 @@ class VisionAgent(BaseAgent):
         state.log(self.name, "StartDocumentExtraction", {"document_id": document_id, "source_path": source_path})
 
         doc_bytes, mime_type = self.storage.read_document_bytes(source_path)
+
+        # 0. Gemma pre-flight screen. A confident negative declines the document
+        #    before it costs a full Gemini multimodal extraction. Advisory only:
+        #    no verdict, or any failure, falls through to the normal path.
+        verdict = self.triage.screen(doc_bytes, mime_type)
+        if verdict is not None:
+            state.log(self.name, "GemmaTriageScreen", {
+                "model": verdict.model,
+                "document_type": verdict.document_type.value,
+                "is_procurement_document": verdict.is_procurement,
+                "reason": verdict.reason,
+            })
+            if verdict.is_procurement is False:
+                declined = self._declined_by_triage(document_id, source_path, verdict)
+                state.set("extracted_document", declined)
+                state.log(self.name, "DeclinedBeforeVision", {
+                    "reason": verdict.reason,
+                    "saved": "skipped the Gemini 3.5 Flash extraction",
+                })
+                return declined
 
         # 1. Live Gemini 3.5 Flash extraction on the Antigravity harness.
         if self.model_available:
@@ -103,6 +125,28 @@ class VisionAgent(BaseAgent):
             "warning": "Values are simulated demo data, not a live Gemini extraction.",
         })
         return extracted
+
+    def _declined_by_triage(self, document_id: str, source_path: str, verdict) -> ExtractedDocument:
+        """Builds the result for a document Gemma screened out before vision."""
+        filename = source_path.split("/")[-1]
+        return ExtractedDocument(
+            document_id=document_id,
+            document_type=verdict.document_type,
+            vendor_name="NOT A PROCUREMENT DOCUMENT",
+            line_items=[],
+            subtotal=0.0,
+            tax_total=0.0,
+            grand_total=0.0,
+            signature_detected=False,
+            extraction_confidence=0.0,
+            extraction_mode=ExtractionMode.SIMULATED_FALLBACK,
+            triage_note=f"Screened out by {verdict.model}: {verdict.reason}",
+            raw_notes=(
+                f"'{filename}' was declined before extraction. Gemma classified it as "
+                f"{verdict.document_type.value} and not a commercial procurement document, "
+                f"so the Gemini vision call was skipped."
+            ),
+        )
 
     def _extract_with_antigravity(self, doc_bytes: bytes, mime_type: str, document_id: str) -> ExtractedDocument:
         """Runs one schema-constrained vision turn on the Antigravity harness."""

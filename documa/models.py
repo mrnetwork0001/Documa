@@ -75,6 +75,10 @@ class ExtractedDocument(BaseModel):
         default=ExtractionMode.SIMULATED_FALLBACK,
         description="Whether these values came from a live Gemini vision call or from simulated demo data"
     )
+    triage_note: Optional[str] = Field(
+        default=None,
+        description="Gemma pre-flight screening verdict, when triage ran"
+    )
     raw_notes: Optional[str] = Field(default=None)
 
 

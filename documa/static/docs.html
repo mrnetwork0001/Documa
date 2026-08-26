@@ -48,6 +48,7 @@
 
         <div class="docs-side__group">
           <p class="docs-side__label">The Agent Fleet</p>
+          <a class="docs-side__link" href="#triage">Gemma Pre-flight Triage</a>
           <a class="docs-side__link" href="#agents">The Three Agents</a>
           <a class="docs-side__link" href="#harness">Antigravity Harness</a>
         </div>
@@ -170,6 +171,35 @@
           The three agents run as a sequential pipeline. Each hands typed state to the next through
           a shared <code>AgentState</code>, and the orchestrator records every step in an execution
           log that is returned with the response.
+        </p>
+      </section>
+
+      <section class="docs-sec" id="triage">
+        <h2 class="docs-h2">Gemma Pre-flight Triage</h2>
+        <p>
+          Every document reaching the fleet costs a full Gemini 3.5 Flash multimodal
+          extraction, whether it is a vendor invoice or a photograph someone dropped into the
+          bucket by mistake. An open <strong>Gemma</strong> model screens each document first and
+          answers one narrow question: is this a procurement document at all?
+        </p>
+        <p>
+          A confident negative declines the document before the expensive call is made. The
+          result is returned as <code>UNKNOWN</code> at <code>$0.00</code> with a
+          <code>triage_note</code> explaining why, and the audit continues to escalation rather
+          than inventing figures.
+        </p>
+        <div class="docs-note">
+          <p class="docs-note__t">Advisory by design</p>
+          <p>
+            Triage never blocks an audit. If Gemma is unavailable, unreachable, or returns
+            anything unparseable, the document proceeds to vision exactly as it would without
+            triage. Only a confident negative short-circuits the pipeline.
+          </p>
+        </div>
+        <p>
+          Configure with <code>DOCUMA_TRIAGE_MODEL</code> (defaults to
+          <code>gemma-3-27b-it</code>) or turn it off entirely with
+          <code>DOCUMA_DISABLE_TRIAGE</code>.
         </p>
       </section>
 
@@ -376,6 +406,8 @@ PYTHONPATH=. pytest tests/test_audit_fleet.py -v</code></pre>
           <div class="docs-def"><span class="docs-def__k"><code>GOOGLE_CLOUD_LOCATION</code></span><span class="docs-def__v">Vertex AI region. Defaults to <code>us-central1</code>.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>GCS_BUCKET_NAME</code></span><span class="docs-def__v">Document bucket. Defaults to <code>documa-receipts-bucket</code>.</span></div>
           <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_STRICT_MODE</code></span><span class="docs-def__v">Set truthy to make a failed or unavailable extraction raise instead of falling back.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_TRIAGE_MODEL</code></span><span class="docs-def__v">Gemma model used for pre-flight triage. Defaults to <code>gemma-3-27b-it</code>.</span></div>
+          <div class="docs-def"><span class="docs-def__k"><code>DOCUMA_DISABLE_TRIAGE</code></span><span class="docs-def__v">Set truthy to skip Gemma triage entirely.</span></div>
         </div>
 
         <div class="docs-note">
