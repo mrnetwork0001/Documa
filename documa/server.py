@@ -209,6 +209,28 @@ def list_audit_logs():
     return firestore_service.list_audit_results()
 
 
+@app.get("/api/stats")
+def fleet_stats():
+    """Live fleet counters, computed from the Firestore audit trail.
+
+    The landing page renders these rather than hardcoded copy, so the headline
+    figures are always the fleet's actual record rather than an illustration.
+    """
+    audits = firestore_service.list_audit_results()
+    reports = firestore_service.list_discrepancy_reports()
+
+    needing_human = sum(1 for r in reports if r.requires_human_signature)
+    autonomous = len(reports) - needing_human
+    caught = sum(a.net_variance for a in audits if a.net_variance > 0)
+
+    return {
+        "documents_audited": len(audits),
+        "required_human_signature": needing_human,
+        "resolved_autonomously": autonomous,
+        "variance_caught_usd": round(caught, 2),
+    }
+
+
 @app.get("/api/disputes", response_model=List[DiscrepancyReport])
 def list_discrepancy_reports():
     """Retrieve generated vendor discrepancy reports and human approval alerts."""

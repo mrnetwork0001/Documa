@@ -138,20 +138,20 @@
             Across a full quarter of procurement documents, Documa cleared or disputed almost
             everything on its own. The number that matters is the small one.
           </p>
-          <p class="eyebrow" style="margin-top:30px">This is not an exception queue. It's the product.</p>
+          <p class="eyebrow" style="margin-top:30px" id="stat-caption">Live from this deployment's Firestore audit trail.</p>
         </div>
 
         <div class="stats">
           <div class="stat">
-            <span class="stat__n">217</span>
+            <span class="stat__n" id="stat-audited">-</span>
             <span class="stat__l">vendor documents audited end to end</span>
           </div>
           <div class="stat stat--invert">
-            <span class="stat__n">2</span>
+            <span class="stat__n" id="stat-human">-</span>
             <span class="stat__l">required a human signature</span>
           </div>
           <div class="stat">
-            <span class="stat__n">215</span>
+            <span class="stat__n" id="stat-auto">-</span>
             <span class="stat__l">resolved without anyone opening the file</span>
           </div>
         </div>
@@ -476,6 +476,30 @@
   </footer>
 
   <script src="/static/nav.js"></script>
+  <script>
+    // The headline counters are the fleet's real record, read from Firestore
+    // through /api/stats - never hardcoded copy.
+    (function () {
+      fetch("/api/stats")
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function (s) {
+          document.getElementById("stat-audited").textContent = s.documents_audited;
+          document.getElementById("stat-human").textContent   = s.required_human_signature;
+          document.getElementById("stat-auto").textContent    = s.resolved_autonomously;
+          var cap = document.getElementById("stat-caption");
+          if (cap && s.variance_caught_usd > 0) {
+            cap.textContent = "Live from Firestore \u00b7 $" +
+              s.variance_caught_usd.toLocaleString("en-US", { minimumFractionDigits: 2 }) +
+              " of overcharges caught.";
+          }
+        })
+        .catch(function () {
+          var cap = document.getElementById("stat-caption");
+          if (cap) cap.textContent = "Audit counters unavailable - the fleet is not reachable.";
+        });
+    })();
+  </script>
+
   <script>
     // Hero console: a looping replay of the fleet auditing each demo scenario.
     // The static markup above stays as the no-JS / reduced-motion fallback.
