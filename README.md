@@ -1,120 +1,126 @@
-# Documa - Autonomous Multimodal Audit & Procurement Fleet
+<div align="center">
 
-**Google All Things Agentic Hackathon - The Taskmaster track**
+<img src="documa/static/documa-header.png" alt="Documa - Autonomous Document Control" width="440">
 
-**Live:** https://documa-fleet-466418539031.us-central1.run.app &nbsp;·&nbsp; [Dashboard](https://documa-fleet-466418539031.us-central1.run.app/app) &nbsp;·&nbsp; [Docs](https://documa-fleet-466418539031.us-central1.run.app/docs)
+**Invoices audit themselves. People only see the exceptions.**
 
-Documa reads vendor documents, audits them line by line against your contracted purchase
-orders, and then clears, disputes, or escalates each one. It is a background workflow, not a
-chatbot: a file landing in a bucket is the trigger, and most documents are resolved before a
-person ever opens them.
+[**Live app**](https://documa-fleet-466418539031.us-central1.run.app) ·
+[Dashboard](https://documa-fleet-466418539031.us-central1.run.app/app) ·
+[Documentation](https://documa-fleet-466418539031.us-central1.run.app/docs)
 
-![Documa Architecture](documa/static/architecture_diagram.png)
+![Gemini 3.5 Flash](https://img.shields.io/badge/Gemini-3.5%20Flash-4285F4)
+![Antigravity SDK](https://img.shields.io/badge/Antigravity-SDK-1a73e8)
+![Cloud Run](https://img.shields.io/badge/Cloud%20Run-deployed-34A853)
+![Firestore](https://img.shields.io/badge/Firestore-native-F9AB00)
+![License](https://img.shields.io/badge/license-Apache%202.0-lightgrey)
+
+*Google All Things Agentic Hackathon · The Taskmaster*
+
+</div>
 
 ---
 
 ## The problem
 
 You agreed to buy 10 monitors at **$180** each. That agreement is purchase order **PO-9921**.
-The vendor invoices you at **$210** each. Someone in finance has to open the invoice, find the
-PO, compare every line, spot the $30-per-unit markup, and write the dispute. Multiply by
-hundreds of invoices a month.
+The vendor invoices you at **$210**.
 
-Documa does that reconciliation itself and surfaces only what genuinely needs a signature.
+Catching that means someone opening the invoice, finding the PO, comparing every line, spotting
+a $30-per-unit markup, and writing the dispute. Times hundreds of invoices a month. It is
+**15+ hours a week** of work that finds overcharges *after* the money has left.
+
+**Documa does the reconciliation itself and surfaces only what genuinely needs a signature.**
 
 | Outcome | When | Human involved |
-| :--- | :--- | :--- |
-| `AUTO_APPROVED_PAYOUT` | No discrepancies, variance within $1 | No |
-| `GENERATED_DISCREPANCY_REPORT` | Discrepancies, variance ≤ $500, nothing unauthorized | No |
+| :--- | :--- | :---: |
+| `AUTO_APPROVED_PAYOUT` | No discrepancies, variance within $1 | **No** |
+| `GENERATED_DISCREPANCY_REPORT` | Discrepancies, variance ≤ $500, nothing unauthorized | **No** |
 | `ESCALATED_TO_HUMAN_FINANCE` | Variance > $500, unauthorized item, or no matching PO | Yes |
 
-The **$500 threshold is the autonomy boundary**. Below it Documa resolves the dispute itself;
-above it, it defers. The fleet knows the limit of its own authority.
+The **$500 threshold is the autonomy boundary**. Below it Documa drafts and dispatches the
+vendor dispute itself. Above it, it stops and asks — with the evidence already assembled.
+The fleet knows the limit of its own authority.
 
 ---
 
 ## Architecture
 
+![Documa Architecture](documa/static/architecture_diagram.png)
+
 ```
-Cloud Storage (document lands)
-  -> Eventarc  object.finalized
-  -> Cloud Run worker
-      -> Gemma pre-flight triage      is this a procurement document at all?
-      -> MultimodalVisionAgent        Gemini 3.5 Flash reads it into structured data
-      -> ContractAuditorAgent         reconciles every line against the PO in Firestore
-      -> DiscrepancyDispatcherAgent   approves, disputes, or escalates
-  -> Firestore  audit log + dispute record
+Cloud Storage (a document lands)
+  └─ Eventarc  object.finalized
+      └─ Cloud Run worker
+          ├─ Gemma triage             is this a procurement document at all?
+          ├─ MultimodalVisionAgent    Gemini 3.5 Flash reads it into typed data
+          ├─ ContractAuditorAgent     reconciles every line against the PO
+          └─ DiscrepancyDispatcher    approves · disputes · escalates
+              └─ Firestore            audit log + dispute record
 ```
 
-Three agents run as a sequential pipeline on the **official Google Antigravity SDK** harness,
-each handing typed state to the next through a shared `AgentState`. An orchestrator records
-every step in an execution log returned with the response.
+A file arriving **is** the trigger. Three agents run as a sequential pipeline on the official
+Antigravity SDK harness, each handing typed state to the next through a shared `AgentState`,
+with every step recorded in an execution log returned with the response.
 
 ### Stack
 
 | Layer | Technology |
 | :--- | :--- |
-| Vision model | **Gemini 3.5 Flash** (`gemini-3.5-flash`) via Gemini API or Vertex AI |
-| Triage model | **Gemma** (`gemma-4-26b-a4b-it-maas`) via the Google GenAI SDK |
-| Registry | **Artifact Registry** + **Cloud Build** for the deployment pipeline |
-| Agent framework | **Antigravity SDK** (`google-antigravity`) - schema-enforced structured output |
-| Compute | **Google Cloud Run** (Docker, `python:3.11-slim`, port 8080) |
-| State | **Google Firestore** - `purchase_orders`, `audit_logs`, `disputes` |
-| Document store | **Google Cloud Storage** - `gs://documa-receipts-bucket` |
-| Triggers | **Google Eventarc** - `object.finalized` |
+| Vision | **Gemini 3.5 Flash** via **Vertex AI** — schema-enforced extraction |
+| Triage | **Gemma** (`gemma-4-26b-a4b-it-maas`) via the Google GenAI SDK |
+| Agents | **Antigravity SDK** (`google-antigravity`) |
+| Compute | **Cloud Run** — `python:3.11-slim`, scales to zero |
+| State | **Firestore** — `purchase_orders`, `audit_logs`, `disputes` |
+| Intake | **Cloud Storage** — `gs://documa-receipts-bucket` |
+| Triggers | **Eventarc** — `object.finalized` |
+| Pipeline | **Cloud Build** + **Artifact Registry** |
 | Service | Python 3.11+, FastAPI, Uvicorn, Pydantic v2 |
-| Frontend | Hand-written HTML/CSS - no framework, no CDN, no build step |
+| Frontend | Hand-written HTML/CSS — no framework, no CDN, no build step |
 
-Every Google dependency degrades gracefully: with no credentials, Firestore and Cloud Storage
-fall back to in-memory and local-disk equivalents, so the whole system runs offline.
+### Hackathon requirements
+
+| Requirement | Satisfied by |
+| :--- | :--- |
+| Gemini 3.5 or newer via Gemini API **or Vertex AI** | `gemini-3.5-flash` on Vertex AI, authenticated with ADC |
+| At least one Google Agent Framework | **Antigravity SDK**, plus the **GenAI SDK** for triage |
+| At least one Google Cloud infrastructure service | **Cloud Run**, Firestore, Cloud Storage, Eventarc |
+| *Bonus:* Gemma, Veo or Lyria | **Gemma** pre-flight document triage |
 
 ---
 
 ## Quick start
 
-### Local
-
 ```bash
-git clone https://github.com/mrnetwork0001/Documa.git
-cd Documa
+git clone https://github.com/mrnetwork0001/Documa.git && cd Documa
 
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-cp .env.example .env          # then paste your key into .env (gitignored)
-
+cp .env.example .env            # add credentials — see below
 PYTHONPATH=. uvicorn documa.server:app --port 8085
 ```
 
-| Page | URL |
+| | |
 | :--- | :--- |
 | Landing | http://localhost:8085/ |
 | Dashboard | http://localhost:8085/app |
 | Documentation | http://localhost:8085/docs |
 | OpenAPI explorer | http://localhost:8085/openapi-docs |
 
-### Run the fleet from the CLI
+**Documa runs with no credentials at all** — Firestore and Cloud Storage fall back to in-memory
+and local disk, so the pipeline is demonstrable offline. Nothing is read from the document in
+that mode, and every result says so (see [Provenance](#provenance)).
 
-```bash
-PYTHONPATH=. python main.py                        # all four audit scenarios
-PYTHONPATH=. pytest tests/test_audit_fleet.py -v   # test suite
+### Credentials
+
+Either a Gemini API key in `.env`:
+
+```
+GEMINI_API_KEY=your-key
 ```
 
-### Docker, or any VPS
-
-The container carries nothing GCP-specific, so it runs anywhere Docker does:
-
-```bash
-docker build -t documa .
-docker run -d -p 80:8080 -e GEMINI_API_KEY="your-key" --restart unless-stopped documa
-```
-
-Without Firestore credentials, state is in-memory and does not survive a restart.
-
-### Vertex AI with Application Default Credentials
-
-If your organisation disallows API keys, authenticate with ADC instead - no key
-is stored anywhere:
+…or, if your organisation disallows API keys, **Application Default Credentials** against
+Vertex AI — no key is stored anywhere:
 
 ```bash
 gcloud auth login
@@ -124,31 +130,39 @@ gcloud auth application-default set-quota-project YOUR_PROJECT_ID
 gcloud services enable aiplatform.googleapis.com
 ```
 
-Then in `.env`:
-
 ```
 GOOGLE_GENAI_USE_VERTEXAI=true
 GOOGLE_CLOUD_PROJECT=your-project-id
 GOOGLE_CLOUD_LOCATION=global
 ```
 
-Two things bite here. The **quota project** must be set explicitly, or requests
-are attributed to a shared Google project and every model returns 404. And
-Gemini 3.x publisher models are served from **`global`**, not a regional
-endpoint - `us-central1` returns 404 for `gemini-3.5-flash`.
+> **Two things bite here.** The **quota project** must be set explicitly, or requests are
+> attributed to a shared Google project and every model returns `404`. And Gemini 3.x publisher
+> models are served from **`global`**, not a regional endpoint — `us-central1` returns `404`
+> for `gemini-3.5-flash`.
 
-### Google Cloud Run
+### Run the fleet from the CLI
+
+```bash
+PYTHONPATH=. python main.py                        # all four audit scenarios
+PYTHONPATH=. pytest tests/test_audit_fleet.py -v   # test suite
+```
+
+### Deploy to Cloud Run
 
 ```bash
 export GOOGLE_CLOUD_PROJECT="your-project-id"
-export GCP_REGION="us-central1"
-./deploy.sh          # enables APIs, builds via Cloud Build, deploys to Cloud Run
+./deploy.sh
 ```
 
-To wire up the autonomous path, point Eventarc at the service:
+One command: enables the APIs, grants the runtime service account `aiplatform.user`,
+`datastore.user` and `storage.objectViewer`, creates the Artifact Registry repository, builds
+via Cloud Build, and deploys with `min-instances=0` so an idle service costs nothing.
+
+Then wire the autonomous path:
 
 ```bash
-gsutil mb -l us-central1 gs://documa-receipts-bucket
+gcloud storage buckets create gs://documa-receipts-bucket --location=us-central1
 
 gcloud eventarc triggers create documa-intake \
   --destination-run-service=documa-fleet \
@@ -159,7 +173,18 @@ gcloud eventarc triggers create documa-intake \
   --location=us-central1
 
 # Drop a document in and walk away
-gsutil cp receipts/overcharged_invoice.png gs://documa-receipts-bucket/
+gcloud storage cp receipts/overcharged_invoice.png gs://documa-receipts-bucket/
+```
+
+Within ~20 seconds Firestore holds a new `EVT-` prefixed audit record. Nobody clicked anything.
+
+### Docker, or any VPS
+
+The container carries nothing GCP-specific:
+
+```bash
+docker build -t documa .
+docker run -d -p 80:8080 -e GEMINI_API_KEY="your-key" --restart unless-stopped documa
 ```
 
 ---
@@ -169,28 +194,44 @@ gsutil cp receipts/overcharged_invoice.png gs://documa-receipts-bucket/
 | Variable | Purpose |
 | :--- | :--- |
 | `GEMINI_API_KEY` | Gemini API key. `GOOGLE_API_KEY` is accepted as an alias. |
-| `GOOGLE_GENAI_USE_VERTEXAI` | Truthy routes the model through Vertex AI instead of the Gemini API. |
-| `GOOGLE_CLOUD_PROJECT` | Project for Firestore and Vertex AI. Defaults to `documa-hackathon`. |
-| `GOOGLE_CLOUD_LOCATION` | Vertex region. Use `global` for Gemini 3.x - regional endpoints return 404. |
+| `GOOGLE_GENAI_USE_VERTEXAI` | Truthy routes the model through Vertex AI instead. |
+| `GOOGLE_CLOUD_PROJECT` | Project for Firestore and Vertex AI. |
+| `GOOGLE_CLOUD_LOCATION` | Model location. Use `global` for Gemini 3.x. |
 | `GCS_BUCKET_NAME` | Document bucket. Defaults to `documa-receipts-bucket`. |
-| `DOCUMA_STRICT_MODE` | Truthy makes a failed or unavailable extraction **raise** instead of falling back. |
-| `DOCUMA_TRIAGE_MODEL` | Gemma model for pre-flight triage. Defaults to `gemma-4-26b-a4b-it-maas`. |
-| `DOCUMA_DISABLE_TRIAGE` | Truthy skips triage entirely. |
+| `DOCUMA_VISION_MODEL` | Vision model. Defaults to `gemini-3.5-flash`. |
+| `DOCUMA_TRIAGE_MODEL` | Triage model. Defaults to `gemma-4-26b-a4b-it-maas`. |
+| `DOCUMA_DISABLE_TRIAGE` | Truthy skips Gemma triage entirely. |
+| `DOCUMA_STRICT_MODE` | Truthy makes a failed extraction **raise** instead of falling back. |
 
-### Strict mode
+### Provenance
 
-Without an API key Documa runs on offline fixtures so the pipeline stays demonstrable - but
-nothing is actually read from the document. Every result therefore carries an
-`extraction_mode` of `ANTIGRAVITY_GEMINI` or `SIMULATED_FALLBACK`, surfaced through the API
-and shown in the dashboard as a badge.
+Every extraction records an `extraction_mode`, surfaced through the API and shown in the
+dashboard as a badge:
 
-**Run demos with `DOCUMA_STRICT_MODE=true`.** Documa then refuses to fall back, so every figure
-on screen is provably a live extraction.
+- **`ANTIGRAVITY_GEMINI`** — a real Gemini vision call
+- **`SIMULATED_FALLBACK`** — an offline demo fixture, *not* extraction
 
-```bash
-DOCUMA_STRICT_MODE=true GEMINI_API_KEY="your-key" \
-  PYTHONPATH=. uvicorn documa.server:app --port 8085
-```
+A document matching no fixture comes back `UNKNOWN` at `$0.00` with zero confidence rather than
+plausible fiction. **Run demos with `DOCUMA_STRICT_MODE=true`** — Documa then refuses to fall
+back at all, so every figure on screen is provably live. The deployed service runs in strict
+mode permanently.
+
+---
+
+## Demo scenarios
+
+Audited against **PO-9921** — 10 monitors at $180, 5 chairs at $250, approved total **$3,250**.
+Every figure below was produced by a **live Gemini extraction** on the deployed service:
+
+| Document | Billed | Variance | Outcome | Human |
+| :--- | ---: | ---: | :--- | :---: |
+| `compliant_invoice.png` | $3,250.00 | $0.00 | `AUTO_APPROVED_PAYOUT` | — |
+| `minor_overcharge_invoice.png` | $3,550.00 | +$300.00 | `GENERATED_DISCREPANCY_REPORT` | — |
+| `unauthorized_fees_invoice.png` | $3,700.00 | +$450.00 | `ESCALATED_TO_HUMAN_FINANCE` | ✋ |
+| `overcharged_invoice.png` | $4,400.00 | +$1,150.00 | `ESCALATED_TO_HUMAN_FINANCE` | ✋ |
+
+**The minor-overcharge case is the clearest demonstration of autonomy:** a real overcharge
+caught, disputed, and formally resolved with nobody in the loop.
 
 ---
 
@@ -207,9 +248,10 @@ DOCUMA_STRICT_MODE=true GEMINI_API_KEY="your-key" \
 | `POST /api/disputes/{id}/approve` | Record a human finance decision |
 | `GET /api/disputes/{id}/export/pdf` | Printable vendor dispute notice |
 | `GET /api/audit/export/csv` | ERP-compatible CSV (SAP / QuickBooks) |
+| `GET /api/stats` | Live fleet counters from the audit trail |
 
 ```bash
-curl -X POST http://localhost:8085/api/audit/process \
+curl -X POST https://documa-fleet-466418539031.us-central1.run.app/api/audit/process \
   -H 'Content-Type: application/json' \
   -d '{"document_id":"DOC-MINOR-404",
        "file_path_or_url":"receipts/minor_overcharge_invoice.png",
@@ -218,38 +260,44 @@ curl -X POST http://localhost:8085/api/audit/process \
 
 ---
 
-## Demo scenarios
+## Engineering notes
 
-Measured against **PO-9921** (10 monitors at $180, 5 chairs at $250, approved total $3,250):
+**An invoice is untrusted input.** The Antigravity harness enables filesystem and shell tools by
+default — unacceptable for an agent whose input is a third-party document that could carry text
+aimed at the model. All twelve non-terminal tools are disabled, leaving the agent able only to
+perform inference, and the prompt instructs it to treat document text as data, never
+instructions.
 
-| Document | Billed | Variance | Outcome |
-| :--- | ---: | ---: | :--- |
-| `compliant_invoice.png` | $3,250.00 | $0.00 | `AUTO_APPROVED_PAYOUT` |
-| `minor_overcharge_invoice.png` | $3,550.00 | +$300.00 | `GENERATED_DISCREPANCY_REPORT` |
-| `unauthorized_fees_invoice.png` | $3,700.00 | +$450.00 | `ESCALATED_TO_HUMAN_FINANCE` |
-| `overcharged_invoice.png` | $4,400.00 | +$1,150.00 | `ESCALATED_TO_HUMAN_FINANCE` |
+**A cheap model screens for the expensive one.** Every document used to cost a full multimodal
+extraction, invoice or not. Gemma now answers one narrow question first — *is this a procurement
+document?* — and a confident no declines it before Gemini is called. Triage is advisory: failure
+or unavailability never blocks an audit.
 
-The minor-overcharge case is the clearest demonstration of autonomy: a real overcharge caught,
-disputed, and formally resolved with nobody in the loop.
+**Fail visibly, not plausibly.** The first version caught every exception and fell back to demo
+data. It felt robust and was the most dangerous thing in the codebase: a broken model call was
+indistinguishable from a successful one. Provenance is now a first-class field and strict mode
+makes failure raise.
+
+**The agent's record is immutable.** A finance manager's override is written to a separate
+`human_decision` field, so `action_taken` remains an accurate account of what the fleet decided.
+Conflating the two corrupted records and returned `500` on every subsequent read — the bug that
+taught the lesson.
+
+**Sync/async bridge.** The Antigravity SDK is async-only while the fleet is synchronous. The
+bridge works both off the event loop (CLI, tests, FastAPI `def` endpoints) and on it, where a
+bare `asyncio.run` would raise.
 
 ---
 
-## Engineering notes
+## Testing
 
-- **An invoice is untrusted input.** The Antigravity harness enables filesystem and shell tools
-  by default; Documa disables all twelve non-terminal tools behind a deny-all policy, so the
-  vision agent can only perform inference. The prompt also instructs the model to treat
-  document text as data, never as instructions.
-- **Cheap triage before expensive vision.** An open Gemma model screens each document first.
-  A confident "not a procurement document" declines it before a full multimodal extraction is
-  paid for. Triage is advisory - failure or unavailability never blocks an audit.
-- **Sync/async bridge.** The Antigravity SDK is async-only while the fleet is synchronous. The
-  bridge works both off the event loop (CLI, tests, FastAPI `def` endpoints) and on it, where a
-  bare `asyncio.run` would raise.
-- **Fail visibly, not plausibly.** Documents matching no fixture are reported as `UNKNOWN` at
-  $0.00 with zero confidence rather than being given invented invoice data.
-- **The agent's record is immutable.** A finance manager's override is written to a separate
-  `human_decision` field, so `action_taken` remains an accurate account of what the fleet did.
+```bash
+PYTHONPATH=. pytest tests/test_audit_fleet.py -v
+```
+
+Covers vision extraction, PO reconciliation, all three dispatch branches, and full pipeline
+orchestration. The four demo scenarios above were additionally verified end to end against live
+Gemini extractions on the deployed service.
 
 ## Not production-hardened
 
@@ -259,6 +307,8 @@ procurement data.
 
 ---
 
-## License
+<div align="center">
 
-[Apache 2.0](LICENSE) · Author: Ifeanyichukwu Onwo ([mrnetwork0001](https://github.com/mrnetwork0001))
+**[Apache 2.0](LICENSE)** · Ifeanyichukwu Onwo ([@mrnetwork0001](https://github.com/mrnetwork0001))
+
+</div>
