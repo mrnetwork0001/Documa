@@ -75,6 +75,7 @@ class VisionAgent(BaseAgent):
         # 0. Gemma pre-flight screen. A confident negative declines the document
         #    before it costs a full Gemini multimodal extraction. Advisory only:
         #    no verdict, or any failure, falls through to the normal path.
+        triage_note = None
         verdict = self.triage.screen(doc_bytes, mime_type)
         if verdict is not None:
             state.log(self.name, "GemmaTriageScreen", {
@@ -83,6 +84,10 @@ class VisionAgent(BaseAgent):
                 "is_procurement_document": verdict.is_procurement,
                 "reason": verdict.reason,
             })
+            # Record the verdict on accepted documents too, so the screening is
+            # visible in the API and dashboard rather than only when it declines.
+            triage_note = f"{verdict.model}: {verdict.document_type.value} - {verdict.reason}"
+
             if verdict.is_procurement is False:
                 declined = self._declined_by_triage(document_id, source_path, verdict)
                 state.set("extracted_document", declined)
@@ -96,6 +101,8 @@ class VisionAgent(BaseAgent):
         if self.model_available:
             try:
                 extracted = self._extract_with_antigravity(doc_bytes, mime_type, document_id)
+                if triage_note:
+                    extracted.triage_note = triage_note
                 state.set("extracted_document", extracted)
                 state.log(self.name, "GeminiExtractionSuccess", {
                     "extraction_mode": extracted.extraction_mode.value,
@@ -117,6 +124,8 @@ class VisionAgent(BaseAgent):
         # 2. Simulated fallback so the fleet stays demonstrable offline. Every
         #    result is tagged SIMULATED_FALLBACK and surfaced as such in the UI.
         extracted = self._extract_from_image_bytes(doc_bytes, source_path, document_id)
+        if triage_note:
+            extracted.triage_note = triage_note
         state.set("extracted_document", extracted)
         state.log(self.name, "SimulatedFallbackExtraction", {
             "extraction_mode": extracted.extraction_mode.value,
