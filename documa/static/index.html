@@ -73,7 +73,10 @@
         <div class="panel-card">
           <div class="panel-card__h">
             <h2 class="panel-card__t">Document Intake</h2>
-            <span class="panel-card__meta">PDF · PNG · JPG</span>
+            <div class="row">
+              <span class="panel-card__meta">PDF · PNG · JPG</span>
+              <button onclick="resetWorkspace()" class="btn btn--ghost btn--sm" id="reset-btn">Reset</button>
+            </div>
           </div>
 
           <div id="dropzone" class="dropzone">
@@ -651,6 +654,64 @@
       }, 5200);
     }
 
+    /* ---- Reset ---------------------------------------------------------- */
+
+    // Returns the workspace to an empty state so a visitor can audit their own
+    // document without the previous result still on screen. Clears the file
+    // input too, otherwise re-selecting the same file fires no change event.
+    function resetWorkspace() {
+      currentReportId = null;
+      currentAuditSummary = "No audit has been run yet.";
+
+      fileInput.value = "";
+      document.getElementById("doc-media-ref").innerText = "no document loaded";
+      var img = document.getElementById("doc-preview-img");
+      img.removeAttribute("src");
+      img.alt = "No document loaded";
+
+      [["hero-billed", "$0.00"], ["hero-approved", "$0.00"], ["hero-variance", "$0.00"],
+       ["audit-total-billed", "$0.00"], ["audit-doc-id", "No document audited"]
+      ].forEach(function (p) { document.getElementById(p[0]).innerText = p[1]; });
+
+      document.getElementById("hero-vendor").innerText = "Awaiting a document";
+      document.getElementById("hero-status-text").innerText = "Nothing audited yet";
+      document.getElementById("hero-variance-card").className = "kpi";
+      document.getElementById("audit-vendor").innerText = "Upload a document or run a preset to begin";
+
+      var status = document.getElementById("audit-status-badge");
+      status.innerText = "IDLE";
+      status.className = "badge";
+
+      var mode = document.getElementById("extraction-mode-badge");
+      mode.innerText = "-";
+      mode.className = "badge";
+      mode.title = "Where these numbers came from";
+
+      document.getElementById("human-decision-badge").hidden = true;
+      document.getElementById("human-action-controls").style.display = "none";
+      document.getElementById("action-type").innerText = "AWAITING DOCUMENT";
+      document.getElementById("action-type").className = "badge";
+      document.getElementById("dispute-markdown-box").innerText =
+        "No dispatched action yet.\n\nDrop a scanned invoice above, or run one of the presets, " +
+        "and the fleet's decision will appear here.";
+
+      document.getElementById("line-items-body").innerHTML =
+        '<tr><td colspan="5" class="t-dim" style="text-align:center;padding:26px">' +
+        'No line items - audit a document to populate this table.</td></tr>';
+
+      ["agent-vision-status", "agent-auditor-status", "agent-discrepancy-status"].forEach(function (id) {
+        var el = document.getElementById(id);
+        el.innerText = "READY";
+        el.className = "badge";
+      });
+
+      document.getElementById("eventarc-feed-box").innerHTML =
+        "<p>[Eventarc] Subscribed to gs://documa-receipts-bucket/finalized</p>" +
+        "<p>[Documa] Workspace reset. Awaiting the next document.</p>";
+
+      toast("Workspace reset", "Drop your own invoice to audit it.", "info");
+    }
+
     function playVoiceBriefing() {
       if ('speechSynthesis' in window) {
         const text = `Documa Audit Executive Briefing: ${currentAuditSummary}`;
@@ -664,9 +725,11 @@
     }
 
     function exportDisputePdf() {
-      if (currentReportId) {
-        window.open(`/api/disputes/${currentReportId}/export/pdf`, "_blank");
+      if (!currentReportId) {
+        toast("Nothing to export", "Audit a document first.", "info");
+        return;
       }
+      window.open(`/api/disputes/${currentReportId}/export/pdf`, "_blank");
     }
 
     function toggleArchModal() {
