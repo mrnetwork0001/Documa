@@ -141,9 +141,14 @@
             <h2 class="panel-card__t">Media Vision Inspector</h2>
             <span class="panel-card__meta" id="doc-media-ref">receipts/compliant_invoice.png</span>
           </div>
-          <div class="doc-preview">
-            <div class="scan-laser"></div>
+          <div class="doc-preview" id="doc-preview">
+            <div class="scan-laser" id="scan-laser"></div>
             <img id="doc-preview-img" src="/receipts/compliant_invoice.png" alt="Scanned document preview">
+            <div class="doc-empty" id="doc-empty" hidden>
+              <div class="doc-empty__glyph">▢</div>
+              <p class="doc-empty__t">No document loaded</p>
+              <p class="doc-empty__s">Drop an invoice above, or run a preset</p>
+            </div>
           </div>
         </div>
 
@@ -355,7 +360,7 @@
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          document.getElementById("doc-preview-img").src = e.target.result;
+          showDocumentPreview(e.target.result);
         };
         reader.readAsDataURL(file);
       }
@@ -392,7 +397,7 @@
       }
 
       document.getElementById("doc-media-ref").innerText = filePath;
-      document.getElementById("doc-preview-img").src = "/" + filePath;
+      showDocumentPreview("/" + filePath);
 
       try {
         const response = await fetch("/api/audit/process", {
@@ -654,6 +659,26 @@
       }, 5200);
     }
 
+    // Swaps the inspector between a loaded document and an empty state. Clearing
+    // the src alone leaves the browser's broken-image glyph, and the scanner
+    // laser should not sweep across an empty panel.
+    function showDocumentPreview(src) {
+      var img = document.getElementById("doc-preview-img");
+      var empty = document.getElementById("doc-empty");
+      var laser = document.getElementById("scan-laser");
+      if (src) {
+        img.src = src;
+        img.hidden = false;
+        empty.hidden = true;
+        laser.hidden = false;
+      } else {
+        img.removeAttribute("src");
+        img.hidden = true;
+        empty.hidden = false;
+        laser.hidden = true;
+      }
+    }
+
     /* ---- Reset ---------------------------------------------------------- */
 
     // Returns the workspace to an empty state so a visitor can audit their own
@@ -665,9 +690,7 @@
 
       fileInput.value = "";
       document.getElementById("doc-media-ref").innerText = "no document loaded";
-      var img = document.getElementById("doc-preview-img");
-      img.removeAttribute("src");
-      img.alt = "No document loaded";
+      showDocumentPreview(null);
 
       [["hero-billed", "$0.00"], ["hero-approved", "$0.00"], ["hero-variance", "$0.00"],
        ["audit-total-billed", "$0.00"], ["audit-doc-id", "No document audited"]
