@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, Response
 from typing import List, Optional
 import shutil
+import tempfile
 import csv
 import io
 
@@ -151,19 +152,24 @@ def process_audit_document(request: DocumentAuditRequest):
         raise HTTPException(status_code=500, detail=f"Audit processing error: {str(e)}")
 
 
+# Uploads land here, deliberately NOT the publicly mounted receipts/ directory.
+# Writing a visitor's document into a static mount republishes it at a guessable
+# URL; an invoice someone uploads is their data, not demo content.
+UPLOAD_DIR = os.path.join(tempfile.gettempdir(), "documa_uploads")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+
 @app.post("/api/audit/upload", response_model=DocumentAuditResponse)
 async def upload_and_process_document(file: UploadFile = File(...), po_number: Optional[str] = None):
     """Uploads a real scanned receipt/invoice file and runs the real multi-agent audit fleet."""
     try:
-        os.makedirs("receipts", exist_ok=True)
-
         # Never trust the client-supplied filename: strip any directory
-        # component so an upload cannot escape the receipts/ directory.
+        # component so an upload cannot escape the upload directory.
         safe_name = os.path.basename(file.filename or "").replace("\\", "/").split("/")[-1]
         if not safe_name or safe_name in (".", ".."):
             raise HTTPException(status_code=400, detail="Invalid upload filename.")
 
-        file_path = os.path.join("receipts", safe_name)
+        file_path = os.path.join(UPLOAD_DIR, safe_name)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 

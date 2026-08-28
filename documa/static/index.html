@@ -46,20 +46,20 @@
     <div class="kpis">
       <div class="kpi">
         <p class="kpi__k">Grand Total Billed</p>
-        <p class="kpi__v" id="hero-billed">$3,250.00</p>
-        <p class="kpi__s" id="hero-vendor">Acme Industrial Tech • PO-9921</p>
+        <p class="kpi__v" id="hero-billed">$0.00</p>
+        <p class="kpi__s" id="hero-vendor">Awaiting a document</p>
       </div>
 
       <div class="kpi kpi--info">
         <p class="kpi__k">PO Approved Basis</p>
-        <p class="kpi__v" id="hero-approved">$3,250.00</p>
+        <p class="kpi__v" id="hero-approved">$0.00</p>
         <p class="kpi__s">Firestore PO-9921 contract</p>
       </div>
 
-      <div class="kpi kpi--ok" id="hero-variance-card">
+      <div class="kpi" id="hero-variance-card">
         <p class="kpi__k">Net Financial Impact</p>
-        <p class="kpi__v" id="hero-variance">$0.00 USD</p>
-        <p class="kpi__s" id="hero-status-text">Fully compliant baseline</p>
+        <p class="kpi__v" id="hero-variance">$0.00</p>
+        <p class="kpi__s" id="hero-status-text">Nothing audited yet</p>
       </div>
     </div>
 
@@ -139,12 +139,12 @@
         <div class="panel-card">
           <div class="panel-card__h">
             <h2 class="panel-card__t">Media Vision Inspector</h2>
-            <span class="panel-card__meta" id="doc-media-ref">receipts/compliant_invoice.png</span>
+            <span class="panel-card__meta" id="doc-media-ref">no document loaded</span>
           </div>
           <div class="doc-preview" id="doc-preview">
-            <div class="scan-laser" id="scan-laser"></div>
-            <img id="doc-preview-img" src="/receipts/compliant_invoice.png" alt="Scanned document preview">
-            <div class="doc-empty" id="doc-empty" hidden>
+            <div class="scan-laser" id="scan-laser" hidden></div>
+            <img id="doc-preview-img" alt="Scanned document preview" hidden>
+            <div class="doc-empty" id="doc-empty">
               <div class="doc-empty__glyph">▢</div>
               <p class="doc-empty__t">No document loaded</p>
               <p class="doc-empty__s">Drop an invoice above, or run a preset</p>
@@ -205,15 +205,15 @@
           <div class="audit-head">
             <div>
               <div class="row row--wrap">
-                <h2 class="audit-head__id" id="audit-doc-id">DOC-COMPLIANT-101</h2>
-                <span id="audit-status-badge" class="badge badge--ok">APPROVED</span>
+                <h2 class="audit-head__id" id="audit-doc-id">No document audited</h2>
+                <span id="audit-status-badge" class="badge">IDLE</span>
                 <span id="extraction-mode-badge" class="badge" title="Where these numbers came from">-</span>
               </div>
-              <p class="audit-head__vendor" id="audit-vendor">Acme Industrial Tech • PO Reference: PO-9921</p>
+              <p class="audit-head__vendor" id="audit-vendor">Upload a document or run a preset to begin</p>
             </div>
             <div style="text-align:right">
               <p class="panel-card__meta">GRAND TOTAL BILLED</p>
-              <p class="audit-head__total" id="audit-total-billed">$3,250.00</p>
+              <p class="audit-head__total" id="audit-total-billed">$0.00</p>
             </div>
           </div>
 
@@ -229,20 +229,7 @@
                 </tr>
               </thead>
               <tbody id="line-items-body">
-                <tr>
-                  <td class="t-name">Dell UltraSharp 27-inch Monitor</td>
-                  <td class="t-c">10</td>
-                  <td class="t-r">$180.00</td>
-                  <td class="t-r t-dim">$180.00</td>
-                  <td class="t-r t-ok">$0.00</td>
-                </tr>
-                <tr>
-                  <td class="t-name">Ergonomic Executive Office Chair</td>
-                  <td class="t-c">5</td>
-                  <td class="t-r">$250.00</td>
-                  <td class="t-r t-dim">$250.00</td>
-                  <td class="t-r t-ok">$0.00</td>
-                </tr>
+                <tr><td colspan="5" class="t-dim" style="text-align:center;padding:26px">No line items - audit a document to populate this table.</td></tr>
               </tbody>
             </table>
           </div>
@@ -253,7 +240,7 @@
           <div class="panel-card__h">
             <div class="row row--wrap">
               <h2 class="panel-card__t">Dispatched Action Output</h2>
-              <span id="action-type" class="badge">AUTO_APPROVED_PAYOUT</span>
+              <span id="action-type" class="badge">AWAITING DOCUMENT</span>
               <span id="human-decision-badge" class="badge" hidden></span>
             </div>
             <div class="row">
@@ -262,16 +249,11 @@
             </div>
           </div>
 
-          <div id="dispute-markdown-box" class="md-box"># ✅ PAYOUT AUTHORIZATION NOTICE
-**Document ID:** DOC-COMPLIANT-101
-**Purchase Order:** PO-9921
-**Vendor:** Acme Industrial Tech
+          <div id="dispute-markdown-box" class="md-box">No dispatched action yet.
 
-**Status:** APPROVED FOR IMMEDIATE PAYOUT
-**Authorized Amount:** $3250.00 USD
-**Reconciliation Result:** Billed totals strictly comply with contracted Purchase Order rates.</div>
+Drop a scanned invoice above, or run one of the presets, and the fleet's decision will appear here.</div>
 
-          <div id="human-action-controls" class="signoff">
+          <div id="human-action-controls" class="signoff" style="display:none">
             <span class="signoff__l">⚠ Human finance manager sign-off</span>
             <div class="row">
               <button onclick="overrideAction('REJECT_OVERCHARGE')" class="btn btn--danger btn--sm">Reject Overcharge</button>
