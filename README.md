@@ -4,6 +4,7 @@
 
 **Invoices audit themselves. People only see the exceptions.**
 
+[**Demo video**](https://youtu.be/EsCUqPDr2wY) ·
 [**Live app**](https://documa-fleet-466418539031.us-central1.run.app) ·
 [Dashboard](https://documa-fleet-466418539031.us-central1.run.app/app) ·
 [Documentation](https://documa-fleet-466418539031.us-central1.run.app/docs)

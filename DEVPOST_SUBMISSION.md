@@ -3,6 +3,7 @@
 > **Hackathon:** Google All Things Agentic Hackathon
 > **Track:** The Taskmaster
 > **Repository:** https://github.com/mrnetwork0001/Documa
+> **Demo video:** https://youtu.be/EsCUqPDr2wY
 > **License:** Apache 2.0
 > **Author:** Ifeanyichukwu Onwo (`mrnetwork0001`)
 
@@ -238,7 +239,7 @@ cached stylesheet; stamping asset URLs with file mtimes ended that whole class o
 - [x] Architecture diagram (`documa/static/architecture_diagram.png`, source `architecture.svg`)
 - [x] Text description, technologies, data sources, findings and learnings (above)
 - [ ] **Deploy to Cloud Run and capture console proof**
-- [ ] **Record the ~4 minute demo video**
+- [x] **Record the ~4 minute demo video** - https://youtu.be/EsCUqPDr2wY
 - [ ] Hosted URL (optional but encouraged)
 - [ ] Social post with `#AllThingsAgenticHackathon` - draft in `SOCIAL_POST.md`
 - [ ] Blog / content post (bonus)
